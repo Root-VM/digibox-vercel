@@ -1,0 +1,16 @@
+<div class="wrap">
+  <div class="avatar">
+    <img src="assets/img/bot.png" alt="avatar">
+  </div>
+
+  <div class="texts">
+    <h4>Max</h4>
+    <p>Assistenz-Bot Patientenverfügung</p>
+  </div>
+
+  <div class="menu" (click)="showProgress = true">
+    <img src="assets/img/icons/menu.svg" alt="menu">
+  </div>
+</div>
+
+<app-progress-status [show]="showProgress" (onHide)="showProgress = false"></app-progress-status>

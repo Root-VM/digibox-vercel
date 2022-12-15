@@ -1,0 +1,48 @@
+.box {
+  width: 100%;
+  padding: 32px;
+  background: var(--color-primary-3);
+  border-radius: 8px;
+  margin-bottom: 20px;
+  min-height: 376px;
+  display: flex;
+  flex-direction: column;
+
+  .title{
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 32px;
+    color: var(--color-neutral-5);
+    margin-bottom: 16px;
+  }
+
+  mat-checkbox {
+    margin-bottom: 9px;
+  }
+
+  mat-form-field {
+    margin-bottom: 6px;
+  }
+
+  .btn{
+    width: fit-content;
+    margin-left: auto;
+    height: 44px;
+    background: var(--color-primary-6);
+    border-radius: 8px;
+    padding: 0 40px;
+
+    ::ng-deep {
+      .mdc-button__label {
+        font-style: normal;
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 32px;
+        letter-spacing: 0.5px;
+        color: #FFFFFF;
+      }
+    }
+  }
+}
+

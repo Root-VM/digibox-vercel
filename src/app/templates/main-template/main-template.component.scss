@@ -1,0 +1,29 @@
+.wrap{
+  display: flex;
+  width: 100%;
+  height: 100%;
+  max-width: 100vw;
+  overflow: hidden;
+
+  .side-bar {
+    width: 100%;
+    max-width: 510px;
+    background-color: var(--color-primary-6);
+    box-shadow: 8px 0 15px rgba(45, 119, 206, 0.1);
+    padding: 42px 24px;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      margin-bottom: 64px;
+    }
+  }
+
+  .content {
+    width: 100%;
+  }
+}

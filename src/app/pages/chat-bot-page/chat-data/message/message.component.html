@@ -1,0 +1,16 @@
+<div class="message" [ngClass]="data.type">
+  <div class="texts">
+    <ng-container *ngIf="data?.title">
+      <p class="title">{{data.title}}</p>
+    </ng-container>
+    <p class="text">{{data.text}}</p>
+  </div>
+
+  <div class="icon" *ngIf="data.type === 'bot'">
+    <img src="../../../../../assets/img/icons/i.svg" alt="i">
+  </div>
+
+  <div *ngIf="data.type === 'bot-loading'" class="pulse-loader">
+    <div></div><div></div><div></div>
+  </div>
+</div>

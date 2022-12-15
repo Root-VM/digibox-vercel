@@ -1,0 +1,19 @@
+<div class="wrap" *ngIf="show" [@fadeInOnEnter] [@fadeOutOnLeave]>
+  <div class="box">
+    <img src="assets/img/icons/close.svg" alt="close" class="close" (click)="hide()">
+
+    <ul>
+      <li *ngFor="let item of data" [className]="item.type">
+        <div class="img" [ngSwitch]="item.type">
+          <img src="assets/img/progress/start.svg" alt="progress" *ngSwitchCase="'completed'">
+          <img src="assets/img/progress/checked.svg" alt="progress" *ngSwitchCase="'checked'">
+          <img src="assets/img/progress/current.svg" alt="progress" *ngSwitchCase="'current'">
+          <img src="assets/img/progress/new.svg" alt="progress" *ngSwitchCase="'new'">
+        </div>
+        <p>{{item.text}}</p>
+      </li>
+    </ul>
+  </div>
+
+  <div class="close-box" (click)="hide()"></div>
+</div>
