@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { ChatBotPageComponent } from './pages/chat-bot-page/chat-bot-page.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainTemplateComponent } from './templates/main-template/main-template.component';
-import { HeaderComponent } from './components/common/header/header.component';
+import { HeaderComponent } from './templates/main-template/header/header.component';
 import { VideoBlockComponent } from './components/video-block/video-block.component';
 import { ChatDataComponent } from './pages/chat-bot-page/chat-data/chat-data.component';
 import { MessageComponent } from './pages/chat-bot-page/chat-data/message/message.component';
@@ -21,8 +21,11 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { ThanksBlockComponent } from './components/thanks-block/thanks-block.component';
 import { PreviewPageComponent } from './pages/preview-page/preview-page.component';
 import { PreviewDataComponent } from './pages/preview-page/preview-data/preview-data.component';
-import { ControlNextComponent } from './components/controls/control-next/control-next.component';
+import { ControlNextComponent } from './pages/preview-page/preview-data/control-next/control-next.component';
 import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.component';
+import {LayoutModule} from '@angular/cdk/layout';
+import {IfViewportSizeDirective} from './directives/viewport-size.directive';
+import { SidebarComponent } from './templates/main-template/sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +44,9 @@ import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.com
     PreviewPageComponent,
     PreviewDataComponent,
     ControlNextComponent,
-    NotFoundPageComponent
+    NotFoundPageComponent,
+    IfViewportSizeDirective,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +56,8 @@ import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.com
     BrowserAnimationsModule,
     MatButtonModule,
     MatCheckboxModule,
-    MatInputModule
+    MatInputModule,
+    LayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,16 +1,17 @@
 <div class="wrap">
-  <div class="side-bar">
-    <div class="logo">
-      <img src="assets/img/logo.png" alt="logo">
-    </div>
-
+  <app-sidebar *ifViewportSize="'bigger_than_mobile'">
     <app-video-block *ngIf="showVideoBlock"></app-video-block>
     <app-input-block *ngIf="showInputBlock"></app-input-block>
     <app-thanks-block *ngIf="showThanksBlock"></app-thanks-block>
-  </div>
+  </app-sidebar>
 
   <div class="content">
-    <app-header *ngIf="showHeader"></app-header>
+    <app-header *ngIf="showHeader">
+      <app-video-block *ngIf="showVideoBlock"></app-video-block>
+      <app-input-block *ngIf="showInputBlock"></app-input-block>
+      <app-thanks-block *ngIf="showThanksBlock"></app-thanks-block>
+    </app-header>
+
     <ng-content></ng-content>
   </div>
 </div>

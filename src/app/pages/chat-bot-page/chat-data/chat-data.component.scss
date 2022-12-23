@@ -13,3 +13,20 @@
     flex-direction: column;
   }
 }
+
+@media screen and (max-width: 1349px) {
+  .wrap {
+    .content {
+      max-height: calc(100% - 90px - 107px);
+    }
+  }
+}
+
+@media screen and (max-width: 979px) {
+  .wrap {
+    .content {
+      padding: 24px 20px 24px 20px;
+      max-height: calc(100% - 70px - 70px);
+    }
+  }
+}

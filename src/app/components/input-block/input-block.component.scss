@@ -46,3 +46,40 @@
   }
 }
 
+@media screen and (max-width: 979px) {
+  .box {
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    min-height: 200px;
+    width: 100%;
+    padding: 20px;
+
+    .title {
+      font-size: 20px;
+      line-height: 26px;
+      margin-bottom: 10px;
+    }
+
+    mat-checkbox {
+      margin-bottom: 5px;
+    }
+
+    mat-form-field {
+      margin-bottom: 5px;
+    }
+
+    .btn{
+      height: 40px;
+      padding: 0 40px;
+      margin-left: 0;
+
+      ::ng-deep {
+        .mdc-button__label {
+          font-size: 16px;
+          line-height: 22px;
+        }
+      }
+    }
+  }
+}

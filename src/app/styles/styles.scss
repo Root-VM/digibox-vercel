@@ -96,3 +96,48 @@ body {
     }
   }
 }
+
+
+@media screen and (max-width: 979px) {
+  .my-check.mat-mdc-checkbox {
+    margin-left: -10px;
+
+    .mdc-checkbox {
+      min-width: 20px;
+      min-height: 20px;
+
+      .mdc-checkbox__background {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .mdc-form-field>label {
+      font-size: 16px;
+      line-height: 20px;
+    }
+  }
+
+  // input
+  .mat-mdc-form-field .mat-mdc-text-field-wrapper {
+    height: 40px;
+
+    .mat-mdc-form-field-flex {
+      .mat-mdc-floating-label, .mat-mdc-input-element {
+        top: 20px;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 20px;
+      }
+
+      .mat-mdc-input-element::placeholder {
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 20px;
+      }
+      &:not(.mdc-text-field--outlined) .mat-mdc-form-field-infix{
+        padding-top: 16px;
+      }
+    }
+  }
+}

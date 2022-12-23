@@ -1,0 +1,42 @@
+<div class="wrap">
+  <div class="mobile-cntr" *ifViewportSize="'mobile'" (click)="showMobileSidebar = !showMobileSidebar">
+    <img src="assets/img/icons/burger.svg" alt="burger">
+  </div>
+
+  <div class="avatar">
+    <img src="assets/img/bot.png" alt="avatar">
+  </div>
+
+  <div class="texts">
+    <h4>Max</h4>
+    <p>Assistenz-Bot Patientenverfügung</p>
+  </div>
+
+  <div class="menu" (click)="showProgress = true" *ifViewportSize="'bigger_than_mobile'">
+    <img src="assets/img/icons/menu.svg" alt="menu">
+  </div>
+</div>
+
+<app-progress-status [show]="showProgress" *ifViewportSize="'bigger_than_mobile'"
+                     (onHide)="showProgress = false" ></app-progress-status>
+
+<!--mobile-->
+<ng-container *ifViewportSize="'mobile'">
+  <div class="sidebar-wrap" *ngIf="showMobileSidebar" [@fadeOutOnLeave]>
+    <app-sidebar [@fadeInLeftOnEnter]	>
+      <div class="show-line" (click)="showProgress = !showProgress">
+        <div class="menu">
+          <img src="assets/img/icons/menu.svg" alt="menu">
+        </div>
+        <p>Steps</p>
+        <img src="assets/img/icons/arrow-top.svg" alt="arrow" [ngClass]="{'active':showProgress, 'arrow': true}">
+      </div>
+
+      <app-progress-status [show]="showProgress"></app-progress-status>
+
+      <ng-content></ng-content>
+    </app-sidebar>
+
+    <div class="close-sidebar" (click)="showMobileSidebar = false"></div>
+  </div>
+</ng-container>
