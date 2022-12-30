@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {CommonService} from "../../services/common.service";
 
 @Component({
   selector: 'app-preview-page',
@@ -7,4 +8,7 @@ import { Component } from '@angular/core';
 })
 export class PreviewPageComponent {
 
+  constructor(private commonService: CommonService) {
+    this.commonService.setLoading(false);
+  }
 }

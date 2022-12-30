@@ -1,9 +1,9 @@
 .wrap {
+  height: 135px;
   display: flex;
   width: 100%;
   justify-content: space-between;
   align-items: center;
-  height: auto;
   padding: 42px 40px;
   background: var(--color-primary-4);
 
@@ -30,6 +30,46 @@
     }
   }
 
+  .circle {
+    width: 53px;
+    height: 53px;
+    max-height: 53px;
+    max-width: 53px;
+    min-width: 53px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    border-radius: 53px;
+    border: 3px solid #FFFFFF;
+    margin-right: 43px;
+    background: none;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 32px;
+    color: var(--color-neutral-1);
+    cursor: pointer;
+    transition: 0.3s;
+
+    ::ng-deep {
+      .mdc-button__label {
+        z-index: 1;
+      }
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      background: #55555575;
+      opacity: 0.7;
+      pointer-events: unset;
+      &:active {
+        pointer-events: none;
+      }
+    }
+  }
+
+
   .btn-group {
     display: grid;
     grid-template-columns: auto auto;
@@ -51,6 +91,16 @@
           color: #FFFFFF;
         }
       }
+
+      &:disabled {
+        cursor: not-allowed;
+        background: #55555575;
+        opacity: 0.7;
+        pointer-events: unset;
+        &:active {
+          pointer-events: none;
+        }
+      }
     }
   }
 }
@@ -58,6 +108,7 @@
 @media screen and (max-width: 1349px) {
   .wrap {
     padding: 26px 33px;
+    height: 107px;
 
     .next {
       height: 55px;
@@ -76,6 +127,17 @@
           }
         }
       }
+    }
+
+    .circle {
+      width: 43px;
+      height: 43px;
+      max-height: 43px;
+      max-width: 43px;
+      min-width: 43px;
+      margin-right: 33px;
+      font-size: 26px;
+      line-height: 26px;
     }
 
     .btn-group {
@@ -108,6 +170,7 @@
 @media screen and (max-width: 979px) {
   .wrap {
     padding: 15px 16px;
+    height: 70px;
 
     .next {
       height: 40px;
@@ -130,6 +193,18 @@
           }
         }
       }
+    }
+
+    .circle {
+      width: 33px;
+      height: 33px;
+      max-height: 33px;
+      max-width: 33px;
+      min-width: 33px;
+      margin-right: 33px;
+      font-size: 18px;
+      line-height: 18px;
+      border-width: 1px;
     }
 
     .btn-group {

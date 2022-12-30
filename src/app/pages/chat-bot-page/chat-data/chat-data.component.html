@@ -1,10 +1,8 @@
-<div class="wrap">
-  <div class="content">
-    <ng-container *ngFor="let item of messageData">
-      <app-message [data]="messageItem(item)" *ngIf="item.type === 'user' || item.type === 'bot' || item.type === 'bot-loading'"></app-message>
-      <app-paragraph [data]="paragraphItem(item)" *ngIf="item.type === 'paragraph'"></app-paragraph>
-    </ng-container>
-  </div>
-
-  <app-controls></app-controls>
-</div>
+<ng-container *ngFor="let item of messageData">
+  <app-message [data]="messageItem(item)"
+               *ngIf="item.type === 'user' || item.type === 'bot' || item.type === 'bot-loading'"
+  ></app-message>
+  <app-paragraph [data]="paragraphItem(item)" [@fadeInLeftOnEnter]
+                 *ngIf="item.type === 'paragraph'"
+  ></app-paragraph>
+</ng-container>

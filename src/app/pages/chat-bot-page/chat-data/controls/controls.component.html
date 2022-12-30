@@ -1,11 +1,37 @@
-<div class="wrap">
+<div class="wrap" *ngIf="controls?.length">
+
+  <mat-form-field appearance="fill" *ngIf="filterByType(controls, 'dropdown-item')?.length" class="mySelect">
+    <mat-select placeholder="Select one" (selectionChange)="onSelect($event.value)" [disabled]="isControlGroupDisabled('dropdown-item')">
+      <mat-option *ngFor="let select of filterByType(controls, 'dropdown-item')" [value]="select.id" >
+        {{select.control_text}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
   <div class="btn-group">
-    <button mat-flat-button>Ja</button>
-    <button mat-flat-button>Nein</button>
+    <ng-container *ngFor="let btn of controls">
+      <button mat-flat-button *ngIf="btn.control_type === 'outlined-button-item'" (click)="onSelect(btn.id)"
+              [disabled]="isControlGroupDisabled(btn.control_type)"
+      >
+        {{btn.control_text}}
+      </button>
+    </ng-container>
   </div>
 
-  <button mat-stroked-button class="next">
-    <span>Weiter</span>
-    <img src="assets/img/icons/arrow.svg" alt="arrow">
-  </button>
+  <ng-container *ngFor="let btn of controls">
+    <button mat-stroked-button class="circle" (click)="onSelect(btn.id)"
+            *ngIf="btn.control_type === 'circle'" [disabled]="isControlDisabled(btn.id)"
+    >
+      {{btn.control_text}}
+    </button>
+  </ng-container>
+
+  <ng-container *ngFor="let btn of controls">
+    <button mat-stroked-button class="next" *ngIf="btn.control_type === 'button-next'" (click)="onSelect(btn.id)">
+      <span>{{btn.control_text}}</span>
+      <img src="assets/img/icons/arrow.svg" alt="arrow">
+    </button>
+  </ng-container>
 </div>
+
+<div class="wrap" *ngIf="!controls?.length"></div>

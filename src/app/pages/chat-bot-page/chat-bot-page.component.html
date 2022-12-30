@@ -1,3 +1,4 @@
-<app-main-template [showInputBlock]="true" [showThanksBlock]="true" [showVideoBlock]="true">
-  <app-chat-data></app-chat-data>
+<app-main-template *ngIf="data.length">
+  <app-chat-data [data]="data"></app-chat-data>
+  <app-controls [data]="data"></app-controls>
 </app-main-template>

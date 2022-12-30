@@ -26,6 +26,11 @@ import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.com
 import {LayoutModule} from '@angular/cdk/layout';
 import {IfViewportSizeDirective} from './directives/viewport-size.directive';
 import { SidebarComponent } from './templates/main-template/sidebar/sidebar.component';
+import {HttpClientModule} from "@angular/common/http";
+import { LoadingWindowComponent } from './components/loading-window/loading-window.component';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import { MarkdownPipe } from './pipes/markdown.pipe';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -46,7 +51,9 @@ import { SidebarComponent } from './templates/main-template/sidebar/sidebar.comp
     ControlNextComponent,
     NotFoundPageComponent,
     IfViewportSizeDirective,
-    SidebarComponent
+    SidebarComponent,
+    LoadingWindowComponent,
+    MarkdownPipe,
   ],
   imports: [
     BrowserModule,
@@ -57,7 +64,10 @@ import { SidebarComponent } from './templates/main-template/sidebar/sidebar.comp
     MatButtonModule,
     MatCheckboxModule,
     MatInputModule,
-    LayoutModule
+    LayoutModule,
+    HttpClientModule,
+    MatProgressSpinnerModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

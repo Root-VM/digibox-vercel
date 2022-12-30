@@ -1,4 +1,5 @@
 export type ParagraphType = {
   text: string;
-  type: 'paragraph'
+  type: 'paragraph',
+  id?: string;
 }

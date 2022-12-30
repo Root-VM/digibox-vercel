@@ -25,8 +25,34 @@
     .text {
       font-style: normal;
       font-weight: 400;
-      font-size: 22px;
-      line-height: 33px;
+      color: var(--color-neutral-5);
+
+      ::ng-deep {
+        p{
+          font-size: 22px;
+          line-height: 33px;
+          color: var(--color-neutral-5);
+          font-style: normal;
+          font-weight: 400;
+        }
+
+        h1, h2,h3,h4 {
+          margin-bottom: 12px;
+          color: var(--color-neutral-5);
+        }
+        h1{
+          font-size: 28px;
+          line-height: 28px;
+        }
+        h2{
+          font-size: 26px;
+          line-height: 26px;
+        }
+        h3, h4{
+          font-size: 24px;
+          line-height: 24px;
+        }
+      }
     }
   }
 
@@ -103,7 +129,16 @@
     background: var(--color-primary-4);
     .texts {
       .text {
-        color: var(--color-neutral-1);
+        color: white;
+
+        ::ng-deep {
+          p{
+            color: white;
+          }
+          h1, h2,h3,h4 {
+            color: white;
+          }
+        }
       }
     }
 
@@ -176,8 +211,29 @@
       }
 
       .text {
-        font-size: 18px;
-        line-height: 28px;
+
+        ::ng-deep {
+          p{
+            font-size: 18px;
+            line-height: 28px;
+          }
+
+          h1, h2,h3,h4 {
+            margin-bottom: 10px;
+          }
+          h1{
+            font-size: 24px;
+            line-height: 24px;
+          }
+          h2{
+            font-size: 22px;
+            line-height: 22px;
+          }
+          h3, h4{
+            font-size: 20px;
+            line-height: 20px;
+          }
+        }
       }
     }
   }
@@ -203,16 +259,28 @@
     padding: 12px;
 
     .texts {
-      .title {
-        font-size: 20px;
-        line-height: 33px;
-        margin-bottom: 0px;
-      }
-
       .text {
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 24px;
+        ::ng-deep {
+          p{
+            font-size: 16px;
+            line-height: 24px;
+          }
+          h1, h2,h3,h4 {
+            margin-bottom: 0px;
+          }
+          h1{
+            font-size: 22px;
+            line-height: 22px;
+          }
+          h2{
+            font-size: 20px;
+            line-height: 20px;
+          }
+          h3, h4{
+            font-size: 18px;
+            line-height: 18px;
+          }
+        }
       }
     }
 

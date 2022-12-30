@@ -1,16 +1,23 @@
-<div class="message" [ngClass]="data.type">
+<div class="message bot" *ngIf="data?.text && data.type === 'bot'" [@fadeInLeftOnEnter]>
+  <div class="texts" *ngIf="!showPointsAnimation">
+    <ng-container *ngIf="data?.title"><p class="title">{{data.title}}</p></ng-container>
+    <div class="text" [innerHtml]="data.text | markdown"></div>
+  </div>
+
+<!--  <div class="icon" *ngIf="data.type === 'bot'">-->
+<!--    <img src="../../../../../assets/img/icons/i.svg" alt="i">-->
+<!--  </div>-->
+
+  <div class="pulse-loader" *ngIf="showPointsAnimation">
+    <div></div><div></div><div></div>
+  </div>
+</div>
+
+<div class="message user" *ngIf="data?.text && data.type === 'user'" [@fadeInRightOnEnter]>
   <div class="texts">
     <ng-container *ngIf="data?.title">
       <p class="title">{{data.title}}</p>
     </ng-container>
-    <p class="text">{{data.text}}</p>
-  </div>
-
-  <div class="icon" *ngIf="data.type === 'bot'">
-    <img src="../../../../../assets/img/icons/i.svg" alt="i">
-  </div>
-
-  <div *ngIf="data.type === 'bot-loading'" class="pulse-loader">
-    <div></div><div></div><div></div>
+    <div class="text" [innerHtml]="data.text | markdown"></div>
   </div>
 </div>
