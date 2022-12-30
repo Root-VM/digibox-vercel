@@ -1,6 +1,6 @@
 
 export const environment = {
    production: false,
-   API_KEY: "44579320fb7037dfb30b91c4e999bb044f31bdcf86b942d7079d09ec06985f36c5fb9383a524a2ffced6f9d9cba06d7870414fb15e2dec9074ad4e1e379ec0903dd1dce8fd56691f9f8c2150e86cc86af4f0b2087e1195bddd009f380e237e134c12efacea33768ee0fbe17f4f708fdb17b882fe335ed8931a8b70fac17fa228",
-   API_URL: "http://localhost:1337/"
+   API_KEY: "d4bc1bab78b8c853de5b9e6ea3f75559cbb595b01ccf5e8f3496dbc4619102760f8c5634e0f49cb3ef5c2bdf187a12dc60d9932cc8cb1a5759e4ef88e5801c17a267cc9df7507de68fabafc4285857c2151643f89dd54a1ae75ed1af45c6a7c7e68b2cc6d39f263996b5bdd0514053c094669ecfb5204d1a105ce55ca024c5be",
+   API_URL: "https://digibox-cms.nadlo.pp.ua/"
 };
