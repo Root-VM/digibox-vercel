@@ -1,15 +1,21 @@
 <div class="wrap">
   <app-sidebar *ifViewportSize="'bigger_than_mobile'">
-    <app-video-block *ngIf="showVideoBlock"></app-video-block>
-    <app-input-block *ngIf="showInputBlock"></app-input-block>
-    <app-thanks-block *ngIf="showThanksBlock"></app-thanks-block>
+    <ng-container *ngFor="let exp of explanationList">
+      <app-explanation-box [data]="exp"></app-explanation-box>
+    </ng-container>
+<!--    <app-video-block *ngIf="showVideoBlock"></app-video-block>-->
+<!--    <app-input-block *ngIf="showInputBlock"></app-input-block>-->
+<!--    <app-thanks-block *ngIf="showThanksBlock"></app-thanks-block>-->
   </app-sidebar>
 
   <div class="content">
     <app-header *ngIf="showHeader">
-      <app-video-block *ngIf="showVideoBlock"></app-video-block>
-      <app-input-block *ngIf="showInputBlock"></app-input-block>
-      <app-thanks-block *ngIf="showThanksBlock"></app-thanks-block>
+      <ng-container *ngFor="let exp of explanationList">
+        <app-explanation-box [data]="exp"></app-explanation-box>
+      </ng-container>
+<!--      <app-video-block *ngIf="showVideoBlock"></app-video-block>-->
+<!--      <app-input-block *ngIf="showInputBlock"></app-input-block>-->
+<!--      <app-thanks-block *ngIf="showThanksBlock"></app-thanks-block>-->
     </app-header>
 
     <ng-content></ng-content>

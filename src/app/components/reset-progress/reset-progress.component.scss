@@ -1,0 +1,29 @@
+.wrap {
+  position: fixed;
+  top: 40px;
+  left: 50px;
+  z-index: 10;
+
+  button {
+    cursor: pointer;
+    border: 2px dashed var(--color-error);
+    box-shadow: none;
+    outline: none;
+    border-radius: 6px;
+
+    font-style: normal;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 33px;
+    color: var(--color-neutral-1);
+    background: var(--color-neutral-5);
+  }
+}
+
+@media screen and (max-width: 979px) {
+  .wrap {
+    left: auto;
+    top: 10px;
+    right: 10px;
+  }
+}

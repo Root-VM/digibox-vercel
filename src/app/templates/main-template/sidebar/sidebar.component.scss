@@ -1,6 +1,7 @@
 :host {
   width: 100%;
   max-width: 510px;
+  min-width: 510px;
   background-color: var(--color-primary-6);
   box-shadow: 8px 0 15px rgba(45, 119, 206, 0.1);
   padding: 42px 24px;
@@ -21,12 +22,14 @@
 @media screen and (max-width: 1349px) {
   :host {
     max-width: 400px;
+    min-width: 400px;
   }
 }
 
 @media screen and (max-width: 1199px) {
   :host {
     max-width: 350px;
+    min-width: 350px;
   }
 }
 

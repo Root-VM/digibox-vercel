@@ -1,10 +1,11 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {MessageType} from "./message/message-type";
-import {ParagraphType} from "./paragraph/paragraph-types";
 import {ChatDataInterface} from "../../../interfaces/chat";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Subscription} from "rxjs";
-import {progressUrlDecode} from "../../../methods/progress-url-decode";
+import {CustomerService} from "../../../services/customer.service";
+import {chatSort} from "../../../methods/chat-soring";
+import {ChatDataService} from "../../../services/chat-data.service";
 
 @Component({
   selector: 'app-chat-data',
@@ -13,73 +14,88 @@ import {progressUrlDecode} from "../../../methods/progress-url-decode";
 })
 export class ChatDataComponent implements OnInit, OnDestroy{
   @Input() data: ChatDataInterface[] | [] = [];
-  paramsSubscription : Subscription = new Subscription();
-  messageData: Array<MessageType | ParagraphType> = [];
+  subscription : Subscription = new Subscription();
+  subscription2 : Subscription = new Subscription();
+  messageData: Array<MessageType> = [];
 
   constructor(
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router,
+    private customerService: CustomerService,
+    private chatService: ChatDataService
   ) {}
 
-  ngOnInit() {
-    this.paramsSubscription = this.route.queryParams.subscribe(() => this.generateChatData());
+  async ngOnInit() {
+    setTimeout(async () => {
+      await this.navigationCheck();
+    });
+
+    this.subscription2 = this.route.queryParams.subscribe(() => {
+      this.generateChatDataByRoute();
+      this.chatService.clearExplanations();
+    });
+
+    this.subscription = this.customerService.customerProgress$.subscribe((data: any) => {this.messageData = data});
   }
 
   ngOnDestroy() {
-    this.paramsSubscription.unsubscribe();
+    this.subscription.unsubscribe();
+    this.subscription2.unsubscribe();
   }
 
-  async generateChatData() {
-    const progress_query = this.route.snapshot.queryParams?.['progress'];
+  generateChatDataByRoute () {
+    const progress_query = Number(this.route.snapshot.queryParams?.['progress']);
+    const bot_el = this.data.find(el => el.id === Number(progress_query));
 
-    if(progress_query) {
-      const decode = progressUrlDecode(progress_query);
+    bot_el?.title && this.customerService.setProgress({
+      id: bot_el.id,
+      answer_id: 0,
+      next_id: 0,
+      type: 'title',
+      text: bot_el.title,
+      step: bot_el.step
+    });
+    bot_el?.subtitle && this.customerService.setProgress({
+      id: bot_el.id,
+      answer_id: 0,
+      next_id: 0,
+      type: 'subtitle',
+      text: bot_el.subtitle,
+      step: bot_el.step
+    });
+    bot_el?.bot_default_message && this.customerService.setProgress({
+      id: bot_el.id,
+      answer_id: 0,
+      next_id: 0,
+      type: 'bot_default',
+      text: bot_el.bot_default_message,
+      step: bot_el.step
+    });
+  }
 
-      if(decode?.length) {
-        const chat: Array<MessageType | ParagraphType> = [];
+  async navigationCheck() {
+    const first_message_el = this.data[0];
 
-        for(let val of decode) {
-         const bot_el = this.data.find(el => el.id === val.bot);
-         const user_el = bot_el?.answers.find(el => el.id === val.user);
-         const next_bot_el_id = user_el && user_el.next_step?.data?.id;
-         let next_bot_el;
+    if(!this.messageData.length) {
 
-         if(next_bot_el_id) {
-           next_bot_el = this.data.find(el => el.id === next_bot_el_id);
-         }
+      await this.router.navigate([], {
+        relativeTo: this.route, queryParamsHandling: 'merge',
+        queryParams: {
+          progress: first_message_el.id
+        },
+      });
+    } else if(!Number(this.route.snapshot.queryParams?.['progress'])){
+      const last = this.messageData[this.messageData.length - 1];
 
-         !chat.length && chat.push({ type:'bot', text: bot_el?.bot_default_message ? bot_el?.bot_default_message : '',
-           id: bot_el?.id ? String(bot_el?.id) + 'b': undefined});
-
-         chat.push(
-           { type:'user', text: user_el?.user_message ? user_el?.user_message : '', id: val.id + 'u'},
-           { type:'bot', text: user_el?.bot_message ? user_el?.bot_message : '', id: val.id + 'bu'},
-           { type:'bot', text: next_bot_el?.bot_default_message ? next_bot_el?.bot_default_message : '', id: val.id + 'b'},
-         )
+      await this.router.navigate([], {
+        relativeTo: this.route, queryParamsHandling: 'merge',
+        queryParams: {
+          progress:  last.id
         }
-
-        // pushing for render
-        for (let i in chat) {
-          let have_in_message;
-
-          if(Number(i) < 1 ) {
-            have_in_message = this.messageData.find(m => chat[i].text === m.text);
-          } else {
-            have_in_message = this.messageData.find(m => chat[i].id === m.id);
-          }
-          !have_in_message && this.messageData.push(chat[i]);
-        }
-
-        // this.messageData = chat;
-      }
-    } else {
-      const init_message = this.data?.find(value => value.bot_default_message);
-      this.messageData = [{ type:'bot', text: init_message?.bot_default_message ? init_message?.bot_default_message : ''}];
+      });
     }
   }
 
-  paragraphItem(object: any):ParagraphType {
-    return object as ParagraphType;
-  }
   messageItem(object: any):MessageType {
     return object as MessageType;
   }

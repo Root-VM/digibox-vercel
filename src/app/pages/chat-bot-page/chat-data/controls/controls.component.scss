@@ -7,11 +7,41 @@
   padding: 42px 40px;
   background: var(--color-primary-4);
 
+  .inputBlock {
+    max-width: 414px;
+    width: 100%;
+    margin-right: 16px;
+  }
+
+  .drop {
+    width: 100%;
+    max-width: 414px;
+  }
+
   .next {
     height: 64px;
     padding: 0 72px;
     border: 3px solid var(--color-neutral-1);
     border-radius: 8px;
+
+    &:disabled{
+      background: var(--color-primary-4);
+      border-color: var(--color-neutral-3);
+      cursor: not-allowed;
+      pointer-events: unset;
+
+      ::ng-deep {
+        .mdc-button__label {
+
+          span {
+            color: var(--color-neutral-3);
+          }
+          img {
+            filter: brightness(0) saturate(100%) invert(81%) sepia(4%) saturate(36%) hue-rotate(350deg) brightness(93%) contrast(108%);
+          }
+        }
+      }
+    }
 
     ::ng-deep {
       .mdc-button__label {
@@ -71,11 +101,16 @@
 
 
   .btn-group {
-    display: grid;
-    grid-template-columns: auto auto;
-    grid-gap: 16px;
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 15px 0;
 
     button {
+      width: fit-content;
+      min-width: fit-content;
+      margin-right: 16px;
       height: 52px;
       background: var(--color-secondary-5);
       border-radius: 8px;
@@ -89,6 +124,7 @@
           line-height: 32px;
           letter-spacing: 0.5px;
           color: #FFFFFF;
+          white-space: nowrap;
         }
       }
 
@@ -101,6 +137,19 @@
           pointer-events: none;
         }
       }
+    }
+  }
+
+  .input {
+
+    ::ng-deep {
+      .mat-mdc-form-field-infix {
+        background: red;
+      }
+    }
+
+    &::placeholder {
+      font-style: unset;
     }
   }
 }
@@ -141,9 +190,6 @@
     }
 
     .btn-group {
-      display: grid;
-      grid-template-columns: auto auto;
-      grid-gap: 16px;
 
       button {
         height: 52px;
@@ -208,11 +254,8 @@
     }
 
     .btn-group {
-      display: grid;
-      grid-template-columns: auto auto;
-      grid-gap: 8px;
-
       button {
+        margin-right: 8px;
         height: 40px;
         padding: 0 24px;
 

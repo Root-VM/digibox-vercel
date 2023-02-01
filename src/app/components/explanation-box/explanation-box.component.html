@@ -1,0 +1,19 @@
+<div class="box">
+  <div class="info" *ngIf="data.text">
+    <div class="icon">
+      <img alt="i" src="assets/img/icons/i-yellow.svg">
+    </div>
+
+    <p>{{data.text}}</p>
+  </div>
+
+  <ng-container *ngIf="data.type === 'video'">
+    <video controls *ngIf="data?.media?.data.attributes?.url">
+      <source [src]="apiUrl + data?.media?.data.attributes?.url" type="video/mp4">
+    </video>
+  </ng-container>
+
+  <ng-container *ngIf="data.type === 'image'">
+    <img [src]="apiUrl + data?.media?.data.attributes?.url" *ngIf="data?.media?.data.attributes?.url" alt="hi" class="hi">
+  </ng-container>
+</div>

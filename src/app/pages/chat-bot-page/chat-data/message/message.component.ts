@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MessageType} from "./message-type";
 import {fadeInLeftOnEnterAnimation, fadeInRightOnEnterAnimation} from "angular-animations";
+import {ChatDataInterface, MessageExplanationInterface} from "../../../../interfaces/chat";
+import {ChatDataService} from "../../../../services/chat-data.service";
 
 @Component({
   selector: 'app-message',
@@ -14,9 +16,11 @@ import {fadeInLeftOnEnterAnimation, fadeInRightOnEnterAnimation} from "angular-a
 
 export class MessageComponent implements OnInit {
   @Input() data: MessageType;
-  showPointsAnimation = true;
+  @Input() list: ChatDataInterface[] | [] = [];
+  @Input() showPointsAnimation = true;
+  explanation: MessageExplanationInterface | null = null;
 
-  constructor() {
+  constructor(private chatService: ChatDataService) {
     // default data
     this.data = {
       title: '',
@@ -26,7 +30,7 @@ export class MessageComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(this.data.type === "bot") {
+    if(this.data.type === "bot" || this.data.type === "bot-q" || this.data.type === "bot_default") {
       // scrolling to bottom of chat then bot load
       setTimeout(() => this.scrollBottom(), 450)
 
@@ -40,9 +44,19 @@ export class MessageComponent implements OnInit {
       }, 1500);
     }
 
-    if(this.data.type === 'user') {
+    if(this.data.type === 'user' || this.data.type === 'user-q') {
       // scrolling to bottom of chat then user load
       setTimeout(() => this.scrollBottom(), 450)
+    }
+
+
+    // check explanation
+    if(this.data && this.data?.type === 'bot_default' && this.list?.length) {
+      const exp_el = this.list.find(el => el.id === Number(this.data.id))
+
+      if(exp_el?.bot_message_explanation) {
+        this.explanation = exp_el.bot_message_explanation
+      }
     }
   }
 
@@ -53,4 +67,7 @@ export class MessageComponent implements OnInit {
     }
   }
 
+  showExplanation () {
+    this.explanation && this.chatService.addExplanation(this.explanation)
+  }
 }

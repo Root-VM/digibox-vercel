@@ -10,7 +10,6 @@ import { HeaderComponent } from './templates/main-template/header/header.compone
 import { VideoBlockComponent } from './components/video-block/video-block.component';
 import { ChatDataComponent } from './pages/chat-bot-page/chat-data/chat-data.component';
 import { MessageComponent } from './pages/chat-bot-page/chat-data/message/message.component';
-import { ParagraphComponent } from './pages/chat-bot-page/chat-data/paragraph/paragraph.component';
 import { ControlsComponent } from './pages/chat-bot-page/chat-data/controls/controls.component';
 import {MatButtonModule} from "@angular/material/button";
 import { ProgressStatusComponent } from './components/progress-status/progress-status.component';
@@ -31,6 +30,9 @@ import { LoadingWindowComponent } from './components/loading-window/loading-wind
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import { MarkdownPipe } from './pipes/markdown.pipe';
 import {MatSelectModule} from '@angular/material/select';
+import { SortPipe } from './pipes/sort.pipe';
+import { ResetProgressComponent } from './components/reset-progress/reset-progress.component';
+import { ExplanationBoxComponent } from './components/explanation-box/explanation-box.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,6 @@ import {MatSelectModule} from '@angular/material/select';
     VideoBlockComponent,
     ChatDataComponent,
     MessageComponent,
-    ParagraphComponent,
     ControlsComponent,
     ProgressStatusComponent,
     InputBlockComponent,
@@ -54,6 +55,9 @@ import {MatSelectModule} from '@angular/material/select';
     SidebarComponent,
     LoadingWindowComponent,
     MarkdownPipe,
+    SortPipe,
+    ResetProgressComponent,
+    ExplanationBoxComponent,
   ],
   imports: [
     BrowserModule,

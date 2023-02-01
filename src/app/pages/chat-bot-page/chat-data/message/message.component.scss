@@ -1,4 +1,4 @@
-.message {
+:host(.bot), :host(.bot-q),:host(.bot_default), .message {
   width: fit-content;
   padding: 24px;
   background: var(--color-neutral-1);
@@ -56,13 +56,23 @@
     }
   }
 
-  &.bot {
+  &.bot, &.bot-q, &.bot_default {
     margin-left: 35px;
     max-width: 774px;
     width: fit-content;
 
     .icon {
       margin-left: 20px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      transition: 0.3s;
+
+      &:hover {
+        opacity: 0.6;
+        transition: 0.3s;
+      }
+
       img {
         width: 27px;
         height: auto;
@@ -121,19 +131,23 @@
     }
   }
 
-  &.user {
-    margin-right: 35px;
+  &.user, &.user-q {
+    margin-right: 10px;
     margin-left: auto;
     max-width: 774px;
     width: fit-content;
     background: var(--color-primary-4);
     .texts {
       .text {
+        min-width: 14px;
         color: white;
 
         ::ng-deep {
           p{
             color: white;
+          }
+          a{
+            color: var(--color-primary-7);
           }
           h1, h2,h3,h4 {
             color: white;
@@ -158,6 +172,73 @@
 
     * {
       z-index: 2;
+    }
+  }
+}
+:host(.subtitle) {
+  min-height: 20px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  overflow: hidden;
+  margin: 16px 0 40px 0;
+
+  span {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 16px;
+    color: var(--color-neutral-7);
+    margin: 0 ;
+    width: 100%;
+    text-align: center;
+    font-style: italic;
+
+  }
+}
+
+:host(.title) {
+  display: flex;
+  margin: 16px 0 40px 0;
+  width: 100%;
+
+  &:first-child {
+    margin-top: -30px;
+  }
+  span {
+    min-height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    overflow: hidden;
+
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 16px;
+    color: var(--color-neutral-7);
+    margin: 0 ;
+    width: 100%;
+    text-align: center;
+
+    &:before,&:after {
+      background-color: var(--color-neutral-7);
+      content: "";
+      display: inline-block;
+      height: 1px;
+      position: relative;
+      vertical-align: middle;
+      width: 50%;
+    }
+
+    &:before {
+      right: 24px;
+      margin-left: -50%;
+    }
+
+    &:after {
+      left: 24px;
+      margin-right: -50%;
     }
   }
 }
@@ -200,7 +281,7 @@
 
 
 @media screen and (max-width: 1349px) {
-  .message {
+  :host(.bot), :host(.bot-q),:host(.bot_default), .message {
     .texts {
       width: 100%;
 
@@ -255,7 +336,15 @@
 }
 
 @media screen and (max-width: 979px) {
-  .message {
+  :host(.title), :host(.subtitle) {
+    margin: 0 0 24px 0;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  :host(.bot), :host(.bot-q),:host(.bot_default), .message {
     padding: 12px;
 
     .texts {
@@ -284,7 +373,7 @@
       }
     }
 
-    &.bot {
+    &.bot, &.bot-q, &.bot_default {
       margin-left: 19px;
 
       .icon {
@@ -319,7 +408,7 @@
       }
     }
 
-    &.user {
+    &.user, &.user-q {
       margin-right: 12px;
 
       &:before {

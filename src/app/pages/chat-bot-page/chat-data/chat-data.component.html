@@ -1,8 +1,7 @@
-<ng-container *ngFor="let item of messageData">
-  <app-message [data]="messageItem(item)"
-               *ngIf="item.type === 'user' || item.type === 'bot' || item.type === 'bot-loading'"
+<ng-container *ngFor="let item of messageData | sort: 'step'; let i = index" >
+  <app-message [data]="messageItem(item)" *ngIf="item.type"
+               [className]="item.type" [list]="data"
+               [showPointsAnimation]="i + 1 === messageData.length"
   ></app-message>
-  <app-paragraph [data]="paragraphItem(item)" [@fadeInLeftOnEnter]
-                 *ngIf="item.type === 'paragraph'"
-  ></app-paragraph>
 </ng-container>
+<!--               [@fadeInLeftOnEnter]="item.type === 'bot'"-->

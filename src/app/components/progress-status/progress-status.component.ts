@@ -1,6 +1,9 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ProgressType} from "./progress-type";
 import { fadeInOnEnterAnimation, fadeOutOnLeaveAnimation } from 'angular-animations';
+import {ChatDataService} from "../../services/chat-data.service";
+import {ActivatedRoute} from "@angular/router";
+import {ChatDataInterface} from "../../interfaces/chat";
 
 @Component({
   selector: 'app-progress-status',
@@ -11,49 +14,54 @@ import { fadeInOnEnterAnimation, fadeOutOnLeaveAnimation } from 'angular-animati
     fadeOutOnLeaveAnimation({duration: 300})
   ]
 })
-export class ProgressStatusComponent {
+export class ProgressStatusComponent implements OnInit{
   @Input() show = true;
   @Output() onHide = new EventEmitter();
+  data: Array<ProgressType> = [];
+  content: ChatDataInterface[] | []= [];
+
+  constructor(private chatDataService: ChatDataService, private route: ActivatedRoute) {}
+
+  ngOnInit() {
+    this.chatDataService.chatData$.subscribe(async val => {
+      this.content = val;
+    });
+
+    this.route.queryParams.subscribe(() => {
+      this.generateProgress();
+    });
+  }
 
   hide () {
     this.onHide.emit();
   }
-  data: Array<ProgressType> = [
-    {
-      text: 'Schritt für Schritt zu Ihrer persönlichen Patientenverfügung',
-      type: 'completed'
-    },
-    {
-      text: '1.Anweisungen des Patienten',
-      type: 'checked'
-    },
-    {
-      text: '2.Weitere wichtige Informationen',
-      type: 'checked'
-    },
-    {
-      text: '3.Vertrauensperson bei medizinischen Angelegenheiten',
-      type: 'checked'
-    },
-    {
-      text: '4.Behandelnder Arzt',
-      type: 'checked'
-    },
-    {
-      text: '5.Persönliche Daten',
-      type: 'current'
-    },
-    {
-      text: '6.Patientenverfügung Vorschau',
-      type: 'new'
-    },
-    {
-      text: '7.Signatur und Kaufabschluss',
-      type: 'new'
-    },
-    {
-      text: '8.Patientenverfügung abschliessen',
-      type: 'new'
-    },
-  ]
+
+  generateProgress() {
+    if(this.content.length) {
+
+      const progress_query = Number(this.route.snapshot.queryParams?.['progress']);
+
+      function getType(id: number) {
+        if(progress_query === id) {return 'current';}
+        if(progress_query > id) {return 'checked';}
+        if(progress_query < id) {return 'new';}
+
+        return 'new'
+      }
+
+      if( progress_query) {
+        this.data = this.content.filter(el => el.title).map((el, i) => {
+          return {
+            text: (i ? i + '. ': '') + el.title,
+            type: getType(el.id)
+          }
+        })
+        // console.log(1, val)
+        // this.data = val;
+        // this.commonService.setLoading(false);
+      }
+    } else {
+        setTimeout(() => this.generateProgress(), 1000)
+    }
+  }
 }

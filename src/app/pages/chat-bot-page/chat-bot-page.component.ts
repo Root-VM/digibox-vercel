@@ -15,7 +15,7 @@ export class ChatBotPageComponent implements OnInit {
     private chatDataService: ChatDataService,
     private commonService: CommonService
   ) {
-    chatDataService.chatDataLoading().then();
+    chatDataService.getChatData().then();
   }
 
   ngOnInit() {

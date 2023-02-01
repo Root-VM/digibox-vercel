@@ -3,7 +3,7 @@
 
   <mat-checkbox class="my-check">AGB bestatigen</mat-checkbox>
 
-  <mat-form-field>
+  <mat-form-field class="inputBlock">
     <mat-label>Email</mat-label>
     <input type="email" matInput [formControl]="emailFormControl" placeholder="pat@example.com">
     <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">

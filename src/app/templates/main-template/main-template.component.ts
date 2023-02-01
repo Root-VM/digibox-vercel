@@ -1,5 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {BreakpointObserver} from "@angular/cdk/layout";
+import {Component, Input} from '@angular/core';
+import {ChatDataService} from "../../services/chat-data.service";
+import {MessageExplanationInterface} from "../../interfaces/chat";
 
 @Component({
   selector: 'app-main-template',
@@ -7,13 +8,11 @@ import {BreakpointObserver} from "@angular/cdk/layout";
   styleUrls: ['./main-template.component.scss']
 })
 export class MainTemplateComponent{
-  @Input() showVideoBlock= false;
-  @Input() showInputBlock= false;
-  @Input() showThanksBlock= false;
   @Input() showHeader = true;
-  isMobile = this.breakpointObserver.isMatched('(max-width: 1200)');
+  explanationList: MessageExplanationInterface[] = [];
 
-  constructor(public breakpointObserver: BreakpointObserver) {}
-
+  constructor(private chatService: ChatDataService) {
+    chatService.explanationData$.subscribe(data => this.explanationList = data)
+  }
 
 }

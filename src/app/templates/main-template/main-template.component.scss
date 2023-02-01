@@ -7,5 +7,25 @@
 
   .content {
     width: 100%;
+    max-width: calc(100% - 510px);
+  }
+}
+
+
+@media screen and (max-width: 1349px) {
+  .wrap .content {
+    max-width: calc(100% - 400px);
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .wrap .content {
+    max-width: calc(100% - 350px);
+  }
+}
+
+@media screen and (max-width: 979px) {
+  .wrap .content {
+    max-width: 100%;
   }
 }
