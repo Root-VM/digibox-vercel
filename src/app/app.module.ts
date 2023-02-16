@@ -33,6 +33,11 @@ import {MatSelectModule} from '@angular/material/select';
 import { SortPipe } from './pipes/sort.pipe';
 import { ResetProgressComponent } from './components/reset-progress/reset-progress.component';
 import { ExplanationBoxComponent } from './components/explanation-box/explanation-box.component';
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatIconModule} from "@angular/material/icon";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatNativeDateModule} from "@angular/material/core";
 
 @NgModule({
   declarations: [
@@ -71,7 +76,12 @@ import { ExplanationBoxComponent } from './components/explanation-box/explanatio
     LayoutModule,
     HttpClientModule,
     MatProgressSpinnerModule,
-    MatSelectModule
+    MatSelectModule,
+    MatAutocompleteModule,
+    MatDatepickerModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatNativeDateModule
   ],
   providers: [],
   bootstrap: [AppComponent]

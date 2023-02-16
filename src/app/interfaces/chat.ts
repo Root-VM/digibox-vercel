@@ -2,12 +2,13 @@ export interface AnswerInterface {
   id: number;
   group_id?: number;
   control_text: string;
-  control_type: 'button-next' | 'outlined-button-item' | 'dropdown-item' | 'circle' | 'input';
+  control_type: 'button-next' | 'outlined-button-item' | 'dropdown-item' | 'circle' | 'input' | 'input-autocomplete';
   control_validation?: 'required' | 'email' | 'phone' | 'zip_code';
   validation_error_text: string;
   user_message: string;
   bot_message: string;
   next_step: {data: {id: number}};
+  autocomplete_data?: Array<string>;
 }
 
 export interface MessageExplanationInterface {
@@ -35,4 +36,12 @@ export interface ChatDataInterface {
     }
     id: number;
   }
+}
+
+export interface ProgressInterface {
+  chat_data: Array<{id: number, step: number}>;
+  id: number;
+  title: string;
+  updatedAt: string;
+  createdAt: string;
 }

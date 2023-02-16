@@ -49,3 +49,10 @@
     }
   }
 }
+
+@media screen and (max-width: 500px) {
+  :host {
+    max-width: calc(85vw);
+    min-width: calc(85vw);
+  }
+}

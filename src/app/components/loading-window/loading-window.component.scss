@@ -14,3 +14,11 @@
     stroke: var(--color-secondary-3);
   }
 }
+
+@media screen and (max-width: 700px) {
+  .wrap {
+    mat-spinner{
+      width: 60px!important;
+    }
+  }
+}

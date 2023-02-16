@@ -17,7 +17,7 @@ export class SortPipe implements PipeTransform {
         return 0;
       }
     });
-    console.log('array', array)
+
     return array;
   }
 

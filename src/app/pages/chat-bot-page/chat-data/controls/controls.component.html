@@ -1,9 +1,39 @@
 <div class="wrap" *ngIf="controls?.length">
 
-  <!-- EL input-->
-  <mat-form-field class="inputBlock simple" *ngIf="filterByType(controls, 'input')?.length">
-    <input type="text" matInput class="input" (input)="onInput(controls[0], $event)" [name]="controls[0].control_text"
-           [formControl]="inputValidation" [placeholder]="controls[0].control_text" required>
+  <!-- EL input || autocomplete || date-->
+  <mat-form-field class="inputBlock simple" *ngIf="filterByType(controls, 'input')?.length || filterByType(controls, 'input-autocomplete')?.length">
+    <ng-container *ngIf="filterByType(controls, 'input')?.length">
+      <ng-container *ngIf="controls[0].control_text !== 'Geburtsdatum'">
+        <input type="text" matInput class="input" (input)="onInput($event)" [name]="controls[0].control_text"
+               [formControl]="inputValidation" [placeholder]="controls[0].control_text" required>
+      </ng-container>
+      <ng-container *ngIf="controls[0].control_text === 'Geburtsdatum'">
+          <input type="text" matInput class="input" (input)="onInput($event)" [name]="controls[0].control_text"
+                 (dateInput)="onInput($event)"
+                 [formControl]="inputValidation" [placeholder]="controls[0].control_text" [matDatepicker]="picker" required>
+          <mat-datepicker #picker></mat-datepicker>
+         <mat-datepicker-toggle matIconSuffix [for]="picker" class="over-wrap"></mat-datepicker-toggle>
+
+        <!--        <mat-form-field class="example-full-width" appearance="fill">-->
+<!--          <mat-label>Choose a date</mat-label>-->
+<!--          <input matInput [matDatepicker]="picker">-->
+<!--          <mat-hint>MM/DD/YYYY</mat-hint>-->
+<!--          <mat-datepicker-toggle matIconSuffix [for]="picker">-->
+<!--            <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>-->
+<!--          </mat-datepicker-toggle>-->
+<!--          <mat-datepicker #picker></mat-datepicker>-->
+<!--        </mat-form-field>-->
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="filterByType(controls, 'input-autocomplete')?.length">
+      <input type="text" matInput (input)="onInput($event)" [name]="controls[0].control_text"
+             [formControl]="inputValidation" [placeholder]="controls[0].control_text" required
+             [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let v of controls[0].autocomplete_data" [value]="v"
+                    (onSelectionChange)="onInput($event)">{{v}}</mat-option>
+      </mat-autocomplete>
+    </ng-container>
     <mat-error *ngIf="inputValidation.errors && inputValidation.touched && controls[0]?.validation_error_text">
       {{controls[0]?.validation_error_text}}
     </mat-error>
@@ -24,7 +54,7 @@
   </mat-form-field>
 
   <!-- El btn-group-->
-  <div class="btn-group">
+  <div class="btn-group" *ngIf="filterByType(controls, 'outlined-button-item')?.length">
     <ng-container *ngFor="let btn of controls">
       <button mat-flat-button *ngIf="btn.control_type === 'outlined-button-item'"
               (click)="onOutlet(btn)">
@@ -48,7 +78,9 @@
     <ng-container *ngIf="
      !filterByType(controls, 'input')?.length &&
      !filterByType(controls, 'dropdown-item')?.length &&
-     !filterByType(controls, 'outlined-button-item')?.length">
+     !filterByType(controls, 'outlined-button-item')?.length &&
+     !filterByType(controls, 'input-autocomplete')?.length
+     ">
       <button mat-stroked-button class="next" *ngIf="btn.control_type === 'button-next'" (click)="onSelect(btn)">
         <span>{{btn.control_text}}</span>
         <img src="assets/img/icons/arrow.svg" alt="arrow">
@@ -58,7 +90,18 @@
     <!--if have input in controls-->
     <ng-container *ngIf="filterByType(controls, 'input')?.length">
       <button mat-stroked-button class="next" *ngIf="btn.control_type === 'button-next'"
-              (click)="onInputNext(btn, filterByType(controls, 'input'))"
+              (click)="onInputNext()"
+              [disabled]="!!inputValidation.errors"
+      >
+        <span>{{btn.control_text}}</span>
+        <img src="assets/img/icons/arrow.svg" alt="arrow">
+      </button>
+    </ng-container>
+
+    <!--if have autocomplete input in controls-->
+    <ng-container *ngIf="filterByType(controls, 'input-autocomplete')?.length">
+      <button mat-stroked-button class="next" *ngIf="btn.control_type === 'button-next'"
+              (click)="onInputNext()"
               [disabled]="!!inputValidation.errors"
       >
         <span>{{btn.control_text}}</span>

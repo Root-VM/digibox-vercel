@@ -119,6 +119,11 @@ body {
   filter: brightness(0) saturate(100%) invert(18%) sepia(37%) saturate(4654%) hue-rotate(331deg) brightness(92%) contrast(89%);
 }
 
+
+.cdk-overlay-container .mdc-menu-surface.mat-mdc-select-panel {
+  padding: 0;
+}
+
 .cdk-overlay-container {
   .mat-mdc-option {
     &:hover {
@@ -128,6 +133,17 @@ body {
 
   .mat-mdc-option-active{
     background: none!important;
+  }
+
+  mat-option {
+    border-bottom: 1px solid var(--color-neutral-3);
+
+    &:last-child {
+      border-bottom: none;
+    }
+    .mdc-list-item__primary-text {
+      padding: 5px 0;
+    }
   }
 }
 

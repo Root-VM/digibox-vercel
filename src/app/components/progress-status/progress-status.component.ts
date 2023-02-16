@@ -3,7 +3,7 @@ import {ProgressType} from "./progress-type";
 import { fadeInOnEnterAnimation, fadeOutOnLeaveAnimation } from 'angular-animations';
 import {ChatDataService} from "../../services/chat-data.service";
 import {ActivatedRoute} from "@angular/router";
-import {ChatDataInterface} from "../../interfaces/chat";
+import {ProgressInterface} from "../../interfaces/chat";
 
 @Component({
   selector: 'app-progress-status',
@@ -18,18 +18,15 @@ export class ProgressStatusComponent implements OnInit{
   @Input() show = true;
   @Output() onHide = new EventEmitter();
   data: Array<ProgressType> = [];
-  content: ChatDataInterface[] | []= [];
+  content: ProgressInterface[] | []= [];
 
   constructor(private chatDataService: ChatDataService, private route: ActivatedRoute) {}
 
-  ngOnInit() {
-    this.chatDataService.chatData$.subscribe(async val => {
-      this.content = val;
-    });
+  async ngOnInit() {
+    await this.chatDataService.getGroupMessages();
 
-    this.route.queryParams.subscribe(() => {
-      this.generateProgress();
-    });
+    this.chatDataService.progressData$.subscribe( val => this.content = val);
+    this.route.queryParams.subscribe(() => this.generateProgress());
   }
 
   hide () {
@@ -40,25 +37,25 @@ export class ProgressStatusComponent implements OnInit{
     if(this.content.length) {
 
       const progress_query = Number(this.route.snapshot.queryParams?.['progress']);
+      const step_query = Number(this.route.snapshot.queryParams?.['step']);
 
-      function getType(id: number) {
-        if(progress_query === id) {return 'current';}
-        if(progress_query > id) {return 'checked';}
-        if(progress_query < id) {return 'new';}
+      function getType(arr: Array<{id: number, step: number}>): 'completed' | 'checked' | 'current' | 'new'  {
+        const have_progress = arr.find(el => el.step === step_query);
+
+        if(!!have_progress) {return 'current';}
+        if(arr[0].step < step_query) {return 'checked';}
+        if(arr[0].step > step_query) {return 'new';}
 
         return 'new'
       }
 
       if( progress_query) {
-        this.data = this.content.filter(el => el.title).map((el, i) => {
+        this.data = this.content.map(el => {
           return {
-            text: (i ? i + '. ': '') + el.title,
-            type: getType(el.id)
+            text: el.title,
+            type: getType(el.chat_data)
           }
         })
-        // console.log(1, val)
-        // this.data = val;
-        // this.commonService.setLoading(false);
       }
     } else {
         setTimeout(() => this.generateProgress(), 1000)

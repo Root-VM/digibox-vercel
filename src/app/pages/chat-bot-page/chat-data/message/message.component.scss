@@ -147,7 +147,7 @@
             color: white;
           }
           a{
-            color: var(--color-primary-7);
+            color: white;
           }
           h1, h2,h3,h4 {
             color: white;
@@ -282,6 +282,14 @@
 
 @media screen and (max-width: 1349px) {
   :host(.bot), :host(.bot-q),:host(.bot_default), .message {
+    &.bot, &.bot-q, &.bot_default {
+      max-width: calc(100% - 90px);
+    }
+
+    &.user, &.user-q {
+      max-width: calc(100% - 90px);
+    }
+
     .texts {
       width: 100%;
 
@@ -425,6 +433,18 @@
       height: 5px;
       width: 5px;
       margin: 5px;
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  :host(.bot), :host(.bot-q),:host(.bot_default), .message {
+    &.bot, &.bot-q, &.bot_default {
+      max-width: calc(100% - 40px);
+    }
+
+    &.user, &.user-q {
+      max-width: calc(100% - 40px);
     }
   }
 }

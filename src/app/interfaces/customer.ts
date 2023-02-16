@@ -10,6 +10,7 @@ export interface CustomerProgressInterface {
   next_id?: number;
   data?: string;
   type: 'bot' | 'bot-q' | 'bot_default' | 'user' | 'user-q' | 'title' | 'subtitle';
-  text: string
-  step?: number
+  text: string;
+  step?: number;
+  is_multiple?: boolean;
 }

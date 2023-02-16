@@ -19,7 +19,6 @@ export class ControlsComponent implements OnInit, OnDestroy {
 
   inputValidation = new FormControl('', []);
   inputValue = '';
-  inputControl: AnswerInterface | null = null;
 
   dropValidation = new FormControl('', []);
   dropValue = '';
@@ -47,7 +46,6 @@ export class ControlsComponent implements OnInit, OnDestroy {
     this.controls = [];
     this.inputValidation = new FormControl('', []);
     this.inputValue = '';
-    this.inputControl= null;
     this.dropValidation = new FormControl('', []);
     this.dropValue = '';
     this.dropControl= null;
@@ -74,6 +72,13 @@ export class ControlsComponent implements OnInit, OnDestroy {
             return;
           }
 
+          const input_control_a = this.controls.find(val => val.control_type === 'input-autocomplete');
+
+          if(!!input_control_a) {
+            this.setInputValidation(input_control_a);
+            return;
+          }
+
           const drop_control = this.controls.find(val => val.control_type === 'dropdown-item');
 
           if(!!drop_control) {
@@ -96,7 +101,7 @@ export class ControlsComponent implements OnInit, OnDestroy {
 
   setInputValidation(control: AnswerInterface) {
     if(control.control_validation === 'required') {
-      this.inputValidation.setValidators([Validators.required])
+      this.inputValidation.setValidators([Validators.required, Validators.minLength(3)])
     }
     if(control.control_validation === 'email') {
       this.inputValidation.setValidators([Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")])
@@ -117,9 +122,16 @@ export class ControlsComponent implements OnInit, OnDestroy {
     }
   }
 
-  async onInput (control: AnswerInterface,e: any) {
-    this.inputValue = e.target.value;
-    this.inputControl = control;
+  async onInput (e: any) {
+    if(e?.source?.value) {
+      this.inputValue = e.source.value;
+    } else {
+      this.inputValue = e.target.value;
+    }
+
+    if(typeof e?.target?.value?.getMonth === 'function') {
+      this.inputValue = e.target.value.toLocaleDateString("en-US");
+    }
   }
 
   async onDrop (e: any | AnswerInterface) {
@@ -129,18 +141,60 @@ export class ControlsComponent implements OnInit, OnDestroy {
     await this.onSelect(e.value);
   }
 
-  async onOutlet (btn: AnswerInterface) {
-    this.outletControl = btn;
+  async onOutlet (control: AnswerInterface) {
+    this.outletControl = control;
 
-    await this.onSelect(btn);
+    const next: any = control?.next_step?.data;
+
+    next?.id && await this.router.navigate([], {
+      relativeTo: this.route, queryParamsHandling: 'merge',
+      queryParams: {
+        progress: next?.id,
+        step: next?.attributes?.step
+      },
+    });
+
+    await control?.user_message && this.customerService.setProgress({
+      id: control.group_id ? control.group_id : 0,
+      answer_id: control.id,
+      next_id: next?.id ? next?.id : 0,
+      type: 'user',
+      text: control.user_message,
+      // @ts-ignore
+      step: control.step,
+      is_multiple: true
+    })
+
+    await control?.bot_message && this.customerService.setProgress({
+      id: control.group_id ? control.group_id : 0,
+      answer_id: 0,
+      next_id: 0,
+      type: 'bot',
+      text: control.bot_message,
+      // @ts-ignore
+      step: control.step
+    });
   }
 
 
-  async onInputNext(control: AnswerInterface, inputControlArray?: AnswerInterface[]) {
+  async onInputNext() {
+    let inputControlArray: any = [];
+    let new_control;
+
+    if(!inputControlArray.length) {
+      inputControlArray = this.controls.filter(el => el.control_type === 'input')
+    }
+
+    if(!inputControlArray.length) {
+      inputControlArray = this.controls.filter(el => el.control_type === 'input-autocomplete')
+    }
+
     if(this.inputValidation.errors || !inputControlArray?.length) {
       return;
     }
-    const new_control = inputControlArray[0];
+
+    new_control = inputControlArray[0];
+
     if(new_control.bot_message) {
       new_control.bot_message = stringReplace(new_control.bot_message, this.inputValue);
     }
@@ -149,6 +203,7 @@ export class ControlsComponent implements OnInit, OnDestroy {
     }
 
     await this.onSelect(new_control);
+    await this.generateControls();
   }
 
   async onDropNext(btn: AnswerInterface) {
@@ -166,19 +221,20 @@ export class ControlsComponent implements OnInit, OnDestroy {
   }
 
   async onSelectQuestion(control: AnswerInterface) {
-    const next = control?.next_step?.data?.id;
+    const next: any = control?.next_step?.data;
 
-    next && await this.router.navigate([], {
+    next?.id && await this.router.navigate([], {
       relativeTo: this.route, queryParamsHandling: 'merge',
       queryParams: {
-        progress: next
+        progress: next.id,
+        step: next?.attributes?.step
       },
     });
 
     await control?.user_message && this.customerService.setProgress({
       id: control.group_id ? control.group_id : 0,
       answer_id: control.id,
-      next_id: next ? next : 0,
+      next_id: next?.id ? next.id : 0,
       type: 'user-q',
       text: control.user_message,
       // @ts-ignore
@@ -197,19 +253,20 @@ export class ControlsComponent implements OnInit, OnDestroy {
   }
 
   async onSelect( control: AnswerInterface) {
-    const next = control?.next_step?.data?.id;
+    const next: any = control?.next_step?.data;
 
-    next && await this.router.navigate([], {
+    next?.id && await this.router.navigate([], {
       relativeTo: this.route, queryParamsHandling: 'merge',
       queryParams: {
-        progress: next
+        progress: next?.id,
+        step: next?.attributes?.step
       },
     });
 
     await control?.user_message && this.customerService.setProgress({
       id: control.group_id ? control.group_id : 0,
       answer_id: control.id,
-      next_id: next ? next : 0,
+      next_id: next?.id ? next?.id : 0,
       type: 'user',
       text: control.user_message,
       // @ts-ignore
@@ -237,25 +294,7 @@ export class ControlsComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  isControlGroupDisabled(type: 'outlined-button-item' | 'dropdown-item') {
-    const progress = this.customerService.getProgress();
-    const elements = this.controls.filter(el => el.control_type === type);
-    let disable = false;
-
-    if(progress?.length && elements.length) {
-      elements.map(el => {
-        const res = progress.find(d => el.group_id === d.id && el.id === d.answer_id);
-
-        if(!!res) {
-          disable = true;
-        }
-      })
-    }
-
-    return disable;
-  }
-
-  filterByType(data: AnswerInterface[], type: 'button-next' | 'outlined-button-item' | 'dropdown-item' | 'circle' | 'input') {
+  filterByType(data: AnswerInterface[], type: 'button-next' | 'outlined-button-item' | 'dropdown-item' | 'circle' | 'input' | 'input-autocomplete') {
     return data.filter(el => el.control_type === type)
   }
 }

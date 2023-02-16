@@ -17,8 +17,6 @@ export class ExplanationBoxComponent {
       text: '',
       media: null
     }
-
-    setTimeout(() => console.log(1, this.data))
   }
 
 }

@@ -81,16 +81,18 @@ export class ChatDataComponent implements OnInit, OnDestroy{
       await this.router.navigate([], {
         relativeTo: this.route, queryParamsHandling: 'merge',
         queryParams: {
-          progress: first_message_el.id
+          progress: first_message_el.id,
+          step: first_message_el.step
         },
       });
     } else if(!Number(this.route.snapshot.queryParams?.['progress'])){
-      const last = this.messageData[this.messageData.length - 1];
+      const last: any = this.messageData[this.messageData.length - 1];
 
       await this.router.navigate([], {
         relativeTo: this.route, queryParamsHandling: 'merge',
         queryParams: {
-          progress:  last.id
+          progress:  last.id,
+          step: last.step
         }
       });
     }
