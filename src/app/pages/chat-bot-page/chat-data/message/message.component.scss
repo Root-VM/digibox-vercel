@@ -176,12 +176,9 @@
   }
 }
 :host(.subtitle) {
-  min-height: 20px;
   display: flex;
-  align-items: center;
-  width: 100%;
-  overflow: hidden;
   margin: 16px 0 40px 0;
+  width: 100%;
 
   span {
     font-weight: 400;
