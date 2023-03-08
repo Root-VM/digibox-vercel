@@ -218,6 +218,13 @@
   dependencies:
     tslib "^2.3.0"
 
+"@angular/material-moment-adapter@^15.2.1":
+  version "15.2.1"
+  resolved "https://registry.yarnpkg.com/@angular/material-moment-adapter/-/material-moment-adapter-15.2.1.tgz#a695f1382607a912ff2e62d90ab01092998f2944"
+  integrity sha512-A8ONlSDvnaD34H0Xn45Ukiawv8ao8Ss/PrB07V/bnf9b8g9G8ECJzBEHx53fx758xLTv9fO+d+yqeg6urySRBg==
+  dependencies:
+    tslib "^2.3.0"
+
 "@angular/material@^15.0.1":
   version "15.1.1"
   resolved "https://registry.yarnpkg.com/@angular/material/-/material-15.1.1.tgz#54be848cfba0618b12e6a4c030cf222fb79a27c6"
@@ -2126,13 +2133,6 @@
     "@material/feature-targeting" "15.0.0-canary.684e33d25.0"
     "@material/theme" "15.0.0-canary.684e33d25.0"
     tslib "^2.1.0"
-
-"@ngrx/store@^15.1.0":
-  version "15.1.0"
-  resolved "https://registry.yarnpkg.com/@ngrx/store/-/store-15.1.0.tgz#fc813ef4e8ea3a4ec642633888e30fbd9adcde6d"
-  integrity sha512-Wxjme7yJnxD6il6fGZdFTdSs9gL+6OFW8/II9vApFokUb0E7UQBm8RYb9dYJ2IQJvWXwO+2ItSaecRUZgt39kA==
-  dependencies:
-    tslib "^2.0.0"
 
 "@ngtools/webpack@15.1.2":
   version "15.1.2"
@@ -5004,6 +5004,11 @@ mkdirp@^1.0.3, mkdirp@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"
   integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
+
+moment@^2.29.4:
+  version "2.29.4"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.4.tgz#3dbe052889fe7c1b2ed966fcb3a77328964ef108"
+  integrity sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==
 
 ms@2.0.0:
   version "2.0.0"

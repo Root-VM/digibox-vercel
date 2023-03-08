@@ -38,6 +38,7 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatIconModule} from "@angular/material/icon";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatNativeDateModule} from "@angular/material/core";
+import { SuccessPageComponent } from './pages/success-page/success-page.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import {MatNativeDateModule} from "@angular/material/core";
     SortPipe,
     ResetProgressComponent,
     ExplanationBoxComponent,
+    SuccessPageComponent,
   ],
   imports: [
     BrowserModule,

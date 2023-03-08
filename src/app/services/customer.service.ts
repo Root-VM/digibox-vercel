@@ -3,6 +3,10 @@ import {BehaviorSubject, Observable} from "rxjs";
 import {CustomerProgressInterface} from "../interfaces/customer";
 import {loadFromStore, saveToStore} from "../methods/locale-store";
 import {chatSort} from "../methods/chat-soring";
+import {StrapiDataInterface} from "../interfaces/strapi-data";
+import {mappedStrapiData} from "../methods/get-strapi-data";
+import {ChatDataInterface} from "../interfaces/chat";
+import {RequestService} from "./request.service";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +15,7 @@ export class CustomerService {
   private subject = new BehaviorSubject<CustomerProgressInterface[]>([]);
   customerProgress$: Observable<CustomerProgressInterface[] | []> = this.subject.asObservable();
 
-  constructor() {
+  constructor(private request: RequestService) {
     const saved = loadFromStore('customer_progress');
     saved && this.subject.next(saved)
   }
@@ -43,5 +47,9 @@ export class CustomerService {
 
   getProgress () {
     return this.subject.getValue();
+  }
+
+  postPdfApi( data: any): any {
+    return this.request.post(`customers/email`, data)
   }
 }

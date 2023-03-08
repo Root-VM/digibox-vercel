@@ -11,18 +11,8 @@
           <input type="text" matInput class="input" (input)="onInput($event)" [name]="controls[0].control_text"
                  (dateInput)="onInput($event)"
                  [formControl]="inputValidation" [placeholder]="controls[0].control_text" [matDatepicker]="picker" required>
-          <mat-datepicker #picker></mat-datepicker>
+          <mat-datepicker #picker ></mat-datepicker>
          <mat-datepicker-toggle matIconSuffix [for]="picker" class="over-wrap"></mat-datepicker-toggle>
-
-        <!--        <mat-form-field class="example-full-width" appearance="fill">-->
-<!--          <mat-label>Choose a date</mat-label>-->
-<!--          <input matInput [matDatepicker]="picker">-->
-<!--          <mat-hint>MM/DD/YYYY</mat-hint>-->
-<!--          <mat-datepicker-toggle matIconSuffix [for]="picker">-->
-<!--            <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>-->
-<!--          </mat-datepicker-toggle>-->
-<!--          <mat-datepicker #picker></mat-datepicker>-->
-<!--        </mat-form-field>-->
       </ng-container>
     </ng-container>
     <ng-container *ngIf="filterByType(controls, 'input-autocomplete')?.length">

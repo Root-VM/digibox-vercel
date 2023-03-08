@@ -5,11 +5,38 @@ import {AnswerInterface, ChatDataInterface} from "../../../../interfaces/chat";
 import {FormControl, Validators} from "@angular/forms";
 import {CustomerService} from "../../../../services/customer.service";
 import {stringReplace} from "../../../../methods/string-replace";
-
+import {
+  DateAdapter,
+  MAT_DATE_LOCALE,
+  MAT_DATE_FORMATS
+} from "@angular/material/core";
+import {MomentDateAdapter} from "@angular/material-moment-adapter";
+import {DatePipe} from "@angular/common";
+import * as moment from "moment";
+export const MY_FORMATS = {
+  parse: {
+    dateInput: "DD.MM.YYYY"
+  },
+  display: {
+    dateInput: "DD.MM.YYYY",
+    monthYearLabel: 'YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'YYYY'
+  }
+};
 @Component({
   selector: 'app-controls',
   templateUrl: './controls.component.html',
-  styleUrls: ['./controls.component.scss']
+  styleUrls: ['./controls.component.scss'],
+  providers: [
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE]
+    },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+    DatePipe
+  ]
 })
 export class ControlsComponent implements OnInit, OnDestroy {
   @Input() data: ChatDataInterface[] | [] = [];
@@ -129,8 +156,8 @@ export class ControlsComponent implements OnInit, OnDestroy {
       this.inputValue = e.target.value;
     }
 
-    if(typeof e?.target?.value?.getMonth === 'function') {
-      this.inputValue = e.target.value.toLocaleDateString("en-US");
+    if(e?.target?.value?._i?.year) {
+      this.inputValue = moment(e?.target?.value).format('DD.MM.YYYY');
     }
   }
 
@@ -160,9 +187,10 @@ export class ControlsComponent implements OnInit, OnDestroy {
       next_id: next?.id ? next?.id : 0,
       type: 'user',
       text: control.user_message,
+      text_pdf: control.user_pdf_message,
       // @ts-ignore
       step: control.step,
-      is_multiple: true
+      is_multiple: true,
     })
 
     await control?.bot_message && this.customerService.setProgress({
@@ -171,6 +199,7 @@ export class ControlsComponent implements OnInit, OnDestroy {
       next_id: 0,
       type: 'bot',
       text: control.bot_message,
+      text_pdf: '',
       // @ts-ignore
       step: control.step
     });
@@ -200,6 +229,7 @@ export class ControlsComponent implements OnInit, OnDestroy {
     }
     if(new_control.user_message) {
       new_control.user_message = stringReplace(new_control.user_message, this.inputValue);
+      new_control.user_pdf_message = stringReplace(new_control.user_pdf_message, this.inputValue);
     }
 
     await this.onSelect(new_control);
@@ -237,6 +267,7 @@ export class ControlsComponent implements OnInit, OnDestroy {
       next_id: next?.id ? next.id : 0,
       type: 'user-q',
       text: control.user_message,
+      text_pdf: control.user_pdf_message,
       // @ts-ignore
       step: control.step,
     })
@@ -247,6 +278,7 @@ export class ControlsComponent implements OnInit, OnDestroy {
       next_id: 0,
       type: 'bot-q',
       text: control.bot_message,
+      text_pdf: '',
       // @ts-ignore
       step: control.step
     });
@@ -269,8 +301,9 @@ export class ControlsComponent implements OnInit, OnDestroy {
       next_id: next?.id ? next?.id : 0,
       type: 'user',
       text: control.user_message,
+      text_pdf: control.user_pdf_message,
       // @ts-ignore
-      step: control.step,
+      step: control?.step,
     })
 
     await control?.bot_message && this.customerService.setProgress({
@@ -278,6 +311,7 @@ export class ControlsComponent implements OnInit, OnDestroy {
       answer_id: 0,
       next_id: 0,
       type: 'bot',
+      text_pdf: '',
       text: control.bot_message,
       // @ts-ignore
       step: control.step

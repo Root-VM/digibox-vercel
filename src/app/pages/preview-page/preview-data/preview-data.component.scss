@@ -42,12 +42,11 @@
 
     .texts {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1.2fr 0.8fr;
       grid-gap: 60px;
 
-      .block {
-        max-width: 448px;
-        margin: 0 auto;
+      .block, .pers {
+        margin: 0 auto 20px auto;
         width: 100%;
 
         .b-title {
@@ -58,6 +57,16 @@
           color: var(--color-neutral-5);
           margin-bottom: 24px;
           text-align: center;
+        }
+
+        .s-title{
+          font-weight: 600;
+          font-size: 18px;
+          line-height: 24px;
+          color: var(--color-neutral-4);
+          font-style: italic;
+          margin-bottom: 24px;
+          text-align: left;
         }
 
         .title {
@@ -77,35 +86,10 @@
           color: var(--color-neutral-5);
           margin-bottom: 14px;
         }
+      }
 
-        .line {
-          width: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          margin-bottom: 16px;
-
-          p{
-            font-style: normal;
-            font-weight: 400;
-            font-size: 18px;
-            line-height: 24px;
-            color: var(--color-neutral-5);
-          }
-
-          >div{
-            display: flex;
-            align-items: center;
-
-            .img {
-              margin-right: 11px;
-              width: 18px;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-            }
-          }
-        }
+      .pers {
+        margin-bottom: 0;
       }
     }
   }
@@ -147,13 +131,12 @@
         grid-template-columns: 1fr;
         grid-gap: 10px;
 
-        .block {
+        .block, .pers {
           max-width: 100%;
 
-          .b-title {
+          .b-title, .title {
             margin-bottom: 8px;
-            text-align: left;
-            font-size: 18px;
+            font-size: 14px;
             line-height: 24px;
           }
 
@@ -167,11 +150,11 @@
             margin-bottom: 14px;
           }
 
-          .line {
+          p .line {
             margin-bottom: 16px;
 
             p{
-              font-size: 16px;
+              font-size: 14px;
               line-height: 16px;
             }
 

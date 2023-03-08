@@ -1,71 +1,36 @@
 <div class="wrap">
   <div class="content">
-    <h1>Patientenverfugung Patrizia Keller</h1>
+    <h1>Patientenverfugung {{fullName}}</h1>
 
     <div class="message-group">
       <img src="assets/img/bot.png" alt="bot">
-      <app-message [data]="{type: 'bot', text: 'Patrizia, das habe ich über Ihre Situation und über Sie gelernt. Diese Informationen nutze ich nun, um Ihre ganz persönliche Patientenverfugung zu erstellen. Möchten Sie die Angaben bearbeiten, klicken Sie einfach auf den dementsprechenden Text und ich führe Sie zur Fregenstellung zurück. '}"></app-message>
+      <app-message [showPointsAnimation]="false" class="bot"  [data]="{type: 'bot_default', text: fullName + 'das habe ich über Ihre Situation und über Sie gelernt. Diese Informationen nutze ich nun, um Ihre ganz persönliche Patientenverfugung zu erstellen. Möchten Sie die Angaben bearbeiten, klicken Sie einfach auf den dementsprechenden Text und ich führe Sie zur Fregenstellung zurück. '}"></app-message>
     </div>
 
-    <div class="texts">
-      <div class="block">
-        <p class="b-title">Ihre Angaben</p>
-        <p class="title">Für den Fall, dass ich urteilsunfähig bin, möchte ich</p>
-        <p class="text">dass alle medizinisch indizierten Massnahmen (inklusive Reanimation) zur Behandlung der akuten Erkrankung und zur Wiedererlangung der Urteilsfähigkeit getroffen werden</p>
-        <p class="title">Wenn sich nach initialer Stabilisierung meines Zustands zeigt, dass eine Wiedererlangung der Urteilsfähigkeit wenig wahrscheinlich und die Gefahr einer länger dauernden Pflegebedürftigkeit hoch ist, möchte ich, dass</p>
-        <p class="text">alle Massnahmen zur Lebenserhaltung weitergeführt werden, solange noch Hoffnung auf Wiedererlangung der Urteilsfähigkeit besteht</p>
+    <div class="texts" id="cont">
+      <div class="list">
+        <div class="block" *ngFor="let block of progress">
+          <ng-container *ngFor="let chat of block">
+            <p *ngIf="chat.type === 'title' && chat.text" class="b-title">{{chat.text}}</p>
+            <p *ngIf="chat.type === 'bot_default' && chat.text_pdf" class="title">{{chat.text_pdf}}</p>
+            <p *ngIf="chat.type === 'bot-q' && chat.text_pdf" class="title">{{chat.text_pdf}}</p>
+            <p *ngIf="chat.type === 'user' && chat.text_pdf" class="text">{{chat.text_pdf}}</p>
+            <p *ngIf="chat.type === 'user-q' && chat.text_pdf" class="text">{{chat.text_pdf}}</p>
+          </ng-container>
+        </div>
       </div>
 
-      <div class="block">
-        <p class="b-title">Ihre Angaben</p>
-        <div class="line">
-          <div>
-            <div class="img">
-              <img src="assets/img/preview-icons/user.svg" alt="user">
-            </div>
-            <p>Vorname</p>
-          </div>
-          <p>Patrizia</p>
-        </div>
-        <div class="line">
-          <div>
-            <div class="img">
-              <img src="assets/img/preview-icons/user.svg" alt="user">
-            </div>
-            <p>Keller</p>
-          </div>
-          <p>Patrizia</p>
-        </div>
-        <div class="line">
-          <div>
-            <div class="img">
-              <img src="assets/img/preview-icons/calendar.svg" alt="calendar">
-            </div>
-            <p>Geburtsdatum</p>
-          </div>
-          <p>09. 11. 2022</p>
-        </div>
-        <div class="line">
-          <div>
-            <div class="img">
-              <img src="assets/img/preview-icons/home.svg" alt="home">
-            </div>
-            <p>Adresse</p>
-          </div>
-          <p>Musterstrasse 1</p>
-        </div>
-        <div class="line">
-          <div>
-            <div class="img">
-              <img src="assets/img/preview-icons/location.svg" alt="location">
-            </div>
-            <p>Wohnort</p>
-          </div>
-          <p>5400 Baden</p>
-        </div>
+      <div class="pers">
+        <ng-container *ngFor="let chat of userData">
+          <p *ngIf="chat.type === 'title' && chat.text" class="b-title">{{chat.text}}</p>
+          <p *ngIf="chat.type === 'bot_default' && chat.text_pdf" class="title">{{chat.text_pdf}}</p>
+          <p *ngIf="chat.type === 'bot-q' && chat.text_pdf" class="title">{{chat.text_pdf}}</p>
+          <div *ngIf="chat.type === 'user' && chat.text_pdf" class="text" [innerHTML]="chat.text_pdf"></div>
+          <p *ngIf="chat.type === 'user-q' && chat.text_pdf" class="text">{{chat.text_pdf}}</p>
+        </ng-container>
       </div>
     </div>
   </div>
 
-  <app-control-next></app-control-next>
+  <app-control-next [fullName]="fullName" [email]="email"></app-control-next>
 </div>

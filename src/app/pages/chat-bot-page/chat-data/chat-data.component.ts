@@ -4,7 +4,6 @@ import {ChatDataInterface} from "../../../interfaces/chat";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Subscription} from "rxjs";
 import {CustomerService} from "../../../services/customer.service";
-import {chatSort} from "../../../methods/chat-soring";
 import {ChatDataService} from "../../../services/chat-data.service";
 
 @Component({
@@ -35,7 +34,17 @@ export class ChatDataComponent implements OnInit, OnDestroy{
       this.chatService.clearExplanations();
     });
 
-    this.subscription = this.customerService.customerProgress$.subscribe((data: any) => {this.messageData = data});
+    this.subscription = this.customerService.customerProgress$.subscribe(async (data: any) => {
+      this.messageData = data;
+
+      // redirect if chat finished
+      const last_el = this.data[this.data.length - 1];
+      const answered_last = data.find((el: any) => el?.step === last_el?.step);
+
+      if(answered_last?.id && data[data.length - 1]?.type === 'user') {
+        await this.router.navigate(['/preview']);
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -52,6 +61,7 @@ export class ChatDataComponent implements OnInit, OnDestroy{
       answer_id: 0,
       next_id: 0,
       type: 'title',
+      text_pdf: '',
       text: bot_el.title,
       step: bot_el.step
     });
@@ -60,6 +70,7 @@ export class ChatDataComponent implements OnInit, OnDestroy{
       answer_id: 0,
       next_id: 0,
       type: 'subtitle',
+      text_pdf: '',
       text: bot_el.subtitle,
       step: bot_el.step
     });
@@ -69,6 +80,7 @@ export class ChatDataComponent implements OnInit, OnDestroy{
       next_id: 0,
       type: 'bot_default',
       text: bot_el.bot_default_message,
+      text_pdf: bot_el.bot_default_message_pdf,
       step: bot_el.step
     });
   }

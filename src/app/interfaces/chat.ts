@@ -6,6 +6,7 @@ export interface AnswerInterface {
   control_validation?: 'required' | 'email' | 'phone' | 'zip_code';
   validation_error_text: string;
   user_message: string;
+  user_pdf_message: string;
   bot_message: string;
   next_step: {data: {id: number}};
   autocomplete_data?: Array<string>;
@@ -20,12 +21,15 @@ export interface ChatDataInterface {
   id: number;
   step: number;
   bot_default_message: string;
+  bot_default_message_pdf: string;
   title: string;
   subtitle: string;
   bot_message_explanation: MessageExplanationInterface;
   answers: Array<AnswerInterface>;
   createdAt: string;
   updatedAt: string;
+  hide_for_pdf: boolean;
+  is_personal_data: boolean;
   group_of_message: {
     data: {
       attributes: {

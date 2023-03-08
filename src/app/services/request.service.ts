@@ -23,4 +23,8 @@ export class RequestService {
   get(url: string): any {
       return this._http.get(`${this.apiUrl}api/${url}`, this.httpOptions);
   }
+
+  post(url: string, body: any): any {
+    return this._http.post(`${this.apiUrl}api/${url}`, {...this.httpOptions, content: body});
+  }
 }
