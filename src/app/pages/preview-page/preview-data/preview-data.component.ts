@@ -27,7 +27,6 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
       this.customerService.customerProgress$,
       this.chatDataService.chatData$
     ).subscribe(([progress, data]) => {
-      console.log(2, data)
       if(progress?.length && data?.length) {
         let user_data: Array<any> = [];
 
@@ -60,31 +59,20 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
   }
 
   getFullName(data: ChatDataInterface[] | [], progress: CustomerProgressInterface[] | []) {
-    let name = '';
-    const ids = data?.filter(val => val.is_personal_data && val?.answers[0]?.control_text !== 'E-Mailadresse')
-      ?.map(val => val.answers[0].id);
+    const ids = data?.filter(val => val.is_personal_data)
 
-    for(let id of ids) {
-      const el = progress.find(val => val.answer_id === id)
-      if(el?.text) {
-        name += el.text + ' '
-      }
-    }
+    const find_name = progress.find(el => el.answer_id === ids[0].person_identifying[0].id)
+    const last_name = progress.find(el => el.answer_id === ids[0].person_identifying[1].id)
 
-    return name;
+    return `${find_name?.text} ${last_name?.text}`;
   }
 
   getEmail(data: ChatDataInterface[] | [], progress: CustomerProgressInterface[] | []) {
-    let result = '';
-    const item = data?.find(val => val.is_personal_data && val?.answers[0]?.control_text === 'E-Mailadresse');
+    const ids = data?.filter(val => val.is_personal_data)
+    const val = ids[0].person_identifying.find(el => el.control_text === 'E-Mailadresse')
+    const email = progress.find(el => el.answer_id === val?.id)
 
-    if(item) {
-      const el = progress.find(val => val.answer_id === item.answers[0].id)
-
-      el?.text && (result = el?.text);
-    }
-
-    return result;
+    return email?.text ? email?.text : '';
   }
 
   ngOnDestroy() {

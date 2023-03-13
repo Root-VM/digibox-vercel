@@ -2,7 +2,7 @@ import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AnswerInterface, ChatDataInterface} from "../../../../interfaces/chat";
-import {FormControl, Validators} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {CustomerService} from "../../../../services/customer.service";
 import {stringReplace} from "../../../../methods/string-replace";
 import {
@@ -40,12 +40,10 @@ export const MY_FORMATS = {
 })
 export class ControlsComponent implements OnInit, OnDestroy {
   @Input() data: ChatDataInterface[] | [] = [];
+  form: any = new FormGroup({});
   currentId: number | undefined;
   subscription : Subscription = new Subscription();
   controls: AnswerInterface[] = [];
-
-  inputValidation = new FormControl('', []);
-  inputValue = '';
 
   dropValidation = new FormControl('', []);
   dropValue = '';
@@ -53,14 +51,16 @@ export class ControlsComponent implements OnInit, OnDestroy {
 
   outletControl: AnswerInterface | null = null;
   outletRequired = false;
+  isPersonIdentifying = false;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private customerService: CustomerService
+    private customerService: CustomerService,
   ) {}
 
   ngOnInit() {
+    // setInterval(() => console.log(this.form), 5000)
     this.subscription = this.route.queryParams.subscribe(() => this.generateControls());
   }
 
@@ -71,8 +71,7 @@ export class ControlsComponent implements OnInit, OnDestroy {
   generateControls() {
     // clear
     this.controls = [];
-    this.inputValidation = new FormControl('', []);
-    this.inputValue = '';
+    this.form = new FormGroup({});
     this.dropValidation = new FormControl('', []);
     this.dropValue = '';
     this.dropControl= null;
@@ -85,79 +84,91 @@ export class ControlsComponent implements OnInit, OnDestroy {
         const current_data = this.data.find(val => val.id === progress_query)
 
         if(progress_query && current_data) {
-          const answers = current_data?.answers.map(val => {
-            return {...val, group_id: current_data.id, step: current_data.step}
-          });
+          let chat_data = [];
+          console.log(1, current_data)
+
+          if(current_data?.person_identifying?.length) {
+            chat_data = current_data?.person_identifying.map(val => {
+              return {...val, group_id: current_data.id, step: current_data.step}
+            });
+            this.isPersonIdentifying = true;
+          } else {
+            chat_data = current_data?.answers.map(val => {
+              return {...val, group_id: current_data.id, step: current_data.step}
+            });
+            this.isPersonIdentifying = false;
+          }
 
           this.currentId = current_data?.id;
-          this.controls = answers;
+          this.controls = chat_data;
+
+          console.log(132, this.controls);
 
           const input_control = this.controls.find(val => val.control_type === 'input');
 
-          if(!!input_control) {
-            this.setInputValidation(input_control);
-            return;
-          }
+          const el_controls = chat_data.filter(el => el?.control_type !== 'button-next' && el?.control_type !== 'dropdown-item')
+          const el_drop_ctrl = chat_data.find (el => el?.control_type === 'dropdown-item');
 
-          const input_control_a = this.controls.find(val => val.control_type === 'input-autocomplete');
-
-          if(!!input_control_a) {
-            this.setInputValidation(input_control_a);
-            return;
-          }
-
-          const drop_control = this.controls.find(val => val.control_type === 'dropdown-item');
-
-          if(!!drop_control) {
-            this.setDropValidation(drop_control);
-            return;
-          }
-
-          const outlet = this.controls.find(val => val.control_type === 'outlined-button-item');
-
-          if(!!outlet) {
-            if(outlet?.control_validation === 'required') {
-              this.outletRequired = true;
+          // set controls
+          for (let el of [...el_controls, el_drop_ctrl]) {
+            if(el) {
+              this.form.addControl(el.id.toString(), this.getInputValidation(el?.control_validation))
             }
-            return;
           }
+
+          // if(!!input_control) {
+          //   this.setInputValidation(input_control);
+          //   return;
+          // }
+          //
+          // const input_control_a = this.controls.find(val => val.control_type === 'input-autocomplete');
+          //
+          // if(!!input_control_a) {
+          //   this.setInputValidation(input_control_a);
+          //   return;
+          // }
+          //
+          // const drop_control = this.controls.find(val => val.control_type === 'dropdown-item');
+          //
+          // if(!!drop_control) {
+          //   this.setDropValidation(drop_control);
+          //   return;
+          // }
+          //
+          // const outlet = this.controls.find(val => val.control_type === 'outlined-button-item');
+          //
+          // if(!!outlet) {
+          //   if(outlet?.control_validation === 'required') {
+          //     this.outletRequired = true;
+          //   }
+          //   return;
+          // }
         }
       }
     })
   }
 
-  setInputValidation(control: AnswerInterface) {
-    if(control.control_validation === 'required') {
-      this.inputValidation.setValidators([Validators.required, Validators.minLength(3)])
+  getInputValidation(type: string | undefined) {
+    if(type === 'required') {
+      return new FormControl('', [Validators.required, Validators.minLength(3)])
     }
-    if(control.control_validation === 'email') {
-      this.inputValidation.setValidators([Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")])
+    if(type === 'email') {
+      return new FormControl('', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")])
     }
-    if(control.control_validation === 'phone') {
-      this.inputValidation.setValue('+41')
-      this.inputValidation.setValidators([Validators.required, Validators.pattern(/(\b(0041|0)|\B\+41)(\s?\(0\))?(\s)?[1-9]{2}(\s)?[0-9]{3}(\s)?[0-9]{2}(\s)?[0-9]{2}\b/)])
+    if(type === 'phone') {
+      return new FormControl('+41',[Validators.required, Validators.pattern(/(\b(0041|0)|\B\+41)(\s?\(0\))?(\s)?[1-9]{2}(\s)?[0-9]{3}(\s)?[0-9]{2}(\s)?[0-9]{2}\b/)]);
     }
-    if(control.control_validation === 'zip_code') {
-      this.inputValidation.setValidators([Validators.required,  Validators.min(1000),
-        Validators.max(9999), Validators.pattern(/^\d+$/)])
+    if(type === 'zip_code') {
+      return new FormControl('', [Validators.required,  Validators.min(1000),
+        Validators.max(9999), Validators.pattern(/^\d+$/)]);
     }
+
+    return new FormControl('', [Validators.required])
   }
 
   setDropValidation(control: AnswerInterface) {
     if(control.control_validation === 'required') {
       this.dropValidation.setValidators([Validators.required])
-    }
-  }
-
-  async onInput (e: any) {
-    if(e?.source?.value) {
-      this.inputValue = e.source.value;
-    } else {
-      this.inputValue = e.target.value;
-    }
-
-    if(e?.target?.value?._i?.year) {
-      this.inputValue = moment(e?.target?.value).format('DD.MM.YYYY');
     }
   }
 
@@ -205,36 +216,6 @@ export class ControlsComponent implements OnInit, OnDestroy {
     });
   }
 
-
-  async onInputNext() {
-    let inputControlArray: any = [];
-    let new_control;
-
-    if(!inputControlArray.length) {
-      inputControlArray = this.controls.filter(el => el.control_type === 'input')
-    }
-
-    if(!inputControlArray.length) {
-      inputControlArray = this.controls.filter(el => el.control_type === 'input-autocomplete')
-    }
-
-    if(this.inputValidation.errors || !inputControlArray?.length) {
-      return;
-    }
-
-    new_control = inputControlArray[0];
-
-    if(new_control.bot_message) {
-      new_control.bot_message = stringReplace(new_control.bot_message, this.inputValue);
-    }
-    if(new_control.user_message) {
-      new_control.user_message = stringReplace(new_control.user_message, this.inputValue);
-      new_control.user_pdf_message = stringReplace(new_control.user_pdf_message, this.inputValue);
-    }
-
-    await this.onSelect(new_control);
-    await this.generateControls();
-  }
 
   async onDropNext(btn: AnswerInterface) {
     if(this.dropValidation.errors || !this.dropControl) {
@@ -284,7 +265,59 @@ export class ControlsComponent implements OnInit, OnDestroy {
     });
   }
 
+  async onInput (e: any) {
+    console.log(123, e);
+    // if(e?.source?.value) {
+    //   this.inputValue = e.source.value;
+    // } else {
+    //   this.inputValue = e.target.value;
+    // }
+    //
+    // if(e?.target?.value?._i?.year) {
+    //   this.inputValue = moment(e?.target?.value).format('DD.MM.YYYY');
+    // }
+  }
+
+  async onGroupSelect(answers: Array<AnswerInterface>) {
+    console.log(888, answers);
+    console.log(999, this.form);
+
+    // return;
+
+    for (let answer of answers) {
+      const value = this.form.controls[answer.id];
+
+      if(value?.value) {
+        answer.group_id = Number(String(answer.group_id) + String(answer.id));
+
+        if(answer?.control_type === 'input' || answer?.control_type === 'input-autocomplete') {
+          if(answer?.control_text === "Geburtsdatum") {
+            value.value = moment(value.value).format('DD.MM.YYYY')
+          }
+
+          if(answer.bot_message) {
+            answer.bot_message = stringReplace(answer.bot_message, value?.value);
+          }
+          if(answer.user_message) {
+            answer.user_message = stringReplace(answer.user_message, value?.value);
+            answer.user_pdf_message = stringReplace(answer.user_pdf_message, value?.value);
+          }
+
+          await this.onSelect(answer);
+        } else {
+          await this.onSelect(answer);
+        }
+      }
+
+      // next btn
+      if(answer.control_type === "button-next" && answer.next_step?.data?.id) {
+        await this.onSelect(answer);
+      }
+    }
+  }
+
   async onSelect( control: AnswerInterface) {
+    console.log(control.id, control)
     const next: any = control?.next_step?.data;
 
     next?.id && await this.router.navigate([], {
@@ -328,7 +361,7 @@ export class ControlsComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  filterByType(data: AnswerInterface[], type: 'button-next' | 'outlined-button-item' | 'dropdown-item' | 'circle' | 'input' | 'input-autocomplete') {
+  filterByType(data: AnswerInterface[], type: 'button-next' | 'outlined-button-item' | 'dropdown-item' | 'circle' | 'input' | 'input-autocomplete'): any {
     return data.filter(el => el.control_type === type)
   }
 }

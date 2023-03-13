@@ -39,6 +39,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatNativeDateModule} from "@angular/material/core";
 import { SuccessPageComponent } from './pages/success-page/success-page.component';
+import { FilterPipe } from './pipes/filter.pipe';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { SuccessPageComponent } from './pages/success-page/success-page.componen
     ResetProgressComponent,
     ExplanationBoxComponent,
     SuccessPageComponent,
+    FilterPipe,
   ],
   imports: [
     BrowserModule,

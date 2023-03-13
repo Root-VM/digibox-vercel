@@ -1,0 +1,17 @@
+::ng-deep{
+
+  .wrap {
+    height: auto!important;
+  }
+  .content{
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    max-height: 100vh;
+    height: 100vh;
+  }
+
+  app-header .wrap{
+    min-height: 135px;
+  }
+}

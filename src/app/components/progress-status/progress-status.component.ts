@@ -42,9 +42,12 @@ export class ProgressStatusComponent implements OnInit{
       function getType(arr: Array<{id: number, step: number}>): 'completed' | 'checked' | 'current' | 'new'  {
         const have_progress = arr.find(el => el.step === step_query);
 
-        if(!!have_progress) {return 'current';}
-        if(arr[0].step < step_query) {return 'checked';}
-        if(arr[0].step > step_query) {return 'new';}
+        console.log(123, arr[0])
+        if(arr[0]) {
+          if(!!have_progress) {return 'current';}
+          if(arr[0].step < step_query) {return 'checked';}
+          if(arr[0].step > step_query) {return 'new';}
+        }
 
         return 'new'
       }

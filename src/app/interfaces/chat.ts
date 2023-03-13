@@ -26,6 +26,7 @@ export interface ChatDataInterface {
   subtitle: string;
   bot_message_explanation: MessageExplanationInterface;
   answers: Array<AnswerInterface>;
+  person_identifying: Array<AnswerInterface>;
   createdAt: string;
   updatedAt: string;
   hide_for_pdf: boolean;

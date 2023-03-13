@@ -74,11 +74,18 @@ body {
 // input
 .inputBlock {
   &.simple {
+    margin-bottom: 5px;
+    margin-top: 5px;
+
     .mat-mdc-form-field-bottom-align::before {
       content: none;
     }
     .mat-mdc-text-field-wrapper .mat-mdc-form-field-flex:not(.mdc-text-field--outlined) .mat-mdc-form-field-infix {
       padding-top: 17px;
+    }
+    .mat-mdc-form-field-subscript-wrapper, .mdc-line-ripple {
+      height: 0;
+
     }
   }
 
@@ -148,6 +155,9 @@ body {
 }
 
 .mySelect{
+  margin-bottom: 5px;
+  margin-top: 5px;
+
   &.mat-form-field-invalid {
     .mat-mdc-text-field-wrapper{
       border: 1px solid var(--color-error);
@@ -193,7 +203,7 @@ body {
   }
 
   .mat-mdc-form-field-subscript-wrapper, .mdc-line-ripple {
-    display: none;
+    height: 0;
   }
 }
 
@@ -238,6 +248,10 @@ body {
       }
     }
   }
+}
+
+.mat-mdc-form-field-subscript-wrapper{
+  height: 15px;
 }
 
 
