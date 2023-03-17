@@ -40,6 +40,11 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatNativeDateModule} from "@angular/material/core";
 import { SuccessPageComponent } from './pages/success-page/success-page.component';
 import { FilterPipe } from './pipes/filter.pipe';
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {AngularSignaturePadModule} from "@almothafar/angular-signature-pad";
+import { SignatureComponent } from './pages/preview-page/preview-data/signature/signature.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import { ReloadComponent } from './templates/main-template/reload/reload.component';
 
 @NgModule({
   declarations: [
@@ -67,26 +72,31 @@ import { FilterPipe } from './pipes/filter.pipe';
     ExplanationBoxComponent,
     SuccessPageComponent,
     FilterPipe,
+    SignatureComponent,
+    ReloadComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    BrowserAnimationsModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    MatInputModule,
-    LayoutModule,
-    HttpClientModule,
-    MatProgressSpinnerModule,
-    MatSelectModule,
-    MatAutocompleteModule,
-    MatDatepickerModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatNativeDateModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        BrowserAnimationsModule,
+        MatButtonModule,
+        MatCheckboxModule,
+        MatInputModule,
+        LayoutModule,
+        HttpClientModule,
+        MatProgressSpinnerModule,
+        MatSelectModule,
+        MatAutocompleteModule,
+        MatDatepickerModule,
+        MatIconModule,
+        MatFormFieldModule,
+        MatNativeDateModule,
+        MatTooltipModule,
+        AngularSignaturePadModule,
+        MatDialogModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

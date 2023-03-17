@@ -4,33 +4,40 @@
 
     <div class="message-group">
       <img src="assets/img/bot.png" alt="bot">
-      <app-message [showPointsAnimation]="false" class="bot"  [data]="{type: 'bot_default', text: fullName + 'das habe ich über Ihre Situation und über Sie gelernt. Diese Informationen nutze ich nun, um Ihre ganz persönliche Patientenverfugung zu erstellen. Möchten Sie die Angaben bearbeiten, klicken Sie einfach auf den dementsprechenden Text und ich führe Sie zur Fregenstellung zurück. '}"></app-message>
+      <app-message [showPointsAnimation]="false" class="bot"  [data]="{type: 'bot_default', text: fullName + ' das habe ich über Ihre Situation und über Sie gelernt. Diese Informationen nutze ich nun, um Ihre ganz persönliche Patientenverfugung zu erstellen. Möchten Sie die Angaben bearbeiten, klicken Sie einfach auf den dementsprechenden Text und ich führe Sie zur Fregenstellung zurück. '}"></app-message>
     </div>
 
     <div class="texts" id="cont">
       <div class="list">
-        <div class="block" *ngFor="let block of progress">
-          <ng-container *ngFor="let chat of block">
-            <p *ngIf="chat.type === 'title' && chat.text" class="b-title">{{chat.text}}</p>
+        <div class="block pers">
+          <ng-container *ngFor="let chat of userData">
+            <p *ngIf="chat.type === 'title' && chat.text" class="b-title"><span>{{chat.text}}</span></p>
             <p *ngIf="chat.type === 'bot_default' && chat.text_pdf" class="title">{{chat.text_pdf}}</p>
             <p *ngIf="chat.type === 'bot-q' && chat.text_pdf" class="title">{{chat.text_pdf}}</p>
-            <p *ngIf="chat.type === 'user' && chat.text_pdf" class="text">{{chat.text_pdf}}</p>
+            <div *ngIf="chat.type === 'user' && chat.text_pdf" class="text"
+                 [innerHTML]="chat.text_pdf"
+                 matTooltip="bearbeiten" matTooltipPosition="above" matTooltipClass='custom-tooltip'
+                 (click)="toEdit(chat.id, chat.step)"
+            ></div>
+            <p *ngIf="chat.type === 'user-q' && chat.text_pdf" class="text">{{chat.text_pdf}}</p>
+          </ng-container>
+        </div>
+
+        <div class="block" *ngFor="let block of progress; let i = index" [class.pers]="progress[i][0].custom">
+          <ng-container *ngFor="let chat of block">
+            <p *ngIf="chat.type === 'title' && chat.text" class="b-title"><span>{{chat.text}}</span></p>
+            <p *ngIf="chat.type === 'bot_default' && chat.text_pdf" class="title">{{chat.text_pdf}}</p>
+            <p *ngIf="chat.type === 'bot-q' && chat.text_pdf" class="title">{{chat.text_pdf}}</p>
+            <p *ngIf="chat.type === 'user' && chat.text_pdf" class="text" [innerHTML]="chat.text_pdf"
+               matTooltip="bearbeiten" matTooltipPosition="above" matTooltipClass='custom-tooltip'
+               (click)="toEdit(chat.id, chat.step)"
+            ></p>
             <p *ngIf="chat.type === 'user-q' && chat.text_pdf" class="text">{{chat.text_pdf}}</p>
           </ng-container>
         </div>
       </div>
-
-      <div class="pers">
-        <ng-container *ngFor="let chat of userData">
-          <p *ngIf="chat.type === 'title' && chat.text" class="b-title">{{chat.text}}</p>
-          <p *ngIf="chat.type === 'bot_default' && chat.text_pdf" class="title">{{chat.text_pdf}}</p>
-          <p *ngIf="chat.type === 'bot-q' && chat.text_pdf" class="title">{{chat.text_pdf}}</p>
-          <div *ngIf="chat.type === 'user' && chat.text_pdf" class="text" [innerHTML]="chat.text_pdf"></div>
-          <p *ngIf="chat.type === 'user-q' && chat.text_pdf" class="text">{{chat.text_pdf}}</p>
-        </ng-container>
-      </div>
     </div>
   </div>
 
-  <app-control-next [fullName]="fullName" [email]="email"></app-control-next>
+  <app-control-next [fullName]="fullName" [email]="email" [address]="address"></app-control-next>
 </div>

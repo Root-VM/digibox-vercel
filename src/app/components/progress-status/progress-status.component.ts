@@ -39,10 +39,17 @@ export class ProgressStatusComponent implements OnInit{
       const progress_query = Number(this.route.snapshot.queryParams?.['progress']);
       const step_query = Number(this.route.snapshot.queryParams?.['step']);
 
+      if(!step_query && !progress_query) {
+        this.data = this.content.map(el => {
+          return {
+            text: el.title,
+            type: 'completed'
+          }
+        })
+      }
       function getType(arr: Array<{id: number, step: number}>): 'completed' | 'checked' | 'current' | 'new'  {
         const have_progress = arr.find(el => el.step === step_query);
 
-        console.log(123, arr[0])
         if(arr[0]) {
           if(!!have_progress) {return 'current';}
           if(arr[0].step < step_query) {return 'checked';}

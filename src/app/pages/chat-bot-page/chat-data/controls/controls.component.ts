@@ -85,7 +85,6 @@ export class ControlsComponent implements OnInit, OnDestroy {
 
         if(progress_query && current_data) {
           let chat_data = [];
-          console.log(1, current_data)
 
           if(current_data?.person_identifying?.length) {
             chat_data = current_data?.person_identifying.map(val => {
@@ -101,8 +100,6 @@ export class ControlsComponent implements OnInit, OnDestroy {
 
           this.currentId = current_data?.id;
           this.controls = chat_data;
-
-          console.log(132, this.controls);
 
           const input_control = this.controls.find(val => val.control_type === 'input');
 
@@ -266,7 +263,6 @@ export class ControlsComponent implements OnInit, OnDestroy {
   }
 
   async onInput (e: any) {
-    console.log(123, e);
     // if(e?.source?.value) {
     //   this.inputValue = e.source.value;
     // } else {
@@ -279,11 +275,6 @@ export class ControlsComponent implements OnInit, OnDestroy {
   }
 
   async onGroupSelect(answers: Array<AnswerInterface>) {
-    console.log(888, answers);
-    console.log(999, this.form);
-
-    // return;
-
     for (let answer of answers) {
       const value = this.form.controls[answer.id];
 
@@ -317,7 +308,6 @@ export class ControlsComponent implements OnInit, OnDestroy {
   }
 
   async onSelect( control: AnswerInterface) {
-    console.log(control.id, control)
     const next: any = control?.next_step?.data;
 
     next?.id && await this.router.navigate([], {

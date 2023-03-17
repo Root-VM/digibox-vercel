@@ -3,6 +3,8 @@ import {
   fadeInLeftOnEnterAnimation,
   fadeOutOnLeaveAnimation
 } from "angular-animations";
+import {MatDialog} from "@angular/material/dialog";
+import {ReloadComponent} from "../reload/reload.component";
 
 @Component({
   selector: 'app-header',
@@ -16,4 +18,10 @@ import {
 export class HeaderComponent {
   showProgress = false;
   showMobileSidebar = false;
+
+  constructor(public dialog: MatDialog) {
+  }
+  reload () {
+    this.dialog.open(ReloadComponent);
+  }
 }

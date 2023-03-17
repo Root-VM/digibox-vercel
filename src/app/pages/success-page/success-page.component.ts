@@ -9,5 +9,6 @@ export class SuccessPageComponent {
 
   constructor(private commonService: CommonService) {
     this.commonService.setLoading(false);
+    localStorage.clear();
   }
 }

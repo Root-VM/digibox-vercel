@@ -2,6 +2,14 @@
 # yarn lockfile v1
 
 
+"@almothafar/angular-signature-pad@^5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@almothafar/angular-signature-pad/-/angular-signature-pad-5.0.1.tgz#61797704c5cf5bcde836dc89e6869e96794ea79f"
+  integrity sha512-g0CGYBn7UIdpg0dJlVl12SJ+e2pCMkLbo5QsTPcOxNplvj/5Otkyf6pWZ5XHDZ84IQHbDOZNL8E/iTslXFq/nQ==
+  dependencies:
+    signature_pad "~4.0.7"
+    tslib "^2.3.0"
+
 "@ampproject/remapping@2.2.0", "@ampproject/remapping@^2.1.0":
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/@ampproject/remapping/-/remapping-2.2.0.tgz#56c133824780de3174aed5ab6834f3026790154d"
@@ -6042,6 +6050,11 @@ signal-exit@^3.0.2, signal-exit@^3.0.3, signal-exit@^3.0.7:
   version "3.0.7"
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.7.tgz#a9a1767f8af84155114eaabd73f99273c8f59ad9"
   integrity sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==
+
+signature_pad@~4.0.7:
+  version "4.0.10"
+  resolved "https://registry.yarnpkg.com/signature_pad/-/signature_pad-4.0.10.tgz#adff58997694676a19888df30b8e7e91f90eb886"
+  integrity sha512-PcIm/C55wLgEA36udwW5iaGI9cN9GkRLVHO8Ao4QElcJtYwwhIfYwZt2ui/IAzskD1aZi1Sy2yP3JkVZCv773g==
 
 slash@^4.0.0:
   version "4.0.0"

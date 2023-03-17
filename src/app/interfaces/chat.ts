@@ -31,6 +31,7 @@ export interface ChatDataInterface {
   updatedAt: string;
   hide_for_pdf: boolean;
   is_personal_data: boolean;
+  is_personal_data_style: boolean;
   group_of_message: {
     data: {
       attributes: {

@@ -25,6 +25,7 @@ export class ChatDataComponent implements OnInit, OnDestroy{
   ) {}
 
   async ngOnInit() {
+
     setTimeout(async () => {
       await this.navigationCheck();
     });
@@ -35,6 +36,9 @@ export class ChatDataComponent implements OnInit, OnDestroy{
     });
 
     this.subscription = this.customerService.customerProgress$.subscribe(async (data: any) => {
+      // const is_editing = getParameterByName('editing');
+      // console.log(333, is_editing)
+
       this.messageData = data;
 
       // redirect if chat finished
@@ -52,7 +56,7 @@ export class ChatDataComponent implements OnInit, OnDestroy{
     this.subscription2.unsubscribe();
   }
 
-  generateChatDataByRoute () {
+  async generateChatDataByRoute () {
     const progress_query = Number(this.route.snapshot.queryParams?.['progress']);
     const bot_el = this.data.find(el => el.id === Number(progress_query));
 

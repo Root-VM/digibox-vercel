@@ -4,6 +4,7 @@ import {CustomerService} from "../../../services/customer.service";
 import {ChatDataService} from "../../../services/chat-data.service";
 import {ChatDataInterface} from "../../../interfaces/chat";
 import {CustomerProgressInterface} from "../../../interfaces/customer";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-preview-data',
@@ -16,10 +17,12 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
   subscription : Subscription = new Subscription();
   fullName = '';
   email = '';
+  address = '';
 
   constructor(
     private customerService: CustomerService,
     private chatDataService: ChatDataService,
+    private router: Router
   ) { chatDataService.getChatData().then(); }
 
   ngOnInit() {
@@ -33,12 +36,11 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
         for(let el of progress) {
           const data_el = data.find(v => el.id === v.id);
 
-          if(!data_el?.hide_for_pdf) {
-            user_data.push(el);
+          if(!data_el?.hide_for_pdf ) {
+            user_data.push({custom: !!data_el?.is_personal_data_style, ...el});
           }
         }
 
-        // this.progress = user_data;
         user_data = user_data.map(v => {
           return {...v, step: Math.floor(Number(v.step))}
         }).reduce(function (r, a) {
@@ -54,6 +56,7 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
 
         this.fullName = this.getFullName(data, progress);
         this.email = this.getEmail(data, progress);
+        this.address = this.getAddress(data, progress);
       }
     })
   }
@@ -73,6 +76,25 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
     const email = progress.find(el => el.answer_id === val?.id)
 
     return email?.text ? email?.text : '';
+  }
+
+  getAddress(data: ChatDataInterface[] | [], progress: CustomerProgressInterface[] | []) {
+    const ids = data?.filter(val => val.is_personal_data)
+    const val = ids[0].person_identifying.find(el => el.control_text === 'Strasse und Nr.')
+    const address = progress.find(el => el.answer_id === val?.id)
+
+    return address?.text ? address?.text : '';
+  }
+
+  async toEdit(id:string, step: string) {
+    await this.router.navigate(['chat-bot'], {
+      queryParamsHandling: 'merge',
+      queryParams: {
+        progress: id,
+        step: step,
+        editing: true
+      }
+    });
   }
 
   ngOnDestroy() {

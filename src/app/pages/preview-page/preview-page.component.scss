@@ -15,3 +15,11 @@
     min-height: 135px;
   }
 }
+
+@media screen and (max-width: 979px) {
+  ::ng-deep{
+    app-header .wrap{
+      min-height: 70px;
+    }
+  }
+}

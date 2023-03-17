@@ -1,0 +1,129 @@
+
+.btn-group{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+  margin-right: 10px;
+}
+
+.group{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.close {
+  margin-left: auto;
+  height: 44px;
+  padding: 0 15px;
+  border: 1px solid rgba(72, 72, 72, 0.35);
+  border-radius: 5px;
+  background: white;
+
+  ::ng-deep {
+    .mdc-button__label {
+      display: flex;
+      align-items: center;
+
+      span {
+        font-style: normal;
+        color: var(--color-neutral-5);
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 24px;
+      }
+    }
+  }
+}
+.next {
+  margin-left: auto;
+  height: 50px;
+  padding: 0 15px;
+  border: 3px solid var(--color-neutral-1);
+  border-radius: 5px;
+  background: #36A9BF;
+
+  &:disabled, &.disabled{
+    background: var(--color-primary-4);
+    cursor: not-allowed;
+    pointer-events: unset;
+
+    ::ng-deep {
+      .mdc-button__label {
+
+        span {
+          color: var(--color-neutral-3);
+        }
+        img {
+          filter: brightness(0) saturate(100%) invert(81%) sepia(4%) saturate(36%) hue-rotate(350deg) brightness(93%) contrast(108%);
+        }
+      }
+    }
+  }
+
+  ::ng-deep {
+    .mdc-button__label {
+      display: flex;
+      align-items: center;
+
+      span {
+        font-style: normal;
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 24px;
+        color: var(--color-neutral-1);
+      }
+    }
+  }
+}
+
+::ng-deep {
+  .mat-mdc-dialog-actions{
+    padding-left: 24px;
+    padding-right: 24px;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+#dign {
+  width: 100%;
+  max-width: 500px;
+  max-height: 250px;
+  height: 250px;
+  margin: 0 auto 20px auto;
+
+  &.error {
+    signature-pad{
+      &:before {
+        background: var(--color-error)!important;
+      }
+    }
+    ::ng-deep{
+      canvas {
+        border-color: var(--color-error)!important;
+      }
+    }
+  }
+
+  signature-pad{
+    background: white;
+    position: relative;
+    &:before {
+      content: '';
+      bottom: 20%;
+      left: 15px;
+      width: 85%;
+      height: 1px;
+      background: black;
+      position: absolute;
+      opacity: 0.1;
+    }
+  }
+}
+
+h1 {
+  max-width: 630px;
+}
