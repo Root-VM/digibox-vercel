@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>Bitte schreiben Sie Ihre Unterschrift, damit wir Ihr Testament unterzeichnen können</h1>
+<h1 mat-dialog-title>Bitte unterschreibe, damit Deine Patientenverfügung rechtskräftig ist.</h1>
 <div>
   <div id="dign" [class.error]="touched && !img">
     <signature-pad
@@ -11,14 +11,14 @@
 <div mat-dialog-actions>
   <div class="btn-group">
     <button mat-stroked-button class="close" mat-dialog-close>
-      <span>Stornieren</span>
+      <span>Abbrechen</span>
     </button>
     <button mat-stroked-button class="close" (click)="clear()">
       <span>Löschen</span>
     </button>
   </div>
   <button mat-stroked-button class="next" [disabled]="touched && !img" (click)="send()">
-    <span>Nächste</span>
+    <span>Weiter</span>
     <img src="/assets/img/icons/arrow.svg" alt="arrow">
   </button>
 </div>

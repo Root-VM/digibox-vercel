@@ -103,7 +103,7 @@
      !filterByType(controls, 'outlined-button-item')?.length &&
      !filterByType(controls, 'input-autocomplete')?.length
      ">
-        <button mat-stroked-button class="next" *ngIf="btn.control_type === 'button-next'" (click)="onSelect(btn)">
+        <button mat-stroked-button class="next brd" *ngIf="btn.control_type === 'button-next'" (click)="onSelect(btn)">
           <span>{{btn.control_text}}</span>
           <img src="assets/img/icons/arrow.svg" alt="arrow">
         </button>

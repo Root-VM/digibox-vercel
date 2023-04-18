@@ -41,6 +41,9 @@
     border: 3px solid var(--color-neutral-1);
     border-radius: 8px;
 
+    &.brd {
+      margin-left: auto;
+    }
     &:disabled, &.disabled{
       background: var(--color-primary-4);
       border-color: var(--color-neutral-3);
