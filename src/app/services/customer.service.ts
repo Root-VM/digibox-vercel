@@ -3,9 +3,6 @@ import {BehaviorSubject, Observable} from "rxjs";
 import {CustomerProgressInterface} from "../interfaces/customer";
 import {loadFromStore, saveToStore} from "../methods/locale-store";
 import {chatSort} from "../methods/chat-soring";
-import {StrapiDataInterface} from "../interfaces/strapi-data";
-import {mappedStrapiData} from "../methods/get-strapi-data";
-import {ChatDataInterface} from "../interfaces/chat";
 import {RequestService} from "./request.service";
 
 @Injectable({
@@ -51,5 +48,17 @@ export class CustomerService {
 
   postPdfApi( data: any): any {
     return this.request.post(`customers/email`, data)
+  }
+
+  async postCustomerDataApi(email: string, data: any) {
+    this.request.get(`customers?email=${email}`).subscribe(async (users: any) => {
+        if(users?.data?.length) {
+          const user = users.data[0];
+          this.request.put(`customers/${user.id}`,  {data, email} ).subscribe()
+        } else {
+          this.request.postApi(`customers`,  {data, email} ).subscribe()
+        }
+
+    })
   }
 }

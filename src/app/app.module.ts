@@ -45,6 +45,10 @@ import {AngularSignaturePadModule} from "@almothafar/angular-signature-pad";
 import { SignatureComponent } from './pages/preview-page/preview-data/signature/signature.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import { ReloadComponent } from './templates/main-template/reload/reload.component';
+import { EditChatPageComponent } from './pages/edit-chat-page/edit-chat-page.component';
+import {ChatDataEditComponent} from "./pages/edit-chat-page/chat-data-edit/chat-data-edit.component";
+import {MessageEditComponent} from "./pages/edit-chat-page/chat-data-edit/message-edit/message-edit.component";
+import {ControlsEditComponent} from "./pages/edit-chat-page/chat-data-edit/controls-edit/controls-edit.component";
 
 @NgModule({
   declarations: [
@@ -74,6 +78,10 @@ import { ReloadComponent } from './templates/main-template/reload/reload.compone
     FilterPipe,
     SignatureComponent,
     ReloadComponent,
+    EditChatPageComponent,
+    ChatDataEditComponent,
+    MessageEditComponent,
+    ControlsEditComponent
   ],
     imports: [
         BrowserModule,

@@ -57,6 +57,11 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
         this.fullName = this.getFullName(data, progress);
         this.email = this.getEmail(data, progress);
         this.address = this.getAddress(data, progress);
+
+        this.customerService.postCustomerDataApi(
+          this.email,
+          { personal: this.userData, progress: this.progress }
+        ).then();
       }
     })
   }
@@ -72,7 +77,7 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
 
   getEmail(data: ChatDataInterface[] | [], progress: CustomerProgressInterface[] | []) {
     const ids = data?.filter(val => val.is_personal_data)
-    const val = ids[0].person_identifying.find(el => el.control_text === 'E-Mailadresse')
+    const val = ids[0].person_identifying.find(el => el.control_text === 'E-Mail-Adresse')
     const email = progress.find(el => el.answer_id === val?.id)
 
     return email?.text ? email?.text : '';
@@ -87,15 +92,15 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
   }
 
   async toEdit(id:string, step: string) {
-    await this.router.navigate(['chat-bot'], {
+    await this.router.navigate(['chat-edit'], {
       queryParamsHandling: 'merge',
       queryParams: {
         progress: id,
-        step: step,
-        editing: true
+        step: step
       }
     });
   }
+
 
   ngOnDestroy() {
     this.subscription.unsubscribe();

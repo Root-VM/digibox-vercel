@@ -1,0 +1,29 @@
+<ng-container *ngIf="data?.text && (data.type === 'bot' || data.type === 'bot_default' || data.type === 'bot-q')">
+  <ng-container *ngIf="!showPointsAnimation">
+    <div class="texts">
+      <ng-container *ngIf="data?.title"><p class="title">{{data.title}}</p></ng-container>
+      <div class="text" [innerHtml]="data.text | markdown"></div>
+    </div>
+
+    <div class="icon" *ngIf="explanation" (click)="showExplanation()">
+      <img src="../../../../../assets/img/icons/i.svg" alt="i">
+    </div>
+  </ng-container>
+
+  <div class="pulse-loader" *ngIf="showPointsAnimation">
+    <div></div><div></div><div></div>
+  </div>
+</ng-container>
+
+<div class="message user" *ngIf="data?.text && (data.type === 'user' || data.type === 'user-q')">
+  <div class="texts">
+    <ng-container *ngIf="data?.title">
+      <p class="title">{{data.title}}</p>
+    </ng-container>
+    <div class="text" [innerHtml]="data.text | markdown"></div>
+  </div>
+</div>
+
+<ng-container *ngIf="data?.text && (data.type === 'title' || data.type === 'subtitle')">
+  <span>{{data.text}}</span>
+</ng-container>

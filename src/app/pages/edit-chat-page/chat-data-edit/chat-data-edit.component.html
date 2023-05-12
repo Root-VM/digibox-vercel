@@ -1,0 +1,6 @@
+<ng-container *ngFor="let item of messageData | sort: 'step'; let i = index" >
+  <app-message-edit [data]="messageItem(item)" *ngIf="item.type"
+               [className]="item.type" [list]="data"
+               [showPointsAnimation]="i + 1 === messageData.length"
+  ></app-message-edit>
+</ng-container>

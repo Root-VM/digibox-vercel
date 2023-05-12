@@ -27,4 +27,10 @@ export class RequestService {
   post(url: string, body: any): any {
     return this._http.post(`${this.apiUrl}api/${url}`, {...this.httpOptions, content: body});
   }
+  postApi(url: string, body: any): any {
+    return this._http.post(`${this.apiUrl}api/${url}`, {data: body}, this.httpOptions);
+  }
+  put(url: string, body: any): any {
+    return this._http.put(`${this.apiUrl}api/${url}`, {data: body}, this.httpOptions);
+  }
 }

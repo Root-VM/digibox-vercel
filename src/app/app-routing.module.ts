@@ -4,9 +4,11 @@ import {ChatBotPageComponent} from "./pages/chat-bot-page/chat-bot-page.componen
 import {PreviewPageComponent} from "./pages/preview-page/preview-page.component";
 import {NotFoundPageComponent} from "./pages/not-found-page/not-found-page.component";
 import {SuccessPageComponent} from "./pages/success-page/success-page.component";
+import {EditChatPageComponent} from "./pages/edit-chat-page/edit-chat-page.component";
 
 const routes: Routes = [
   { path: 'chat-bot', component: ChatBotPageComponent },
+  { path: 'chat-edit', component: EditChatPageComponent },
   { path: 'preview', component: PreviewPageComponent },
   { path: '404', component: NotFoundPageComponent },
   { path: 'success', component: SuccessPageComponent },
