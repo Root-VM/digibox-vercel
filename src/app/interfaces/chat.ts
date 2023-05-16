@@ -10,6 +10,8 @@ export interface AnswerInterface {
   bot_message: string;
   next_step: {data: {id: number}};
   autocomplete_data?: Array<string>;
+  remove_next_on_edit?: number;
+  add_next_on_edit?: number;
 }
 
 export interface MessageExplanationInterface {
@@ -42,6 +44,8 @@ export interface ChatDataInterface {
     }
     id: number;
   }
+  add_next_on_edit?: number;
+  remove_next_on_edit?: number;
 }
 
 export interface ProgressInterface {

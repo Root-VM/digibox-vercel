@@ -1,23 +1,17 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MessageType} from "./message-type";
-import {fadeInLeftOnEnterAnimation, fadeInRightOnEnterAnimation} from "angular-animations";
 import {ChatDataInterface, MessageExplanationInterface} from "../../../../interfaces/chat";
 import {ChatDataService} from "../../../../services/chat-data.service";
 
 @Component({
   selector: 'app-message-edit',
   templateUrl: './message-edit.component.html',
-  styleUrls: ['./message-edit.component.scss'],
-  animations: [
-    fadeInLeftOnEnterAnimation({duration: 300, delay: 400}),
-    fadeInRightOnEnterAnimation({duration: 300})
-  ]
+  styleUrls: ['./message-edit.component.scss']
 })
 
 export class MessageEditComponent implements OnInit {
   @Input() data: MessageType;
   @Input() list: ChatDataInterface[] | [] = [];
-  @Input() showPointsAnimation = true;
   explanation: MessageExplanationInterface | null = null;
 
   constructor(private chatService: ChatDataService) {
@@ -30,34 +24,6 @@ export class MessageEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(this.data.type === "bot" || this.data.type === "bot-q" || this.data.type === "bot_default") {
-      // scrolling to bottom of chat then bot load
-      setTimeout(() => this.scrollBottom(), 450)
-
-      setTimeout(() => {
-        this.showPointsAnimation = false;
-
-        // scrolling to bottom of chat after text load
-        setTimeout(() => {
-          this.scrollBottom();
-        }, 100)
-      }, 1500);
-    }
-
-    if(this.data.type === 'user' || this.data.type === 'user-q') {
-      // scrolling to bottom of chat then user load
-      setTimeout(() => this.scrollBottom(), 450)
-    }
-
-
-    // check explanation
-    if(this.data && this.data?.type === 'bot_default' && this.list?.length) {
-      const exp_el = this.list.find(el => el.id === Number(this.data.id))
-
-      if(exp_el?.bot_message_explanation) {
-        this.explanation = exp_el.bot_message_explanation
-      }
-    }
   }
 
   scrollBottom() {

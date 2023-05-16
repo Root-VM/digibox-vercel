@@ -87,12 +87,16 @@ export class ControlsEditComponent implements OnInit, OnDestroy {
 
           if(current_data?.person_identifying?.length) {
             chat_data = current_data?.person_identifying.map(val => {
-              return {...val, group_id: current_data.id, step: current_data.step}
+              return {...val, group_id: current_data.id, step: current_data.step,
+                add_next_on_edit: current_data?.add_next_on_edit,
+                remove_next_on_edit: current_data?.remove_next_on_edit}
             });
             this.isPersonIdentifying = true;
           } else {
             chat_data = current_data?.answers.map(val => {
-              return {...val, group_id: current_data.id, step: current_data.step}
+              return {...val, group_id: current_data.id, step: current_data.step,
+                add_next_on_edit: current_data?.add_next_on_edit,
+                remove_next_on_edit: current_data?.remove_next_on_edit,}
             });
             this.isPersonIdentifying = false;
           }
@@ -138,21 +142,16 @@ export class ControlsEditComponent implements OnInit, OnDestroy {
     this.dropValue = e.value.user_message;
     this.dropControl = e.value;
 
-    await this.onSelect(e.value);
+    await this.onSelect(e.value, true);
   }
 
   async onOutlet (control: AnswerInterface) {
+    await this.customerService.removeUserProgress(control?.group_id);
+
+    console.log('2', control)
     this.outletControl = control;
 
     const next: any = control?.next_step?.data;
-
-    next?.id && await this.router.navigate([], {
-      relativeTo: this.route, queryParamsHandling: 'merge',
-      queryParams: {
-        progress: next?.id,
-        step: next?.attributes?.step
-      },
-    });
 
     await control?.user_message && this.customerService.setProgress({
       id: control.group_id ? control.group_id : 0,
@@ -164,6 +163,9 @@ export class ControlsEditComponent implements OnInit, OnDestroy {
       // @ts-ignore
       step: control.step,
       is_multiple: true,
+      // @ts-ignore
+      add_next_on_edit: control?.add_next_on_edit,
+      remove_next_on_edit: control?.remove_next_on_edit,
     })
 
     await control?.bot_message && this.customerService.setProgress({
@@ -174,8 +176,30 @@ export class ControlsEditComponent implements OnInit, OnDestroy {
       text: control.bot_message,
       text_pdf: '',
       // @ts-ignore
-      step: control.step
+      step: control.step,
+      // @ts-ignore
+      add_next_on_edit: control?.add_next_on_edit,
+      remove_next_on_edit: control?.remove_next_on_edit,
     });
+
+    if(control.add_next_on_edit === control.id) {
+      let progress = String(next?.id);
+      if(progress.length > 2) {
+        progress = progress.substring(0, 2);
+      }
+
+      next?.id && await this.router.navigate([], {
+        relativeTo: this.route, queryParamsHandling: 'merge',
+        queryParams: {
+          progress: progress,
+          step: next?.attributes?.step
+        },
+      });
+    } else {
+      if(control.remove_next_on_edit) {
+        await this.customerService.removeUserProgressByStep(control.remove_next_on_edit);
+      }
+    }
   }
 
 
@@ -196,13 +220,13 @@ export class ControlsEditComponent implements OnInit, OnDestroy {
   async onSelectQuestion(control: AnswerInterface) {
     const next: any = control?.next_step?.data;
 
-    next?.id && await this.router.navigate([], {
-      relativeTo: this.route, queryParamsHandling: 'merge',
-      queryParams: {
-        progress: next.id,
-        step: next?.attributes?.step
-      },
-    });
+    // next?.id && await this.router.navigate([], {
+    //   relativeTo: this.route, queryParamsHandling: 'merge',
+    //   queryParams: {
+    //     progress: next.id,
+    //     step: next?.attributes?.step
+    //   },
+    // });
 
     await control?.user_message && this.customerService.setProgress({
       id: control.group_id ? control.group_id : 0,
@@ -213,6 +237,9 @@ export class ControlsEditComponent implements OnInit, OnDestroy {
       text_pdf: control.user_pdf_message,
       // @ts-ignore
       step: control.step,
+      // @ts-ignore
+      add_next_on_edit: control?.add_next_on_edit,
+      remove_next_on_edit: control?.remove_next_on_edit,
     })
 
     await control?.bot_message && this.customerService.setProgress({
@@ -223,7 +250,10 @@ export class ControlsEditComponent implements OnInit, OnDestroy {
       text: control.bot_message,
       text_pdf: '',
       // @ts-ignore
-      step: control.step
+      step: control.step,
+      // @ts-ignore
+      add_next_on_edit: control?.add_next_on_edit,
+      remove_next_on_edit: control?.remove_next_on_edit,
     });
   }
 
@@ -237,6 +267,10 @@ export class ControlsEditComponent implements OnInit, OnDestroy {
     // if(e?.target?.value?._i?.year) {
     //   this.inputValue = moment(e?.target?.value).format('DD.MM.YYYY');
     // }
+  }
+
+  async toPreview () {
+    await this.router.navigate(['/preview']);
   }
 
   async onGroupSelect(answers: Array<AnswerInterface>) {
@@ -272,17 +306,10 @@ export class ControlsEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  async onSelect( control: AnswerInterface) {
+  async onSelect( control: AnswerInterface, stopRedirect?:boolean) {
     const next: any = control?.next_step?.data;
 
-    next?.id && await this.router.navigate([], {
-      relativeTo: this.route, queryParamsHandling: 'merge',
-      queryParams: {
-        progress: next?.id,
-        step: next?.attributes?.step
-      },
-    });
-
+    console.log(99, control)
     await control?.user_message && this.customerService.setProgress({
       id: control.group_id ? control.group_id : 0,
       answer_id: control.id,
@@ -292,6 +319,9 @@ export class ControlsEditComponent implements OnInit, OnDestroy {
       text_pdf: control.user_pdf_message,
       // @ts-ignore
       step: control?.step,
+      // @ts-ignore
+      add_next_on_edit: control?.add_next_on_edit,
+      remove_next_on_edit: control?.remove_next_on_edit,
     })
 
     await control?.bot_message && this.customerService.setProgress({
@@ -302,8 +332,31 @@ export class ControlsEditComponent implements OnInit, OnDestroy {
       text_pdf: '',
       text: control.bot_message,
       // @ts-ignore
-      step: control.step
+      step: control.step,
+      // @ts-ignore
+      add_next_on_edit: control?.add_next_on_edit,
+      remove_next_on_edit: control?.remove_next_on_edit,
     });
+
+    if(control.add_next_on_edit === control.id) {
+      let progress = String(next?.id);
+      if(progress.length > 2) {
+        progress = progress.substring(0, 2);
+      }
+
+      next?.id && await this.router.navigate([], {
+        relativeTo: this.route, queryParamsHandling: 'merge',
+        queryParams: {
+          progress: progress,
+          step: next?.attributes?.step
+        },
+      });
+    } else {
+      if(control.remove_next_on_edit) {
+        await this.customerService.removeUserProgressByStep(control.remove_next_on_edit);
+      }
+      !stopRedirect && await this.toPreview();
+    }
   }
 
   isControlDisabled(id: number) {

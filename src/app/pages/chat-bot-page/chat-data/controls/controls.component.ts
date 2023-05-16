@@ -199,6 +199,9 @@ export class ControlsComponent implements OnInit, OnDestroy {
       // @ts-ignore
       step: control.step,
       is_multiple: true,
+      // @ts-ignore
+      add_next_on_edit: control?.add_next_on_edit,
+      remove_next_on_edit: control?.remove_next_on_edit,
     })
 
     await control?.bot_message && this.customerService.setProgress({
@@ -209,7 +212,10 @@ export class ControlsComponent implements OnInit, OnDestroy {
       text: control.bot_message,
       text_pdf: '',
       // @ts-ignore
-      step: control.step
+      step: control.step,
+      // @ts-ignore
+      add_next_on_edit: control?.add_next_on_edit,
+      remove_next_on_edit: control?.remove_next_on_edit,
     });
   }
 
@@ -248,6 +254,9 @@ export class ControlsComponent implements OnInit, OnDestroy {
       text_pdf: control.user_pdf_message,
       // @ts-ignore
       step: control.step,
+      // @ts-ignore
+      add_next_on_edit: control?.add_next_on_edit,
+      remove_next_on_edit: control?.remove_next_on_edit,
     })
 
     await control?.bot_message && this.customerService.setProgress({
@@ -258,7 +267,10 @@ export class ControlsComponent implements OnInit, OnDestroy {
       text: control.bot_message,
       text_pdf: '',
       // @ts-ignore
-      step: control.step
+      step: control.step,
+      // @ts-ignore
+      add_next_on_edit: control?.add_next_on_edit,
+      remove_next_on_edit: control?.remove_next_on_edit,
     });
   }
 
@@ -327,6 +339,9 @@ export class ControlsComponent implements OnInit, OnDestroy {
       text_pdf: control.user_pdf_message,
       // @ts-ignore
       step: control?.step,
+      // @ts-ignore
+      add_next_on_edit: control?.add_next_on_edit,
+      remove_next_on_edit: control?.remove_next_on_edit,
     })
 
     await control?.bot_message && this.customerService.setProgress({
@@ -337,7 +352,10 @@ export class ControlsComponent implements OnInit, OnDestroy {
       text_pdf: '',
       text: control.bot_message,
       // @ts-ignore
-      step: control.step
+      step: control.step,
+      // @ts-ignore
+      add_next_on_edit: control?.add_next_on_edit,
+      remove_next_on_edit: control?.remove_next_on_edit,
     });
   }
 

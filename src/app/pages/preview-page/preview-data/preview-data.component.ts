@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {combineLatest, Subscription} from "rxjs";
 import {CustomerService} from "../../../services/customer.service";
 import {ChatDataService} from "../../../services/chat-data.service";
@@ -18,6 +18,7 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
   fullName = '';
   email = '';
   address = '';
+  active = false;
 
   constructor(
     private customerService: CustomerService,
@@ -42,17 +43,48 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
         }
 
         user_data = user_data.map(v => {
-          return {...v, step: Math.floor(Number(v.step))}
+          let id = v.id;
+          if(String(id).length > 2) {
+            id = Number(String(id).substring(0, 2));
+          }
+
+          return {...v, step: Math.floor(Number(v.step)), step_origin: v.step, id}
         }).reduce(function (r, a) {
-          r[a.step] = r[a.step] || [];
-          r[a.step].push(a);
+          r[a.step_origin] = r[a.step_origin] || [];
+          r[a.step_origin].push(a);
           return r;
         }, Object.create(null));
 
         user_data = Object.values(user_data);
 
+        // console.log('user_data------', user_data);
+
+        user_data = user_data.map(v => {
+
+          const grouped = v.reduce((result: any, currentValue: any) => {
+            let groupValue = currentValue.id;
+            if (!result[groupValue]) {
+              result[groupValue] = [];
+            }
+            result[groupValue].push(currentValue);
+            return result;
+          }, {});
+
+          Object.values(grouped).forEach((group: any) => {
+            group.sort((a: any, b: any) => a.step_origin - b.step_origin);
+          });
+
+          return Object.values(grouped);
+        });
+
+
+        console.log('user_data', user_data)
+        user_data = user_data.sort((a, b) => a[0][0].step - b[0][0].step);
+
         this.progress = user_data.slice(0, -1);
-        this.userData = user_data[user_data.length - 1];
+        this.userData = user_data[user_data.length - 1][0];
+
+        // console.log(222, this.userData)
 
         this.fullName = this.getFullName(data, progress);
         this.email = this.getEmail(data, progress);
@@ -92,15 +124,17 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
   }
 
   async toEdit(id:string, step: string) {
+    let progress = String(id);
+
+    if(progress.length > 2) {
+      progress = progress.substring(0, 2);
+    }
+
     await this.router.navigate(['chat-edit'], {
       queryParamsHandling: 'merge',
-      queryParams: {
-        progress: id,
-        step: step
-      }
+      queryParams: { progress, step }
     });
   }
-
 
   ngOnDestroy() {
     this.subscription.unsubscribe();

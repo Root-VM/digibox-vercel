@@ -75,20 +75,11 @@
     </ng-container>
   </div>
 
-  <!-- El circle-->
-  <ng-container *ngFor="let btn of controls">
-    <button mat-stroked-button class="circle" (click)="onSelectQuestion(btn)"
-            *ngIf="btn.control_type === 'circle'" [disabled]="isControlDisabled(btn.id)"
-    >
-      {{btn.control_text}}
-    </button>
-  </ng-container>
-
   <!-- El btn-next isPersonIdentifying-->
   <ng-container *ngIf="isPersonIdentifying">
     <button mat-stroked-button class="next" [class.disabled]="form?.touched && form?.status === 'INVALID'"
             (click)="form?.status === 'INVALID' ? form?.markAsTouched() : onGroupSelect(controls)">
-      <span>{{controls[controls.length -1].control_text}}</span>
+      <span>Bearbeiten</span>
       <img src="assets/img/icons/arrow.svg" alt="arrow">
     </button>
   </ng-container>
@@ -104,39 +95,25 @@
      !filterByType(controls, 'input-autocomplete')?.length
      ">
         <button mat-stroked-button class="next brd" *ngIf="btn.control_type === 'button-next'" (click)="onSelect(btn)">
-          <span>{{btn.control_text}}</span>
+          <span>Bearbeiten</span>
           <img src="assets/img/icons/arrow.svg" alt="arrow">
         </button>
       </ng-container>
 
       <!--if have input in controls-->
-      <ng-container *ngIf="filterByType(controls, 'input')?.length">
-<!--        <button mat-stroked-button class="next" *ngIf="btn.control_type === 'button-next'"-->
-<!--                (click)="onInputNext()"-->
-<!--                [disabled]="form?.status !== 'VALID'"-->
-<!--        >-->
-<!--          <span>{{btn.control_text}}</span>-->
-<!--          <img src="assets/img/icons/arrow.svg" alt="arrow">-->
-<!--        </button>-->
+      <ng-container *ngIf="filterByType(controls, 'input')?.length">\
         <button mat-stroked-button class="next" [class.disabled]="form?.touched && form?.status === 'INVALID'"
                 (click)="form?.status === 'INVALID' ? form?.markAsTouched() : onGroupSelect(controls)">
-          <span>{{controls[controls.length -1].control_text}}</span>
+          <span>Bearbeiten</span>
           <img src="assets/img/icons/arrow.svg" alt="arrow">
         </button>
       </ng-container>
 
       <!--if have autocomplete input in controls-->
       <ng-container *ngIf="filterByType(controls, 'input-autocomplete')?.length">
-<!--        <button mat-stroked-button class="next" *ngIf="btn.control_type === 'button-next'"-->
-<!--                (click)="onInputNext()"-->
-<!--                [disabled]="!!inputValidation.errors"-->
-<!--        >-->
-<!--          <span>{{btn.control_text}}</span>-->
-<!--          <img src="assets/img/icons/arrow.svg" alt="arrow">-->
-<!--        </button>-->
         <button mat-stroked-button class="next" [class.disabled]="form?.touched && form?.status === 'INVALID'"
                 (click)="form?.status === 'INVALID' ? form?.markAsTouched() : onGroupSelect(controls)">
-          <span>{{controls[controls.length -1].control_text}}</span>
+          <span>Bearbeiten</span>
           <img src="assets/img/icons/arrow.svg" alt="arrow">
         </button>
       </ng-container>
@@ -146,7 +123,7 @@
         <button mat-stroked-button class="next" *ngIf="btn.control_type === 'button-next'"
                 (click)="onDropNext(btn)"
                 [disabled]="!!dropValidation.errors">
-          <span>{{btn.control_text}}</span>
+          <span>Bearbeiten</span>
           <img src="assets/img/icons/arrow.svg" alt="arrow">
         </button>
       </ng-container>
@@ -156,12 +133,19 @@
         <button mat-stroked-button class="next" *ngIf="btn.control_type === 'button-next'"
                 (click)="onOutletNext(btn)"
                 [disabled]="!outletControl && outletRequired">
-          <span>{{btn.control_text}}</span>
+          <span>Bearbeiten</span>
           <img src="assets/img/icons/arrow.svg" alt="arrow">
         </button>
       </ng-container>
     </ng-container>
   </ng-container>
+
+  <button *ngIf="
+  (filterByType(controls, 'dropdown-item')?.length || (filterByType(controls, 'outlined-button-item')?.length && filterByType(controls, 'outlined-button-item')?.length <= 2))
+   && !isPersonIdentifying"
+          mat-stroked-button class="next" (click)="toPreview()">
+    <span>Bearbeiten</span>
+  </button>
 </form>
 
 <div class="wrap" *ngIf="!controls?.length"></div>

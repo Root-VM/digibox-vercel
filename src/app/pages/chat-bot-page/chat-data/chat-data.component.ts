@@ -67,7 +67,10 @@ export class ChatDataComponent implements OnInit, OnDestroy{
       type: 'title',
       text_pdf: '',
       text: bot_el.title,
-      step: bot_el.step
+      step: bot_el.step,
+      // @ts-ignore
+      add_next_on_edit: bot_el?.add_next_on_edit,
+      remove_next_on_edit: bot_el?.remove_next_on_edit,
     });
     bot_el?.subtitle && this.customerService.setProgress({
       id: bot_el.id,
@@ -76,7 +79,10 @@ export class ChatDataComponent implements OnInit, OnDestroy{
       type: 'subtitle',
       text_pdf: '',
       text: bot_el.subtitle,
-      step: bot_el.step
+      step: bot_el.step,
+      // @ts-ignore
+      add_next_on_edit: bot_el?.add_next_on_edit,
+      remove_next_on_edit: bot_el?.remove_next_on_edit,
     });
     bot_el?.bot_default_message && this.customerService.setProgress({
       id: bot_el.id,
@@ -85,7 +91,10 @@ export class ChatDataComponent implements OnInit, OnDestroy{
       type: 'bot_default',
       text: bot_el.bot_default_message,
       text_pdf: bot_el.bot_default_message_pdf,
-      step: bot_el.step
+      step: bot_el.step,
+      // @ts-ignore
+      add_next_on_edit: bot_el?.add_next_on_edit,
+      remove_next_on_edit: bot_el?.remove_next_on_edit,
     });
   }
 

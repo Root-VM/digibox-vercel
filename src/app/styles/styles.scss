@@ -366,6 +366,10 @@ body {
 }
 
 .custom-tooltip {
+  display: block !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+
   div {
     background: var(--color-primary-5);
     color: var(--color-neutral-1);

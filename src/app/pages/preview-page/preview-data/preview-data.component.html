@@ -1,4 +1,4 @@
-<div class="wrap">
+<div class="wrap" [ngClass]="{ 'active': active }">
   <div class="content">
     <h1>Patientenverfugung {{fullName}}</h1>
 
@@ -11,33 +11,56 @@
       <div class="list">
         <div class="block pers">
           <ng-container *ngFor="let chat of userData">
-            <p *ngIf="chat.type === 'title' && chat.text" class="b-title"><span>{{chat.text}}</span></p>
-            <p *ngIf="chat.type === 'bot_default' && chat.text_pdf" class="title">{{chat.text_pdf}}</p>
-            <p *ngIf="chat.type === 'bot-q' && chat.text_pdf" class="title">{{chat.text_pdf}}</p>
+            <p *ngIf="chat.type === 'title' && chat.text" class="b-title">
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <span>{{chat.text}}</span></p>
+            <p *ngIf="chat.type === 'bot_default' && chat.text_pdf" class="title"
+               (click)="toEdit(userData[0]?.id, userData[0]?.step_origin)"
+            >{{chat.text_pdf}}</p>
+            <p *ngIf="chat.type === 'bot-q' && chat.text_pdf" class="title"
+               (click)="toEdit(userData[0]?.id, userData[0]?.step_origin)"
+            >{{chat.text_pdf}}</p>
             <div *ngIf="chat.type === 'user' && chat.text_pdf" class="text"
-                 [innerHTML]="chat.text_pdf"
-                 matTooltip="bearbeiten" matTooltipPosition="above" matTooltipClass='custom-tooltip'
-                 (click)="toEdit(chat.id, chat.step)"
+                 [innerHTML]="chat.text_pdf" (click)="toEdit(userData[0]?.id, userData[0]?.step_origin)"
             ></div>
-            <p *ngIf="chat.type === 'user-q' && chat.text_pdf" class="text">{{chat.text_pdf}}</p>
+            <p *ngIf="chat.type === 'user-q' && chat.text_pdf" class="text"
+               (click)="toEdit(userData[0]?.id, userData[0]?.step_origin)"
+            >{{chat.text_pdf}}</p>
           </ng-container>
+          <div class="bear" (click)="toEdit(userData[0].id, userData[0].step_origin)">Bearbeiten</div>
+
         </div>
 
-        <div class="block" *ngFor="let block of progress; let i = index" [class.pers]="progress[i][0].custom">
-          <ng-container *ngFor="let chat of block">
-            <p *ngIf="chat.type === 'title' && chat.text" class="b-title"><span>{{chat.text}}</span></p>
-            <p *ngIf="chat.type === 'bot_default' && chat.text_pdf" class="title">{{chat.text_pdf}}</p>
-            <p *ngIf="chat.type === 'bot-q' && chat.text_pdf" class="title">{{chat.text_pdf}}</p>
-            <p *ngIf="chat.type === 'user' && chat.text_pdf" class="text" [innerHTML]="chat.text_pdf"
-               matTooltip="bearbeiten" matTooltipPosition="above" matTooltipClass='custom-tooltip'
-               (click)="toEdit(chat.id, chat.step)"
-            ></p>
-            <p *ngIf="chat.type === 'user-q' && chat.text_pdf" class="text">{{chat.text_pdf}}</p>
-          </ng-container>
+        <div  *ngFor="let block of progress; let i = index">
+          <div *ngFor="let chatEl of block; let i = index" class="block"
+               [class.pers]="block[i][0].custom || (block[i][0].step_origin === 4.11)"
+          >
+            <ng-container *ngFor="let chat of chatEl">
+              <p *ngIf="chat.type === 'title' && chat.text" class="b-title"><span>{{chat.text}}</span></p>
+              <p *ngIf="chat.type === 'bot_default' && chat.text_pdf" class="title"
+                 (click)="toEdit(chat.id, chat.step_origin)"
+              >{{chat.text_pdf}}</p>
+              <p *ngIf="chat.type === 'bot-q' && chat.text_pdf" class="title"
+                 (click)="toEdit(chat.id, chat.step_origin)"
+              >{{chat.text_pdf}}</p>
+              <p *ngIf="chat.type === 'user' && chat.text_pdf" class="text" [innerHTML]="chat.text_pdf"
+                 (click)="toEdit(chat.id, chat.step_origin)"
+              ></p>
+              <p *ngIf="chat.type === 'user-q' && chat.text_pdf" class="text"
+                 (click)="toEdit(chat.id, chat.step_origin)"
+              >{{chat.text_pdf}}</p>
+            </ng-container>
+            <div class="bear" (click)="toEdit(chatEl[0].id, chatEl[0].step_origin)">Bearbeiten</div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <app-control-next [fullName]="fullName" [email]="email" [address]="address"></app-control-next>
+  <app-control-next [fullName]="fullName" [email]="email" [address]="address">
+    <button mat-stroked-button class="next" (click)="active = !active">
+      <span>Bearbeiten</span>
+    </button>
+  </app-control-next>
 </div>

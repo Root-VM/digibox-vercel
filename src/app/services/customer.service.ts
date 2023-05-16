@@ -42,6 +42,35 @@ export class CustomerService {
     saveToStore('customer_progress', result);
   }
 
+  removeUserProgress (id: number | undefined) {
+    let result = this.getProgress();
+
+    if(id) {
+      result = result.filter((item) =>
+        item.id !== id || (item.type !== 'user' && item.type !== 'user-q'))
+
+      // sort
+      result = chatSort(result);
+
+      this.subject.next(result);
+      saveToStore('customer_progress', result);
+    }
+  }
+
+  removeUserProgressByStep (step: number | undefined) {
+    let result = this.getProgress();
+
+    if(step) {
+      result = result.filter((item) =>
+        item.step !== step || (item.type !== 'user' && item.type !== 'user-q'))
+
+      // sort
+      result = chatSort(result);
+      this.subject.next(result);
+      saveToStore('customer_progress', result);
+    }
+  }
+
   getProgress () {
     return this.subject.getValue();
   }
@@ -51,14 +80,14 @@ export class CustomerService {
   }
 
   async postCustomerDataApi(email: string, data: any) {
-    this.request.get(`customers?email=${email}`).subscribe(async (users: any) => {
-        if(users?.data?.length) {
-          const user = users.data[0];
-          this.request.put(`customers/${user.id}`,  {data, email} ).subscribe()
-        } else {
-          this.request.postApi(`customers`,  {data, email} ).subscribe()
-        }
-
-    })
+    // this.request.get(`customers?email=${email}`).subscribe(async (users: any) => {
+    //     if(users?.data?.length) {
+    //       const user = users.data[0];
+    //       this.request.put(`customers/${user.id}`,  {data, email} ).subscribe()
+    //     } else {
+    //       this.request.postApi(`customers`,  {data, email} ).subscribe()
+    //     }
+    //
+    // })
   }
 }
