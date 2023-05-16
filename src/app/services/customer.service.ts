@@ -80,14 +80,14 @@ export class CustomerService {
   }
 
   async postCustomerDataApi(email: string, data: any) {
-    // this.request.get(`customers?email=${email}`).subscribe(async (users: any) => {
-    //     if(users?.data?.length) {
-    //       const user = users.data[0];
-    //       this.request.put(`customers/${user.id}`,  {data, email} ).subscribe()
-    //     } else {
-    //       this.request.postApi(`customers`,  {data, email} ).subscribe()
-    //     }
-    //
-    // })
+    this.request.get(`customers?email=${email}`).subscribe(async (users: any) => {
+        if(users?.data?.length) {
+          const user = users.data[0];
+          this.request.put(`customers/${user.id}`,  {data, email} ).subscribe()
+        } else {
+          this.request.postApi(`customers`,  {data, email} ).subscribe()
+        }
+
+    })
   }
 }
