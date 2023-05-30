@@ -53,7 +53,7 @@ export class PdfPageComponent implements OnInit {
   async loadPdf(secure: string) {
     this.commonService.setLoading(true);
 
-    secure = '744429';
+    // secure = '744429';
     const customer = await this.customerService.loadPdf(this.email, secure);
 
     if(customer?.data?.length) {
