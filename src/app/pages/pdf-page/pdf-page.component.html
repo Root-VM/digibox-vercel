@@ -1,0 +1,10 @@
+<app-main-template [showHeader]="false">
+  <div class="wrap">
+    <ng-container *ngIf="noFile">
+      <img src="assets/img/sad.svg" alt="sad">
+      <p>Die PDF-Datei wurde nicht gefunden oder Sie haben den falschen Sicherheitscode geschrieben</p>
+    </ng-container>
+
+    <button class="btn" mat-button (click)="openDialog()">Sicherheitscode hinzufügen</button>
+  </div>
+</app-main-template>

@@ -1,18 +1,18 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {combineLatest, Subscription} from "rxjs";
 import {CustomerService} from "../../../services/customer.service";
 import {ChatDataService} from "../../../services/chat-data.service";
+import {Router} from "@angular/router";
 import {ChatDataInterface} from "../../../interfaces/chat";
 import {CustomerProgressInterface} from "../../../interfaces/customer";
-import {Router} from "@angular/router";
 import {loadFromStore} from "../../../methods/locale-store";
 
 @Component({
-  selector: 'app-preview-data',
-  templateUrl: './preview-data.component.html',
-  styleUrls: ['./preview-data.component.scss']
+  selector: 'app-preview-data-link',
+  templateUrl: './preview-data-link.component.html',
+  styleUrls: ['./preview-data-link.component.scss']
 })
-export class PreviewDataComponent implements OnInit, OnDestroy {
+export class PreviewDataLinkComponent implements OnInit, OnDestroy{
   progress: Array<any> = [];
   userData: Array<any> = [];
   subscription : Subscription = new Subscription();
@@ -24,10 +24,14 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
   constructor(
     private customerService: CustomerService,
     private chatDataService: ChatDataService,
-    private router: Router
-  ) { chatDataService.getChatData().then(); }
+    private router: Router,
+  ) {
+    this.chatDataService.getChatData().then(() => {});
+  }
 
   ngOnInit() {
+    const has_chat = loadFromStore('chat_data');
+
     combineLatest(
       this.customerService.customerProgress$,
       this.chatDataService.chatData$
@@ -58,7 +62,6 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
 
         user_data = Object.values(user_data);
 
-        // console.log('user_data------', user_data);
 
         user_data = user_data.map(v => {
 
@@ -79,6 +82,7 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
         });
 
 
+        console.log('user_data', user_data)
         user_data = user_data.sort((a, b) => a[0][0].step - b[0][0].step);
 
         this.progress = user_data.slice(0, -1);
@@ -99,6 +103,10 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
             }
           ).then();
         }
+      }
+
+      if(!has_chat && data.length) {
+        setTimeout(() => location.reload(), 1000)
       }
     })
   }
@@ -137,7 +145,7 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
 
     await this.router.navigate(['chat-edit'], {
       queryParamsHandling: 'merge',
-      queryParams: { progress, step }
+      queryParams: { progress, step, editLink: 'true' }
     });
   }
 

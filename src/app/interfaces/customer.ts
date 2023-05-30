@@ -2,6 +2,7 @@
 export interface CustomerInterface {
   email: string;
   data: string;
+  payment_id: string
 }
 
 export interface CustomerProgressInterface {

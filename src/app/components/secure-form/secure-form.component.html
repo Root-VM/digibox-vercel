@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>Um fortzufahren, schreiben Sie sicheren Code</h1>
+<div mat-dialog-content>
+<!--  <p>What's your favorite animal?</p>-->
+  <mat-form-field>
+    <mat-label>sicheren Code</mat-label>
+    <input matInput [(ngModel)]="data.password" type="password">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button class="btn" mat-button name="secret-form" [mat-dialog-close]="data.password" cdkFocusInitial>Weiter</button>
+</div>

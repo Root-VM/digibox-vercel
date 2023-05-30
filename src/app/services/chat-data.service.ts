@@ -5,6 +5,7 @@ import {ChatDataInterface, MessageExplanationInterface, ProgressInterface} from 
 import {StrapiDataInterface} from "../interfaces/strapi-data";
 import {chatSort} from "../methods/chat-soring";
 import {mappedStrapiData} from "../methods/get-strapi-data";
+import {loadFromStore, saveToStore} from "../methods/locale-store";
 
 @Injectable({
   providedIn: 'root'
@@ -21,16 +22,28 @@ export class ChatDataService {
 
   constructor(
     private request: RequestService
+  ) {
+    const chat = loadFromStore('chat_data');
+    chat && this.chat.next(chat);
 
-  ) { }
+    const explanation = loadFromStore('explanation_data');
+    explanation && this.explanation.next(explanation);
+
+    const progress = loadFromStore('progress_data');
+    progress && this.progress.next(progress);
+  }
 
   addExplanation = (value: MessageExplanationInterface) => {
     const value_exist = this.explanation.value.find(val => val.text === value.text);
-    !value_exist && this.explanation.next([...this.explanation.value, value]);
+    if (!value_exist) {
+      this.explanation.next([...this.explanation.value, value]);
+      saveToStore('explanation_data', [...this.explanation.value, value]);
+    }
   }
 
   clearExplanations = () => {
     this.explanation.next([]);
+    saveToStore('explanation_data', []);
   }
 
   async getChatData () {
@@ -42,7 +55,9 @@ export class ChatDataService {
         result = chatSort(result);
       }
 
-      this.chat.next(result as ChatDataInterface[])
+      this.chat.next(result as ChatDataInterface[]);
+      saveToStore('chat_data', result);
+
     }, (e: any) => console.log(e))
   }
 
@@ -63,7 +78,10 @@ export class ChatDataService {
           })
         }
 
-        result?.length && this.progress.next(result)
+        if(result?.length) {
+          this.progress.next(result);
+          saveToStore('progress_data', result);
+        }
       }
 
     }, (e: any) => console.log(e))

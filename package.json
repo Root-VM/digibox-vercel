@@ -4,8 +4,8 @@
   "scripts": {
     "ng": "ng",
     "config": "ts-node ./setenv.ts",
-    "dev": "ng serve",
-    "build": "ng build",
+    "dev": "npm run config -- --environment=dev && ng serve",
+    "build": "npm run config -- --environment=prod && ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -27,6 +27,7 @@
     "marked": "^4.2.5",
     "moment": "^2.29.4",
     "rxjs": "~7.5.0",
+    "stripe-angular": "^1.9.3",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"
   },

@@ -24,6 +24,10 @@ export class RequestService {
       return this._http.get(`${this.apiUrl}api/${url}`, this.httpOptions);
   }
 
+  getClear(url: string): any {
+    return this._http.get(`${this.apiUrl}${url}`, this.httpOptions).toPromise();;
+  }
+
   post(url: string, body: any): any {
     return this._http.post(`${this.apiUrl}api/${url}`, {...this.httpOptions, content: body});
   }

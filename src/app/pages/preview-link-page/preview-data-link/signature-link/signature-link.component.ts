@@ -1,10 +1,9 @@
-import {AfterViewInit, Component, HostListener, Inject, Input, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, HostListener, Inject, ViewChild} from '@angular/core';
 import {NgSignaturePadOptions, SignaturePadComponent} from "@almothafar/angular-signature-pad";
 import {CustomerService} from "../../../../services/customer.service";
 import {CommonService} from "../../../../services/common.service";
 import {Router} from "@angular/router";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-
 const pdfStyles = `<style>
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Sans+Pro:wght@400;600;700&display=swap');
@@ -291,11 +290,11 @@ const footer = (name: string, img_path: string) => {
 `
 }
 @Component({
-  selector: 'app-signature',
-  templateUrl: './signature.component.html',
-  styleUrls: ['./signature.component.scss']
+  selector: 'app-signature-link',
+  templateUrl: './signature-link.component.html',
+  styleUrls: ['./signature-link.component.scss']
 })
-export class SignatureComponent implements AfterViewInit{
+export class SignatureLinkComponent implements AfterViewInit{
   @ViewChild('signature')
   // @ts-ignore
   public signaturePad: SignaturePadComponent;
@@ -317,9 +316,9 @@ export class SignatureComponent implements AfterViewInit{
                private commonService: CommonService,
                private router: Router,
                public dialog: MatDialog,
-  public dialogRef: MatDialogRef<any>,
-  @Inject(MAT_DIALOG_DATA) public data: any,
-) {}
+               public dialogRef: MatDialogRef<any>,
+               @Inject(MAT_DIALOG_DATA) public data: any,
+  ) {}
 
   ngAfterViewInit() {
     console.log('asdasdasd', this.data)
@@ -367,7 +366,7 @@ export class SignatureComponent implements AfterViewInit{
         console.log('pdf----->', response);
 
         if(response?.status === 'ok') {
-          await this.router.navigate(['/subscribe']);
+          await this.router.navigate(['/success-payment']);
 
           // this.customerService.sendEmailApi({file: response.file,
           //   email: this.data.email, fullName: this.data.fullName

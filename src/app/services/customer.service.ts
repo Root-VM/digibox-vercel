@@ -4,6 +4,7 @@ import {CustomerProgressInterface} from "../interfaces/customer";
 import {loadFromStore, saveToStore} from "../methods/locale-store";
 import {chatSort} from "../methods/chat-soring";
 import {RequestService} from "./request.service";
+import {HttpClient} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class CustomerService {
   private subject = new BehaviorSubject<CustomerProgressInterface[]>([]);
   customerProgress$: Observable<CustomerProgressInterface[] | []> = this.subject.asObservable();
 
-  constructor(private request: RequestService) {
+  constructor(private request: RequestService, private http: HttpClient) {
     const saved = loadFromStore('customer_progress');
     saved && this.subject.next(saved)
   }
@@ -75,19 +76,55 @@ export class CustomerService {
     return this.subject.getValue();
   }
 
-  postPdfApi( data: any): any {
+  sendEmailApi( data: any): any {
     return this.request.post(`customers/email`, data)
   }
 
-  async postCustomerDataApi(email: string, data: any) {
-    this.request.get(`customers?email=${email}`).subscribe(async (users: any) => {
+  async postUnfinishedCustomerApi(email: string, data: any) {
+    console.log(10, email, data)
+    if(email) {
+      this.request.get(`customers?filters[email][$eq]=${email}`).subscribe(async (users: any) => {
         if(users?.data?.length) {
+          console.log(1, users)
           const user = users.data[0];
-          this.request.put(`customers/${user.id}`,  {data, email} ).subscribe()
+          this.request.put(`customers/${user.id}`,  {...data} ).subscribe()
         } else {
-          this.request.postApi(`customers`,  {data, email} ).subscribe()
+          console.log(2, users)
+          this.request.postApi(`customers`,  {...data} ).subscribe()
         }
 
-    })
+      })
+    }
+  }
+
+  publishCustomerApi( data: any): any {
+    return this.request.post(`customers/publish`, data)
+  }
+
+  async checkPaymentDataApi(email: string) {
+    return await this.request.getClear(`strapi-stripe/getSubscriptionStatus/${email}`);
+  }
+
+
+  async loadPdf(email: string, secret: string) {
+    try {
+     return  await this.request.getClear(`api/customers?filters[email][$eq]=${email}&filters[secret][$eq]=${secret}&populate=*`);
+    } catch {
+      return null;
+    }
+  }
+
+  async fetchPdfFile(src: string) {
+    const res = await fetch(src, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json; charset=utf-8"
+      }
+    });
+
+    if (res.status === 200) {
+      return res.blob();
+    }
+    return;
   }
 }

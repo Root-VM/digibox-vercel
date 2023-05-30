@@ -1,0 +1,14 @@
+<app-main-template *ngIf="!wrongSecure && sent">
+  <app-preview-data-link></app-preview-data-link>
+</app-main-template>
+
+<app-main-template [showHeader]="false" *ngIf="!sent || wrongSecure">
+  <div class="wrap-first">
+    <ng-container *ngIf="sent">
+      <img src="assets/img/sad.svg" alt="sad">
+      <p>Der Kunde konnte nicht gefunden werden oder der Sicherheitscode war falsch</p>
+    </ng-container>
+
+    <button class="btn" mat-button (click)="openDialog()">Sicherheitscode hinzufügen</button>
+  </div>
+</app-main-template>

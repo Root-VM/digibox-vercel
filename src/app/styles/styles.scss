@@ -254,6 +254,30 @@ body {
   height: 15px;
 }
 
+body .blue-btn-global {
+  margin-top: auto;
+  margin-left: auto;
+  height: 64px!important;
+  padding: 0 72px;
+  border-radius: 8px;
+  border: none;
+  background: var(--color-primary-5);
+
+  .mdc-button__label {
+    display: flex;
+    align-items: center;
+
+    span {
+      font-style: normal;
+      font-weight: 700;
+      font-size: 32px;
+      line-height: 32px;
+      color: var(--color-neutral-1);
+      margin-right: 14px;
+    }
+  }
+}
+
 
 @media screen and (max-width: 1349px) {
   .inputBlock {
@@ -266,6 +290,23 @@ body {
         .mat-mdc-form-field-infix {
           padding-top: 15px!important;
         }
+      }
+    }
+  }
+
+  body .blue-btn-global {
+    height: 55px!important;
+    padding: 0 40px;
+
+    .mdc-button__label {
+      display: flex;
+      align-items: center;
+
+      span {
+        font-size: 26px;
+        line-height: 26px;
+        color: var(--color-neutral-1);
+        margin-right: 14px;
       }
     }
   }
@@ -373,5 +414,25 @@ body {
   div {
     background: var(--color-primary-5);
     color: var(--color-neutral-1);
+  }
+
+  body .blue-btn-global {
+    height: 40px;
+    padding: 0 24px;
+
+    img{
+      height: 8px;
+      width: auto;
+    }
+
+    .mdc-button__label {
+      span {
+        font-style: normal;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 32px;
+        margin-right: 4px;
+      }
+    }
   }
 }

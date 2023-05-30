@@ -41,6 +41,7 @@ export const MY_FORMATS = {
 export class ControlsEditComponent implements OnInit, OnDestroy {
   @Input() data: ChatDataInterface[] | [] = [];
   form: any = new FormGroup({});
+  isLinkEdit = false;
   currentId: number | undefined;
   subscription : Subscription = new Subscription();
   controls: AnswerInterface[] = [];
@@ -60,7 +61,10 @@ export class ControlsEditComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.subscription = this.route.queryParams.subscribe(() => this.generateControls());
+    this.subscription = this.route.queryParams.subscribe(() => {
+      this.generateControls();
+      this.isLinkEdit = !!this.route.snapshot.queryParams?.['editLink'];
+    });
   }
 
   ngOnDestroy() {
@@ -270,7 +274,11 @@ export class ControlsEditComponent implements OnInit, OnDestroy {
   }
 
   async toPreview () {
-    await this.router.navigate(['/preview']);
+    if(this.isLinkEdit) {
+      await this.router.navigate(['/customer-edit']);
+    } else {
+      await this.router.navigate(['/preview']);
+    }
   }
 
   async onGroupSelect(answers: Array<AnswerInterface>) {

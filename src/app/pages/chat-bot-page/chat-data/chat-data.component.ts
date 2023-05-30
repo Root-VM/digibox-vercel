@@ -46,6 +46,7 @@ export class ChatDataComponent implements OnInit, OnDestroy{
       const answered_last = data.find((el: any) => el?.step === last_el?.step);
 
       if(answered_last?.id && data[data.length - 1]?.type === 'user') {
+        // await this.router.navigate(['/subscribe']);
         await this.router.navigate(['/preview']);
       }
     });

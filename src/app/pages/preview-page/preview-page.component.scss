@@ -1,19 +1,19 @@
 ::ng-deep{
 
   .wrap {
-    height: auto!important;
+    //height: 100%!important;
   }
-  .content{
-    display: flex;
-    flex-direction: column;
-    overflow: auto;
-    max-height: 100vh;
-    height: 100vh;
-  }
-
-  app-header .wrap{
-    min-height: 135px;
-  }
+  //.content{
+  //  display: flex;
+  //  flex-direction: column;
+  //  overflow: auto;
+  //  max-height: 100vh;
+  //  height: 100vh;
+  //}
+  //
+  //app-header .wrap{
+  //  min-height: 135px;
+  //}
 }
 
 @media screen and (max-width: 979px) {

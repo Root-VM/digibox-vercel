@@ -38,17 +38,26 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatIconModule} from "@angular/material/icon";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatNativeDateModule} from "@angular/material/core";
-import { SuccessPageComponent } from './pages/success-page/success-page.component';
 import { FilterPipe } from './pipes/filter.pipe';
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {AngularSignaturePadModule} from "@almothafar/angular-signature-pad";
 import { SignatureComponent } from './pages/preview-page/preview-data/signature/signature.component';
-import {MatDialogModule} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import { ReloadComponent } from './templates/main-template/reload/reload.component';
 import { EditChatPageComponent } from './pages/edit-chat-page/edit-chat-page.component';
 import {ChatDataEditComponent} from "./pages/edit-chat-page/chat-data-edit/chat-data-edit.component";
 import {MessageEditComponent} from "./pages/edit-chat-page/chat-data-edit/message-edit/message-edit.component";
 import {ControlsEditComponent} from "./pages/edit-chat-page/chat-data-edit/controls-edit/controls-edit.component";
+import { SubscribePageComponent } from './pages/subscribe-page/subscribe-page.component';
+import { SuccessPaymentPageComponent } from './pages/success-payment-page/success-payment-page.component';
+import { WrongPaymentPageComponent } from './pages/wrong-payment-page/wrong-payment-page.component';
+import { WrongEmailPageComponent } from './pages/wrong-email-page/wrong-email-page.component';
+import { PdfPageComponent } from './pages/pdf-page/pdf-page.component';
+import { SecureFormComponent } from './components/secure-form/secure-form.component';
+import { PreviewLinkPageComponent } from './pages/preview-link-page/preview-link-page.component';
+import { PreviewDataLinkComponent } from './pages/preview-link-page/preview-data-link/preview-data-link.component';
+import { ControlNextLinkComponent } from './pages/preview-link-page/preview-data-link/control-next-link/control-next-link.component';
+import { SignatureLinkComponent } from './pages/preview-link-page/preview-data-link/signature-link/signature-link.component';
 
 @NgModule({
   declarations: [
@@ -74,38 +83,50 @@ import {ControlsEditComponent} from "./pages/edit-chat-page/chat-data-edit/contr
     SortPipe,
     ResetProgressComponent,
     ExplanationBoxComponent,
-    SuccessPageComponent,
     FilterPipe,
     SignatureComponent,
     ReloadComponent,
     EditChatPageComponent,
     ChatDataEditComponent,
     MessageEditComponent,
-    ControlsEditComponent
+    ControlsEditComponent,
+    SubscribePageComponent,
+    SuccessPaymentPageComponent,
+    WrongPaymentPageComponent,
+    WrongEmailPageComponent,
+    PdfPageComponent,
+    SecureFormComponent,
+    PreviewLinkPageComponent,
+    PreviewDataLinkComponent,
+    ControlNextLinkComponent,
+    SignatureLinkComponent,
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        FormsModule,
-        ReactiveFormsModule,
-        BrowserAnimationsModule,
-        MatButtonModule,
-        MatCheckboxModule,
-        MatInputModule,
-        LayoutModule,
-        HttpClientModule,
-        MatProgressSpinnerModule,
-        MatSelectModule,
-        MatAutocompleteModule,
-        MatDatepickerModule,
-        MatIconModule,
-        MatFormFieldModule,
-        MatNativeDateModule,
-        MatTooltipModule,
-        AngularSignaturePadModule,
-        MatDialogModule
-    ],
-  providers: [],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatInputModule,
+    LayoutModule,
+    HttpClientModule,
+    MatProgressSpinnerModule,
+    MatSelectModule,
+    MatAutocompleteModule,
+    MatDatepickerModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatNativeDateModule,
+    MatTooltipModule,
+    AngularSignaturePadModule,
+    MatDialogModule,
+  ],
+  providers: [
+    { provide: MAT_DIALOG_DATA, useValue: {} },
+    { provide: MatDialogRef, useValue: {} }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
