@@ -51,8 +51,6 @@ export class PreviewLinkPageComponent {
     });
 
     dialogRef.afterClosed().subscribe(secure => {
-      console.log('The dialog was closed', secure);
-
       if(secure) {
         this.loadPdf(secure);
       }
@@ -63,10 +61,10 @@ export class PreviewLinkPageComponent {
   async loadPdf(secure: string) {
     this.commonService.setLoading(true);
 
-    // secure = '744429';
     const customer = await this.customerService.loadPdf(this.email, secure);
 
     if(customer?.data?.length) {
+
       saveToStore('customer_progress', customer?.data[0].attributes?.data);
       saveToStore('secured_for_edit', true);
       setTimeout(() => {

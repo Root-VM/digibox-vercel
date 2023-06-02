@@ -113,6 +113,13 @@ export class CustomerService {
       return null;
     }
   }
+  async getCustomerByEmail(email: string) {
+    try {
+      return  await this.request.getClear(`api/customers?filters[email][$eq]=${email}`);
+    } catch {
+      return null;
+    }
+  }
 
   async fetchPdfFile(src: string) {
     const res = await fetch(src, {

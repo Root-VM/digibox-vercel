@@ -9,6 +9,13 @@
   padding: 80px 72px 40px 40px;
 }
 
+::ng-deep{
+  app-edit-chat-page .wrap .content {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 @media screen and (max-width: 1349px) {
   :host{
     height: calc(100% - 90px - 107px);

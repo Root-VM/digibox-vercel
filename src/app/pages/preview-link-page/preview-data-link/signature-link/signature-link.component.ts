@@ -321,7 +321,6 @@ export class SignatureLinkComponent implements AfterViewInit{
   ) {}
 
   ngAfterViewInit() {
-    console.log('asdasdasd', this.data)
     this.sizeCheck();
   }
 
@@ -366,7 +365,12 @@ export class SignatureLinkComponent implements AfterViewInit{
         console.log('pdf----->', response);
 
         if(response?.status === 'ok') {
-          await this.router.navigate(['/success-payment']);
+          await this.router.navigate(['success-payment'], {
+              queryParamsHandling: 'merge',
+              queryParams: {
+                email: this.data.email, edited: 'true'
+              }
+          });
 
           // this.customerService.sendEmailApi({file: response.file,
           //   email: this.data.email, fullName: this.data.fullName

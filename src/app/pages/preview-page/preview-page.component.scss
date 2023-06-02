@@ -1,5 +1,7 @@
 ::ng-deep{
-
+  app-main-template > .wrap > .content {
+    overflow: hidden;
+  }
   .wrap {
     //height: 100%!important;
   }

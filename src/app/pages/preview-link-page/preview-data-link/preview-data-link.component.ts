@@ -6,6 +6,7 @@ import {Router} from "@angular/router";
 import {ChatDataInterface} from "../../../interfaces/chat";
 import {CustomerProgressInterface} from "../../../interfaces/customer";
 import {loadFromStore} from "../../../methods/locale-store";
+import {CommonService} from "../../../services/common.service";
 
 @Component({
   selector: 'app-preview-data-link',
@@ -25,6 +26,7 @@ export class PreviewDataLinkComponent implements OnInit, OnDestroy{
     private customerService: CustomerService,
     private chatDataService: ChatDataService,
     private router: Router,
+    private commonService: CommonService,
   ) {
     this.chatDataService.getChatData().then(() => {});
   }
@@ -36,7 +38,14 @@ export class PreviewDataLinkComponent implements OnInit, OnDestroy{
       this.customerService.customerProgress$,
       this.chatDataService.chatData$
     ).subscribe(([progress, data]) => {
+      this.commonService.setLoading(true);
+
+      if(!has_chat && !data.length) {
+        setTimeout(() => location.reload(), 1000)
+      }
+
       if(progress?.length && data?.length) {
+        this.commonService.setLoading(false);
         let user_data: Array<any> = [];
 
         for(let el of progress) {
@@ -97,16 +106,12 @@ export class PreviewDataLinkComponent implements OnInit, OnDestroy{
           this.customerService.postUnfinishedCustomerApi(
             this.email, {
               data: store,
-              // status: 'unfinished',
+              status: 'paid',
               full_name: this.fullName,
               email: this.email
             }
           ).then();
         }
-      }
-
-      if(!has_chat && data.length) {
-        setTimeout(() => location.reload(), 1000)
       }
     })
   }

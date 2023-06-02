@@ -20,13 +20,14 @@ export class SuccessPaymentPageComponent implements OnInit{
   }
 
   ngOnInit () {
+    console.log('yea')
     this._route.queryParams
       .subscribe(async (params: any) => {
           const session = params?.sessionId;
 
+          // if paid first time
           if(session) {
             const res = await SS_GetProductPaymentDetails(session);
-            console.log(2223, res)
 
             if(res.customer_email && (res.payment_status === 'paid' || res.payment_status === 'complete')) {
               this.customerService.sendEmailApi({
@@ -34,12 +35,30 @@ export class SuccessPaymentPageComponent implements OnInit{
                 link: window.origin,
                 stripe_id: res.subscription
               }).subscribe((el: any) => {
-                // console.log('1111', el)
                 localStorage.clear();
                 this.commonService.setLoading(false);
               })
             }
           }
+
+          // if edit
+          if(params?.edited && params?.email) {
+            const customers = await this.customerService.getCustomerByEmail(params.email);
+            if(customers?.data[0]) {
+              let status = customers?.data[0]?.attributes?.status;
+              if(status === 'paid') {
+                this.customerService.sendEmailApi({
+                  email: params?.email,
+                  link: window.origin,
+                  stripe_id: customers?.data[0]?.attributes?.stripe_id
+                }).subscribe((el: any) => {
+                  localStorage.clear();
+                  this.commonService.setLoading(false);
+                })
+              }
+            }
+          }
+
         }
       );
   }
