@@ -42,8 +42,6 @@ export class PdfPageComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(secure => {
-      console.log('The dialog was closed', secure);
-
       if(secure) {
         this.loadPdf(secure);
       }
@@ -53,7 +51,6 @@ export class PdfPageComponent implements OnInit {
   async loadPdf(secure: string) {
     this.commonService.setLoading(true);
 
-    // secure = '744429';
     const customer = await this.customerService.loadPdf(this.email, secure);
 
     if(customer?.data?.length) {
@@ -67,7 +64,7 @@ export class PdfPageComponent implements OnInit {
 
         const pdf_link = await getLocalPdfUrl(link);
         if(pdf_link) {
-          window.open(pdf_link, '_blank')
+          // window.open(pdf_link, '_blank')
           const new_tab = window.open(pdf_link, '_blank');
           if (new_tab) {
             new_tab.focus();
@@ -82,8 +79,6 @@ export class PdfPageComponent implements OnInit {
       this.pdfLink = '';
       this.noFile = true;
     }
-
-    console.log('customer', customer);
 
     this.commonService.setLoading(false);
 

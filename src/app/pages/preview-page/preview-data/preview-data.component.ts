@@ -57,9 +57,6 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
         }, Object.create(null));
 
         user_data = Object.values(user_data);
-
-        // console.log('user_data------', user_data);
-
         user_data = user_data.map(v => {
 
           const grouped = v.reduce((result: any, currentValue: any) => {

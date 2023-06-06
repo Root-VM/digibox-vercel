@@ -1,3 +1,14 @@
+.pers.block {
+  .title{
+    cursor: default;
+    pointer-events: none;
+    &:before, &:after{
+      content: none!important;
+    }
+    background: none!important;
+  }
+}
+
 .box {
   width: 100%;
 
@@ -53,7 +64,7 @@
 
       .block, .pers {
         margin: 0 auto 0 auto;
-        width: fit-content;
+        //width: fit-content;
         margin-left: 0;
 
         .b-title {

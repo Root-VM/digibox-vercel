@@ -81,18 +81,14 @@ export class CustomerService {
   }
 
   async postUnfinishedCustomerApi(email: string, data: any) {
-    console.log(10, email, data)
     if(email) {
       this.request.get(`customers?filters[email][$eq]=${email}`).subscribe(async (users: any) => {
         if(users?.data?.length) {
-          console.log(1, users)
           const user = users.data[0];
           this.request.put(`customers/${user.id}`,  {...data} ).subscribe()
         } else {
-          console.log(2, users)
           this.request.postApi(`customers`,  {...data} ).subscribe()
         }
-
       })
     }
   }
@@ -104,7 +100,6 @@ export class CustomerService {
   async checkPaymentDataApi(email: string) {
     return await this.request.getClear(`strapi-stripe/getSubscriptionStatus/${email}`);
   }
-
 
   async loadPdf(email: string, secret: string) {
     try {

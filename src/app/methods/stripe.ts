@@ -1,4 +1,7 @@
-export function SS_ProductCheckout(productId: number, baseUrl: string, userEmail: string) {
+import {environment} from "../../environments/environment";
+
+const productId = 4;
+export function SS_ProductCheckout(baseUrl: string, userEmail: string) {
   localStorage.setItem('strapiStripeUrl', baseUrl);
   const getProductApi = baseUrl + 'strapi-stripe/getProduct/' + productId;
   const checkoutSessionUrl = baseUrl + 'strapi-stripe/createCheckoutSession';
@@ -21,6 +24,7 @@ export function SS_ProductCheckout(productId: number, baseUrl: string, userEmail
           productId: response.id,
           productName: response.title,
           userEmail,
+          locale: 'de'
         }),
         mode: 'cors',
         headers: new Headers({
@@ -29,7 +33,6 @@ export function SS_ProductCheckout(productId: number, baseUrl: string, userEmail
       })
         .then(response => response.json())
         .then(response => {
-          console.log('response', response)
           if (response.id) {
             window.location.replace(response.url);
           }
@@ -38,7 +41,7 @@ export function SS_ProductCheckout(productId: number, baseUrl: string, userEmail
 }
 
 export function SS_GetProductPaymentDetails(checkoutSessionId: string) {
-  const baseUrl = localStorage.getItem('strapiStripeUrl');
+  const baseUrl = environment.API_URL;
   const retrieveCheckoutSessionUrl =
     baseUrl + 'strapi-stripe/retrieveCheckoutSession/' + checkoutSessionId;
   return fetch(retrieveCheckoutSessionUrl, {
@@ -83,4 +86,17 @@ export function SS_GetProductPaymentDetails(checkoutSessionId: string) {
         return response;
       }
     });
+}
+
+export const getProductStripeApi = () => {
+  const base_url = environment.API_URL;
+  const product_url =  `${base_url}strapi-stripe/getProduct/${productId}`;
+
+  return fetch(product_url, {
+    method: 'get',
+    mode: 'cors',
+    headers: new Headers({
+      'Content-Type': 'application/json',
+    })
+  }).then(response => response.json())
 }

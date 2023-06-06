@@ -2,12 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {CommonService} from "../../services/common.service";
 import {CustomerService} from "../../services/customer.service";
 import {environment} from "../../../environments/environment";
-import {SS_ProductCheckout} from "../../methods/stripe";
+import {getProductStripeApi, SS_ProductCheckout} from "../../methods/stripe";
 import {ChatDataService} from "../../services/chat-data.service";
 import {combineLatest} from "rxjs";
 import {ChatDataInterface} from "../../interfaces/chat";
 import {CustomerProgressInterface} from "../../interfaces/customer";
-import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-subscribe-page',
@@ -17,23 +16,30 @@ import {Router} from "@angular/router";
 export class SubscribePageComponent implements OnInit {
   apiUrl = environment.API_URL;
   email = '';
+  productPrice = 0;
 
   constructor(
     private commonService: CommonService,
     private customerService: CustomerService,
-    private chatDataService: ChatDataService,
-    private router: Router
-  ) {
-    this.commonService.setLoading(false);
+    private chatDataService: ChatDataService
+  ) {}
 
-  }
+  async ngOnInit() {
+    try {
+      const product = await getProductStripeApi();
+      this.commonService.setLoading(false);
 
-  ngOnInit() {
+      if(product?.price) {
+        this.productPrice = product.price;
+      }
+    } catch (e) {
+      this.commonService.setLoading(false);
+    }
+
     combineLatest(
       this.customerService.customerProgress$,
       this.chatDataService.chatData$
     ).subscribe(([progress, data]) => {
-      console.log(progress?.length && data?.length)
       if(progress?.length && data?.length) {
         const get_email = (data: ChatDataInterface[] | [], progress: CustomerProgressInterface[] | []) => {
           const ids = data?.filter(val => val.is_personal_data)
@@ -44,19 +50,12 @@ export class SubscribePageComponent implements OnInit {
         }
 
         this.email = get_email(data, progress);
-
-        // this.customerService.checkPaymentDataApi(this.email).then( async data => {
-        //   if(data) {
-        //     await this.router.navigate(['/wrong-email']);
-        //   }
-        // })
       }
     })
   }
 
   subscribe() {
-    SS_ProductCheckout(2, this.apiUrl, this.email);
+    SS_ProductCheckout( this.apiUrl, this.email);
   }
-
 
 }

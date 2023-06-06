@@ -91,7 +91,10 @@ export class PreviewDataLinkComponent implements OnInit, OnDestroy{
         });
 
 
-        console.log('user_data', user_data)
+        if(!user_data?.length) {
+          setTimeout(() => location.reload(), 1000);
+          return;
+        }
         user_data = user_data.sort((a, b) => a[0][0].step - b[0][0].step);
 
         this.progress = user_data.slice(0, -1);
@@ -112,6 +115,12 @@ export class PreviewDataLinkComponent implements OnInit, OnDestroy{
             }
           ).then();
         }
+
+        if(!this.fullName) {
+          if(!has_chat && !data.length) {
+            setTimeout(() => location.reload(), 1000)
+          }
+        }
       }
     })
   }
@@ -122,7 +131,7 @@ export class PreviewDataLinkComponent implements OnInit, OnDestroy{
     const find_name = progress.find(el => el.answer_id === ids[0].person_identifying[0].id)
     const last_name = progress.find(el => el.answer_id === ids[0].person_identifying[1].id)
 
-    return `${find_name?.text} ${last_name?.text}`;
+    return find_name?.text ? `${find_name?.text} ${last_name?.text}` : '';
   }
 
   getEmail(data: ChatDataInterface[] | [], progress: CustomerProgressInterface[] | []) {

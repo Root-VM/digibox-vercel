@@ -13,7 +13,7 @@ export class WrongEmailPageComponent {
     localStorage.clear();
   }
 
-  async toSubscribe() {
-    await this.router.navigate(['/chat-bot']);
+  async goBack() {
+    window.location.href = '/chat-bot';
   }
 }

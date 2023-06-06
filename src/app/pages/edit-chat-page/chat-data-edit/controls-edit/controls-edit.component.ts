@@ -151,8 +151,6 @@ export class ControlsEditComponent implements OnInit, OnDestroy {
 
   async onOutlet (control: AnswerInterface) {
     await this.customerService.removeUserProgress(control?.group_id);
-
-    console.log('2', control)
     this.outletControl = control;
 
     const next: any = control?.next_step?.data;
@@ -317,7 +315,6 @@ export class ControlsEditComponent implements OnInit, OnDestroy {
   async onSelect( control: AnswerInterface, stopRedirect?:boolean) {
     const next: any = control?.next_step?.data;
 
-    console.log(99, control)
     await control?.user_message && this.customerService.setProgress({
       id: control.group_id ? control.group_id : 0,
       answer_id: control.id,

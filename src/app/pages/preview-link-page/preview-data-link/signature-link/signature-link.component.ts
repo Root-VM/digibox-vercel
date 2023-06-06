@@ -362,8 +362,6 @@ export class SignatureLinkComponent implements AfterViewInit{
 
     this.customerService.publishCustomerApi({pdf, email: this.data.email})
       .subscribe(async (response: any) => {
-        console.log('pdf----->', response);
-
         if(response?.status === 'ok') {
           await this.router.navigate(['success-payment'], {
               queryParamsHandling: 'merge',
@@ -371,22 +369,11 @@ export class SignatureLinkComponent implements AfterViewInit{
                 email: this.data.email, edited: 'true'
               }
           });
-
-          // this.customerService.sendEmailApi({file: response.file,
-          //   email: this.data.email, fullName: this.data.fullName
-          // }).subscribe((el: any) => {
-          //   console.log('1111', el)
-          //
-          //
-          //
-          //   this.commonService.setLoading(false);
-          // })
         } else {
           this.commonService.setLoading(false);
         }
-        // await this.router.navigate(['/success']);
-
-      }, (e: any) => {
-        this.commonService.setLoading(false);});
+      }, () => {
+        this.commonService.setLoading(false);
+      });
   }
 }

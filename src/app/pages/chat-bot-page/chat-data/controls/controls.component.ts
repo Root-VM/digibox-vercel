@@ -60,7 +60,6 @@ export class ControlsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    // setInterval(() => console.log(this.form), 5000)
     this.subscription = this.route.queryParams.subscribe(() => this.generateControls());
   }
 

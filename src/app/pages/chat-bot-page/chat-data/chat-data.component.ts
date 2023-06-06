@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {Subscription} from "rxjs";
 import {CustomerService} from "../../../services/customer.service";
 import {ChatDataService} from "../../../services/chat-data.service";
+import {CommonService} from "../../../services/common.service";
 
 @Component({
   selector: 'app-chat-data',
@@ -21,7 +22,8 @@ export class ChatDataComponent implements OnInit, OnDestroy{
     private route: ActivatedRoute,
     private router: Router,
     private customerService: CustomerService,
-    private chatService: ChatDataService
+    private chatService: ChatDataService,
+    private commonService: CommonService
   ) {}
 
   async ngOnInit() {
@@ -36,8 +38,6 @@ export class ChatDataComponent implements OnInit, OnDestroy{
     });
 
     this.subscription = this.customerService.customerProgress$.subscribe(async (data: any) => {
-      // const is_editing = getParameterByName('editing');
-      // console.log(333, is_editing)
 
       this.messageData = data;
 
@@ -46,8 +46,16 @@ export class ChatDataComponent implements OnInit, OnDestroy{
       const answered_last = data.find((el: any) => el?.step === last_el?.step);
 
       if(answered_last?.id && data[data.length - 1]?.type === 'user') {
-        // await this.router.navigate(['/subscribe']);
-        await this.router.navigate(['/preview']);
+        this.commonService.setLoading(true);
+        const email = data.find((el: any) => el?.answer_id === 140)?.text;
+
+        if(email) {
+          this.customerService.checkPaymentDataApi(email).then( async data => {
+            await this.router.navigate(data ? ['/wrong-email'] : ['/preview']);
+          });
+        }
+
+        this.commonService.setLoading(false);
       }
     });
   }

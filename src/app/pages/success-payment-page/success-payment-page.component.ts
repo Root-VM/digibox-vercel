@@ -20,7 +20,6 @@ export class SuccessPaymentPageComponent implements OnInit{
   }
 
   ngOnInit () {
-    console.log('yea')
     this._route.queryParams
       .subscribe(async (params: any) => {
           const session = params?.sessionId;
