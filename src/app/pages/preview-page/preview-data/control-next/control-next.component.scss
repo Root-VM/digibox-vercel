@@ -5,14 +5,22 @@
   align-items: center;
   height: auto;
   padding: 42px 40px;
-  background: var(--color-primary-4);
+  //background: var(--color-primary-4);
+  background-color: #66cfe2;
+  position: relative;
+  background-image: url(/assets/img/bg-01.png);
+  background-size: 400px;
+  background-position: bottom left;
 
   .next {
     margin-left: auto;
     height: 64px;
     padding: 0 72px;
-    border: 3px solid var(--color-neutral-1);
+    border: none;
     border-radius: 8px;
+    background: #FFBA0D;
+    box-shadow: 4px 6px 0px 0px #000;
+    color: #000;
 
     ::ng-deep {
       .mdc-button__label {
@@ -24,7 +32,7 @@
           font-weight: 700;
           font-size: 32px;
           line-height: 32px;
-          color: var(--color-neutral-1);
+          color: #000;
           margin-right: 14px;
         }
       }
@@ -37,6 +45,7 @@
 @media screen and (max-width: 1349px) {
   .box {
     padding: 26px 33px;
+    background-size: 370px;
 
     .next {
       height: 55px;
@@ -50,7 +59,7 @@
           span {
             font-size: 26px;
             line-height: 26px;
-            color: var(--color-neutral-1);
+            color: #000;
             margin-right: 14px;
           }
         }
@@ -64,11 +73,11 @@
 @media screen and (max-width: 979px) {
   .box {
     padding: 15px 16px;
+    background-size: 350px;
 
     .next {
       height: 40px;
       padding: 0 24px;
-      border: 1px solid var(--color-neutral-1);
 
       img{
         height: 8px;

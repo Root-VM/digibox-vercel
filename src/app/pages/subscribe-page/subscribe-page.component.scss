@@ -4,8 +4,7 @@
   display: flex;
   width: 100%;
   flex-direction: column;
-  background: linear-gradient(341.01deg, rgba(253, 242, 152, 0.7) 0%, rgba(95, 211, 223, 0.7) 100%), #FEFEF4;
-
+  background: linear-gradient(134deg, #96e8f5 0%, #B2DCE2 33.65%, #F1EFC8 100%);
   h4 {
     font-style: normal;
     font-weight: 500;
@@ -28,6 +27,54 @@
     font-family: var(--font-source);
 
   }
+
+  .blue-btn-global {
+      height: 64px;
+      padding: 0 72px;
+      border: none;
+      border-radius: 8px;
+      background: #FFBA0D;
+      box-shadow: 4px 6px 0px 0px #000;
+      color: #000;
+      &.brd {
+        margin-left: auto;
+      }
+      &:disabled, &.disabled{
+        background: rgba(255, 186, 13, 0.8);
+        color: #000;
+        cursor: not-allowed;
+        pointer-events: unset;
+        opacity: 0.8;
+
+        ::ng-deep {
+          .mdc-button__label {
+
+            span {
+              color: #000;
+            }
+            img {
+              //filter: brightness(0) saturate(100%) invert(81%) sepia(4%) saturate(36%) hue-rotate(350deg) brightness(93%) contrast(108%);
+            }
+          }
+        }
+      }
+
+      ::ng-deep {
+        .mdc-button__label {
+          display: flex;
+          align-items: center;
+
+          span {
+            font-style: normal;
+            font-weight: 700;
+            font-size: 32px;
+            line-height: 32px;
+            color: #000;
+            margin-right: 14px;
+          }
+        }
+      }
+    }
 
 }
 

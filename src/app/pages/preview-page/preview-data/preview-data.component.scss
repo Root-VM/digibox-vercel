@@ -15,8 +15,7 @@
   .content {
     width: 100%;
     height: 100%;
-    background: linear-gradient(341.01deg, rgba(253, 242, 152, 0.7) 0%, rgba(95, 211, 223, 0.7) 100%), #FEFEF4;
-    padding: 80px 72px 40px 40px;
+    background: linear-gradient(134deg, #96e8f5 0%, #B2DCE2 33.65%, #F1EFC8 100%);    padding: 80px 72px 40px 40px;
     overflow: auto;
     max-height: calc(100vh - 135px - 135px);
     display: flex;
@@ -314,8 +313,10 @@
   margin-right: auto;
   height: 64px;
   padding: 0 20px;
-  border: 3px solid var(--color-neutral-1)!important;
   border-radius: 8px;
+  background: #FFBA0D;
+  box-shadow: 4px 6px 0px 0px #000;
+  color: #000;
 
   ::ng-deep {
     .mdc-button__label {
@@ -327,7 +328,7 @@
         font-weight: 700;
         font-size: 32px;
         line-height: 32px;
-        color: var(--color-neutral-1);
+        color: #000;
         margin-right: 14px;
       }
     }
@@ -352,7 +353,7 @@
         span {
           font-size: 26px;
           line-height: 26px;
-          color: var(--color-neutral-1);
+          color: #000;
           margin-right: 14px;
         }
       }
@@ -472,7 +473,6 @@
   .next {
     height: 40px;
     padding: 0 24px;
-    border: 1px solid var(--color-neutral-1) !important;
 
     img{
       height: 8px;
