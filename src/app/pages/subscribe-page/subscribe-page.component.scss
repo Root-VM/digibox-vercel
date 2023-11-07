@@ -76,6 +76,36 @@
       }
     }
 
+  .check {
+    margin-left: -10px;
+
+    &.error {
+      border-bottom: 1px solid var(--color-error);
+    }
+
+    ::ng-deep label {
+      font-style: normal!important;
+      font-weight: 500!important;
+      font-size: 24px!important;
+      line-height: 28px!important;
+      letter-spacing: 0.5px!important;
+      color: var(--color-neutral-6)!important;
+      font-family: var(--font-source)!important;
+    }
+  }
+  .check::ng-deep .mdc-checkbox {
+    --mdc-checkbox-selected-focus-icon-color: #FFBA0D!important;
+    --mdc-checkbox-selected-hover-icon-color: #FFBA0D!important;
+    --mdc-checkbox-selected-icon-color: #FFBA0D!important;
+    --mdc-checkbox-selected-pressed-icon-color: #FFBA0D!important;
+
+    svg {
+      color: #525151!important;
+    }
+    .mat-mdc-checkbox.mat-warn .mdc-checkbox--selected~.mdc-checkbox__ripple {
+      background: #FFBA0D!important;;
+    }
+  }
 }
 
 @media screen and (max-width: 1349px) {
@@ -100,4 +130,16 @@
       line-height: 18px;
     }
   }
+}
+
+
+.btn-c {
+  margin-left: auto;
+  margin-top: auto;
+  background: red;
+  z-index: 1;
+}
+
+.disabled {
+  cursor: not-allowed;
 }

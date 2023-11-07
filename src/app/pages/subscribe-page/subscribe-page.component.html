@@ -1,11 +1,25 @@
 <app-main-template>
   <div class="wrap">
-    <h4>Wir haben ein Testament für Sie erstellt. Um es zu erhalten, abonnieren Sie es bitte</h4>
-    <p>{{productPrice}} CHT pro Jahr</p>
+    <p>Deine Patientenverfügung ist ready! Nach dem Bestellabschluss schicken wir sie Dir in einer E-Mail als PDF zu.
+      <br><br>
+      Zudem legen wir Deine Patientenverfügung verschlüsselt auf unseren Servern ab.
+      <br><br>
+      Mit der WHAAAM Card und dem aufgedruckten QR-Code kannst Du oder das medizinische Personal auf die Patientenverfügung zugreifen.
+      <br><br>
+      Hast Du noch Fragen? Schau mal bei den <a target="_blank" href="https://whaaam.ch/faq/">FAQ</a> rein.
+      <br><br>
+
+      <mat-checkbox [(ngModel)]="isChecked" class="check" color="warn" [ngClass]="{'error': touched && !isChecked}"
+                    (ngModelChange)="toggle($event)">
+        Ich bestätige die AGB und Datenschutzerklärung
+      </mat-checkbox>
+      <br><br>
+      {{productPrice}} CHT pro Jahr
+    </p>
 
 
     <button mat-stroked-button class="blue-btn-global" type="button"
-            (click)="subscribe()">
+            (click)="subscribe()" [ngClass]="{'disabled': !isChecked}">
       <span>Abonnieren</span>
       <img src="/assets/img/icons/arrow.svg" alt="arrow">
     </button>

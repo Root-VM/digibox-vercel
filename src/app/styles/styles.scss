@@ -441,3 +441,7 @@ body .blue-btn-global {
 .next {
   border-radius: 0!important;
 }
+
+button:focus .mdc-button__ripple, button:active .mdc-button__ripple {
+  display: none!important;
+}

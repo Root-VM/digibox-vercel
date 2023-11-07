@@ -17,6 +17,8 @@ export class SubscribePageComponent implements OnInit {
   apiUrl = environment.API_URL;
   email = '';
   productPrice = 0;
+  isChecked= false;
+  touched= false;
 
   constructor(
     private commonService: CommonService,
@@ -54,8 +56,13 @@ export class SubscribePageComponent implements OnInit {
     })
   }
 
+  toggle(e: any) {
+    this.isChecked = e;
+    this.touched = true;
+  }
   subscribe() {
-    SS_ProductCheckout( this.apiUrl, this.email);
+    this.touched = true;
+    this.isChecked && SS_ProductCheckout( this.apiUrl, this.email);
   }
 
 }

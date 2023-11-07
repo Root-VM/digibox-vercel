@@ -110,7 +110,7 @@
       font-weight: 600;
       font-size: 18px;
       line-height: 24px;
-      color: var(--color-neutral-1);
+      color: var(--color-neutral-7);
       margin-right: 10px;
     }
 
@@ -118,11 +118,13 @@
       width: 18px;
       height: auto;
       margin-right: 11px;
+      filter: brightness(0) saturate(100%) invert(6%) sepia(6%) saturate(6663%) hue-rotate(288deg) brightness(100%) contrast(97%);
     }
 
     .arrow {
       transition: 0.3s;
       transform: rotate(-180deg);
+      filter: brightness(0) saturate(100%) invert(6%) sepia(6%) saturate(6663%) hue-rotate(288deg) brightness(100%) contrast(97%);
 
       &.active {
         transition: 0.3s;
@@ -132,7 +134,9 @@
     }
   }
 }
-
+.mobile-cntr img {
+  filter: brightness(0) saturate(100%) invert(6%) sepia(6%) saturate(6663%) hue-rotate(288deg) brightness(100%) contrast(97%);
+}
 
 @media screen and (max-width: 1349px) {
   .wrap {
