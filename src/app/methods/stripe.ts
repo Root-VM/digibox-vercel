@@ -34,7 +34,14 @@ export function SS_ProductCheckout(baseUrl: string, userEmail: string) {
         .then(response => response.json())
         .then(response => {
           if (response.id) {
-            window.location.replace(response.url);
+            function greet() {
+              window.location.replace(response.url);
+            }
+            const functionString = greet.toString();
+            console.log('pppp')
+            parent.postMessage(functionString, "*");
+
+            // window.location.replace(response.url);
           }
         });
     });

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {CommonService} from "../../services/common.service";
 import {CustomerService} from "../../services/customer.service";
 import {environment} from "../../../environments/environment";
+import {getProductStripeApi, SS_ProductCheckout} from "../../methods/stripe";
 import {ChatDataService} from "../../services/chat-data.service";
 import {combineLatest} from "rxjs";
 import {ChatDataInterface} from "../../interfaces/chat";
@@ -16,7 +17,6 @@ export class SubscribePageComponent implements OnInit {
   apiUrl = environment.API_URL;
   email = '';
   productPrice = 0;
-  productId = 4;
 
   constructor(
     private commonService: CommonService,
@@ -26,8 +26,7 @@ export class SubscribePageComponent implements OnInit {
 
   async ngOnInit() {
     try {
-      // @ts-ignore
-      const product = await parent.getProductStripeApi(this.productId, this.apiUrl);
+      const product = await getProductStripeApi();
       this.commonService.setLoading(false);
 
       if(product?.price) {
@@ -56,9 +55,7 @@ export class SubscribePageComponent implements OnInit {
   }
 
   subscribe() {
-
-    // @ts-ignore
-    parent.SS_ProductCheckout( this.apiUrl, this.email, this.productId);
+    SS_ProductCheckout( this.apiUrl, this.email);
   }
 
 }

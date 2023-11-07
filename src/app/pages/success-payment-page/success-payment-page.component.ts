@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonService} from "../../services/common.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {SS_GetProductPaymentDetails} from "../../methods/stripe";
 import {CustomerService} from "../../services/customer.service";
-import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-success-payment-page',
@@ -26,8 +26,7 @@ export class SuccessPaymentPageComponent implements OnInit{
 
           // if paid first time
           if(session) {
-            // @ts-ignore
-            const res = await parent.SS_GetProductPaymentDetails(session, environment.API_URL);
+            const res = await SS_GetProductPaymentDetails(session);
 
             if(res.customer_email && (res.payment_status === 'paid' || res.payment_status === 'complete')) {
               this.customerService.sendEmailApi({

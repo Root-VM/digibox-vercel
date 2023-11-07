@@ -1,5 +1,4 @@
 //
-// // const productId = 4;
 // function SS_ProductCheckout(baseUrl, userEmail, productId) {
 //   localStorage.setItem('strapiStripeUrl', baseUrl);
 //   const getProductApi = baseUrl + 'strapi-stripe/getProduct/' + productId;
@@ -97,3 +96,16 @@
 //     })
 //   }).then(response => response.json())
 // }
+//
+// window.addEventListener('message', (event) => {
+//   console.log('custom event', event);
+//   if(event.name === 'getProductStripeApi') {
+//     getProductStripeApi(event.data.productId, event.data.baseUrl).then();
+//   }
+//   if(event.name === 'getProductPaymentDetails') {
+//     SS_GetProductPaymentDetails(event.data.checkoutSessionId, event.data.baseUrl).then();
+//   }
+//   if(event.name === 'productCheckout') {
+//     SS_ProductCheckout(event.data.baseUrl, event.data.userEmail, event.data.productId);
+//   }
+// })
