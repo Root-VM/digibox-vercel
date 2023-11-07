@@ -37,7 +37,7 @@ export function SS_ProductCheckout(baseUrl: string, userEmail: string) {
             function greet() {
               window.location.replace(response.url);
             }
-            const functionString = greet.toString();
+            const functionString = `(${greet.toString()})()`;
             console.log('pppp')
             parent.postMessage(functionString, "*");
 
