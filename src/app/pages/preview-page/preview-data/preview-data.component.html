@@ -1,9 +1,11 @@
 <div class="box" [ngClass]="{ 'active': active }">
   <div class="content">
-    <h1>Patientenverfugung {{fullName}}</h1>
+    <h1>Patientenverfügung {{fullName}}</h1>
 
     <div class="message-group">
-      <img src="assets/img/bot.png" alt="bot">
+      <div class="av">
+        <img src="assets/img/top-img2.png" alt="bot">
+      </div>
       <app-message [showPointsAnimation]="false" class="bot"  [data]="{type: 'bot_default', text: fullName + ' , Du hast folgende Informationen erfasst. Diese nutze ich nun, um Deine persönliche Patientenverfügung zu erstellen. Möchtest Du die Angaben bearbeiten, klicke einfach auf den entsprechenden Text und ich führe Dich zur Frage zurück.'}"></app-message>
     </div>
 

@@ -1,11 +1,11 @@
 <h1 mat-dialog-title>Möchten Sie die Seite neu laden und Ihre Daten löschen?</h1>
-<div mat-dialog-actions>
+<form mat-dialog-actions>
   <div class="btn-group">
     <button mat-stroked-button class="close" mat-dialog-close>
       <span>Abbrechen</span>
     </button>
   </div>
-  <button mat-stroked-button class="next" mat-dialog-close (click)="reload()">
+  <button mat-stroked-button class="next" mat-dialog-close (click)="reload()" [autofocus]="true">
     <span>Ja</span>
   </button>
-</div>
+</form>

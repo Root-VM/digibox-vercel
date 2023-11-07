@@ -38,8 +38,20 @@
       justify-content: center;
       margin-bottom: 24px;
 
-      >img{
+      .av {
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        border-radius: 50%;
+        overflow: hidden;
+        background: #ffba0c;
+        height: 65px;
+        width: 65px;
         margin-right: 19px;
+        img {
+          height: 55px;
+          width: auto;
+        }
       }
 
       app-message::ng-deep {
@@ -381,6 +393,17 @@
           margin-right: 19px;
           width: 32px;
           min-width: 32px;
+        }
+
+
+        .av {
+          height: 32px;
+          width: 32px;
+          margin-right: 10px;
+          img {
+            height: 28px;
+            width: auto;
+          }
         }
       }
 
