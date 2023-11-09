@@ -1,7 +1,7 @@
 <form class="wrap" [class.person]="isPersonIdentifying" *ngIf="controls?.length" [formGroup]="form">
-  <!-- EL input || autocomplete || date-->
-  <ng-container *ngIf="filterByType(controls, 'input')?.length || filterByType(controls, 'input-autocomplete')?.length">
-    <ng-container *ngFor="let cnt of controls | filter: ['input', 'input-autocomplete']">
+  <!-- EL input || date-->
+  <ng-container *ngIf="filterByType(controls, 'input')?.length">
+    <ng-container *ngFor="let cnt of controls | filter: ['input']">
       <mat-form-field class="inputBlock simple">
         <ng-container *ngIf="filterByType(controls, 'input')?.length">
           <ng-container *ngIf="cnt.control_text !== 'Geburtsdatum'">
@@ -16,16 +16,24 @@
             <mat-datepicker-toggle matIconSuffix [for]="picker" class="over-wrap"></mat-datepicker-toggle>
           </ng-container>
         </ng-container>
-        <ng-container *ngIf="filterByType(controls, 'input-autocomplete')?.length">
-          <input type="text" matInput (input)="onInput($event)" [name]="cnt.id.toString()"
-                 [formControlName]="cnt.id"
-                 [placeholder]="cnt.control_text" required
-                 [matAutocomplete]="auto">
-          <mat-autocomplete #auto="matAutocomplete">
-            <mat-option *ngFor="let v of cnt.autocomplete_data" [value]="v"
-                        (onSelectionChange)="onInput($event)">{{v}}</mat-option>
-          </mat-autocomplete>
-        </ng-container>
+        <mat-error *ngIf="form?.controls[cnt?.id]?.status === 'INVALID' && form?.touched && cnt?.validation_error_text">
+          {{cnt?.validation_error_text}}
+        </mat-error>
+      </mat-form-field>
+    </ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="filterByType(controls, 'input-autocomplete')?.length">
+    <ng-container *ngFor="let cnt of controls | filter_autocomplete: ['input-autocomplete']">
+      <mat-form-field class="inputBlock simple">
+        <input type="text" matInput (input)="onInput($event)" [name]="cnt.id.toString()"
+               [formControlName]="cnt.id"
+               [placeholder]="cnt.control_text" required
+               [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let v of cnt.autocomplete_data" [value]="v"
+                      (onSelectionChange)="onInput($event)">{{v}}</mat-option>
+        </mat-autocomplete>
         <mat-error *ngIf="form?.controls[cnt?.id]?.status === 'INVALID' && form?.touched && cnt?.validation_error_text">
           {{cnt?.validation_error_text}}
         </mat-error>
@@ -54,7 +62,7 @@
     <mat-form-field appearance="fill" *ngIf="filterByType(controls, 'dropdown-item')?.length" class="mySelect drop">
       <mat-select placeholder="Wähle eins" (selectionChange)="onDrop($event)" [id]="controls[0].control_text"
                   [aria-label]="controls[0].control_text"
-                  [formControl]="dropValidation">
+                  [formControl]="dropValidation" panelClass="customW">
         <mat-option *ngFor="let select of filterByType(controls, 'dropdown-item')" [value]="select">
           {{select.control_text}}
         </mat-option>
@@ -67,11 +75,23 @@
 
   <!-- El btn-group-->
   <div class="btn-group" *ngIf="filterByType(controls, 'outlined-button-item')?.length">
-    <ng-container *ngFor="let btn of controls">
-      <button mat-flat-button *ngIf="btn.control_type === 'outlined-button-item'"
-              (click)="onOutlet(btn)">
-        {{btn.control_text}}
-      </button>
+    <ng-container *ngIf="filterByType(controls, 'outlined-button-item')?.length <= 2">
+      <ng-container *ngFor="let btn of controls">
+        <button mat-flat-button *ngIf="btn.control_type === 'outlined-button-item'"
+                (click)="onOutlet(btn)">
+          {{btn.control_text}}
+        </button>
+      </ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="filterByType(controls, 'outlined-button-item')?.length > 2">
+      <mat-form-field appearance="fill" *ngIf="filterByType(controls, 'outlined-button-item')?.length" class="mySelect drop">
+        <mat-select placeholder="Wähle eins" [value]="dropElSelectedData" multiple>
+          <mat-option *ngFor="let btn of controls" [value]="btn.group_id+ ' ' +btn.id" (click)="onOutlet(btn, true)">
+            {{btn.control_text}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
     </ng-container>
   </div>
 

@@ -6,6 +6,7 @@ export interface AnswerInterface {
   control_validation?: 'required' | 'email' | 'phone' | 'zip_code';
   validation_error_text: string;
   user_message: string;
+  user_message_clear: string;
   user_pdf_message: string;
   bot_message: string;
   next_step: {data: {id: number}};

@@ -58,6 +58,7 @@ import { PreviewLinkPageComponent } from './pages/preview-link-page/preview-link
 import { PreviewDataLinkComponent } from './pages/preview-link-page/preview-data-link/preview-data-link.component';
 import { ControlNextLinkComponent } from './pages/preview-link-page/preview-data-link/control-next-link/control-next-link.component';
 import { SignatureLinkComponent } from './pages/preview-link-page/preview-data-link/signature-link/signature-link.component';
+import {FilterAutocompletePipe} from "src/app/pipes/filter-autocomplete.pipe";
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import { SignatureLinkComponent } from './pages/preview-link-page/preview-data-l
     ResetProgressComponent,
     ExplanationBoxComponent,
     FilterPipe,
+    FilterAutocompletePipe,
     SignatureComponent,
     ReloadComponent,
     EditChatPageComponent,

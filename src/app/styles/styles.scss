@@ -445,3 +445,11 @@ body .blue-btn-global {
 button:focus .mdc-button__ripple, button:active .mdc-button__ripple {
   display: none!important;
 }
+
+.customW.ng-trigger {
+  min-width: 60vw;
+}
+
+.mat-mdc-autocomplete-trigger::placeholder {
+  font-style: normal!important;
+}

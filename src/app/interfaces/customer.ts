@@ -12,6 +12,7 @@ export interface CustomerProgressInterface {
   data?: string;
   type: 'bot' | 'bot-q' | 'bot_default' | 'user' | 'user-q' | 'title' | 'subtitle';
   text: string;
+  clear_text: string;
   text_pdf: string;
   step?: number;
   is_multiple?: boolean;

@@ -52,6 +52,7 @@ export class ControlsComponent implements OnInit, OnDestroy {
   outletControl: AnswerInterface | null = null;
   outletRequired = false;
   isPersonIdentifying = false;
+  dropElSelectedData: string[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -98,6 +99,7 @@ export class ControlsComponent implements OnInit, OnDestroy {
           }
 
           this.currentId = current_data?.id;
+          this.generateDropValue();
           this.controls = chat_data;
 
           const input_control = this.controls.find(val => val.control_type === 'input');
@@ -149,7 +151,7 @@ export class ControlsComponent implements OnInit, OnDestroy {
       return new FormControl('', [Validators.required, Validators.minLength(3)])
     }
     if(type === 'email') {
-      return new FormControl('', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")])
+      return new FormControl('', [Validators.required, Validators.pattern("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$")])
     }
     if(type === 'phone') {
       return new FormControl('+41',[Validators.required, Validators.pattern(/(\b(0041|0)|\B\+41)(\s?\(0\))?(\s)?[1-9]{2}(\s)?[0-9]{3}(\s)?[0-9]{2}(\s)?[0-9]{2}\b/)]);
@@ -175,6 +177,15 @@ export class ControlsComponent implements OnInit, OnDestroy {
     await this.onSelect(e.value);
   }
 
+  generateDropValue() {
+    this.dropElSelectedData = [];
+    this.customerService.getProgress().map(val => {
+      if(val.id === this.currentId) {
+        this.dropElSelectedData.push(String(val.id + ' ' + val.answer_id));
+      }
+    })
+  }
+
   async onOutlet (control: AnswerInterface) {
     this.outletControl = control;
 
@@ -194,6 +205,7 @@ export class ControlsComponent implements OnInit, OnDestroy {
       next_id: next?.id ? next?.id : 0,
       type: 'user',
       text: control.user_message,
+      clear_text: control?.user_message_clear ? control?.user_message_clear : control.user_message,
       text_pdf: control.user_pdf_message,
       // @ts-ignore
       step: control.step,
@@ -216,6 +228,9 @@ export class ControlsComponent implements OnInit, OnDestroy {
       add_next_on_edit: control?.add_next_on_edit,
       remove_next_on_edit: control?.remove_next_on_edit,
     });
+
+
+    setTimeout(() => this.generateDropValue());
   }
 
 
@@ -250,6 +265,7 @@ export class ControlsComponent implements OnInit, OnDestroy {
       next_id: next?.id ? next.id : 0,
       type: 'user-q',
       text: control.user_message,
+      clear_text: control?.user_message_clear ? control?.user_message_clear : control.user_message,
       text_pdf: control.user_pdf_message,
       // @ts-ignore
       step: control.step,
@@ -294,7 +310,8 @@ export class ControlsComponent implements OnInit, OnDestroy {
 
         if(answer?.control_type === 'input' || answer?.control_type === 'input-autocomplete') {
           if(answer?.control_text === "Geburtsdatum") {
-            value.value = moment(value.value).format('DD.MM.YYYY')
+            value.value = moment(value.value).format('DD.MM.YYYY');
+            answer.user_message_clear = moment(value.value).format('DD.MM.YYYY');
           }
 
           if(answer.bot_message) {
@@ -302,11 +319,16 @@ export class ControlsComponent implements OnInit, OnDestroy {
           }
           if(answer.user_message) {
             answer.user_message = stringReplace(answer.user_message, value?.value);
+            answer.user_message_clear = value?.value;
             answer.user_pdf_message = stringReplace(answer.user_pdf_message, value?.value);
           }
 
           await this.onSelect(answer);
         } else {
+          if(answer?.control_type === 'dropdown-item' && value?.value) {
+            answer.user_message_clear = value?.value?.control_text;
+            answer = value?.value;
+          }
           await this.onSelect(answer);
         }
       }
@@ -335,6 +357,7 @@ export class ControlsComponent implements OnInit, OnDestroy {
       next_id: next?.id ? next?.id : 0,
       type: 'user',
       text: control.user_message,
+      clear_text: control?.user_message_clear ? control?.user_message_clear : control.user_message,
       text_pdf: control.user_pdf_message,
       // @ts-ignore
       step: control?.step,
@@ -350,6 +373,7 @@ export class ControlsComponent implements OnInit, OnDestroy {
       type: 'bot',
       text_pdf: '',
       text: control.bot_message,
+      clear_text: '',
       // @ts-ignore
       step: control.step,
       // @ts-ignore

@@ -14,7 +14,7 @@
   &.person {
     height: auto;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: minmax(auto, 414px) minmax(auto, 414px) minmax(auto, 414px);
     grid-gap: 10px 15px;
   }
 
@@ -47,6 +47,7 @@
     background: #FFBA0D;
     box-shadow: 4px 6px 0px 0px #000;
     color: #000;
+    max-width: 414px;
     &.brd {
       margin-left: auto;
     }
