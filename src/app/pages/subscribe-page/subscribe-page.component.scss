@@ -1,7 +1,8 @@
 .wrap {
   padding: 80px 72px 40px 40px;
   height: calc(100% - 135px);
-  display: flex;
+  overflow: auto;
+  display: grid;
   width: 100%;
   flex-direction: column;
   background: linear-gradient(134deg, #96e8f5 0%, #B2DCE2 33.65%, #F1EFC8 100%);
@@ -29,6 +30,7 @@
   }
 
   .blue-btn-global {
+    margin-left: auto;
       height: 64px;
       padding: 0 72px;
       border: none;

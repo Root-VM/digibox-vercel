@@ -5,14 +5,20 @@
   align-items: center;
   height: auto;
   padding: 42px 40px;
-  background: var(--color-primary-4);
+  background: #66cfe2;
 
   .next {
     margin-left: auto;
     height: 64px;
     padding: 0 72px;
-    border: 3px solid var(--color-neutral-1);
-    border-radius: 8px;
+    border: none;
+    //border-radius: 8px;
+
+    background: #FFBA0D;
+    box-shadow: 4px 6px #000;
+    color: #000;
+    max-width: 414px;
+    border-radius: 0;
 
     ::ng-deep {
       .mdc-button__label {
@@ -24,7 +30,7 @@
           font-weight: 700;
           font-size: 32px;
           line-height: 32px;
-          color: var(--color-neutral-1);
+          color: #000;
           margin-right: 14px;
         }
       }

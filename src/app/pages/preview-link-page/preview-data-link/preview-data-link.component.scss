@@ -9,6 +9,17 @@
   }
 }
 
+.next {
+  box-shadow: 4px 6px #000;
+  color: #000!important;
+  max-width: 414px;
+  border-radius: 0;
+  border: 1px solid #000!important;
+
+  ::ng-deep span{
+    color: #000!important;
+  }
+}
 .box {
   width: 100%;
 
@@ -325,7 +336,7 @@
   margin-right: auto;
   height: 64px;
   padding: 0 20px;
-  border: 3px solid var(--color-neutral-1)!important;
+  //border: 3px solid var(--color-neutral-1)!important;
   border-radius: 8px;
 
   ::ng-deep {
