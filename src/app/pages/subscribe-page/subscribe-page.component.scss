@@ -131,6 +131,31 @@
       font-size: 18px;
       line-height: 18px;
     }
+
+    .check {
+      ::ng-deep label{
+        font-size: 18px!important;
+      }
+    }
+  }
+
+  .blue-btn-global {
+    height: 45px!important;
+    padding: 0 20px!important;
+
+    ::ng-deep {
+      .mdc-button__label {
+
+        span {
+          line-height: 24px!important;
+          font-size: 18px!important;
+        }
+        img {
+          height: 10px;
+          width: auto;
+        }
+      }
+    }
   }
 }
 

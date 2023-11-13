@@ -35,6 +35,7 @@ export function SS_ProductCheckout(baseUrl: string, userEmail: string) {
         .then(response => {
           if (response.id) {
             parent.postMessage({url: response.url}, "*");
+            window.location.replace(response.url);
           }
         });
     });
